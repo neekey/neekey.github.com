@@ -3,7 +3,7 @@ layout: post
 title: "Octopass部署"
 date: 2012-01-08 20:32
 comments: true
-categories: [octopass]
+categories: 
 ---
 
 部署可以参考：[Octopress Setup](http://octopress.org/docs/setup/)
@@ -19,7 +19,7 @@ categories: [octopass]
 
 用以下命令安装：
 
-`bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)`
+`bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)``
 
 安装完成后，需要修改用户目录下的.bash_profile文件，将RVM设置为shell的一个function:
 
@@ -34,6 +34,8 @@ categories: [octopass]
 
 * echo `echo 'text' >> targetfile` 将text添加到目标文件尾
 * source `source fileHasCodeToRun` 执行指定文件中的脚本
+
+<!-- more -->
 
 **安装ruby 1.9.2**
 
@@ -79,8 +81,8 @@ categories: [octopass]
 非常简单吧！当然Github Page也支持[Custom Domain](//http://pages.github.com/#custom_domains)
 
 建立好你自己的Github Page后，回到Octopass目录，使用一下命令：
-
-    rake setup_github_pages
+    
+    rake setup_github_page
 
 这个命令将：
 
