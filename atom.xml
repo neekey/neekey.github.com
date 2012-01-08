@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-01-08T15:55:28+08:00</updated>
+  <updated>2012-01-08T20:19:22+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
-    
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopass]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/08/octopass/"/>
+    <updated>2012-01-08T19:27:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/08/octopass</id>
+    <content type="html"><![CDATA[<p>捣鼓了很久，终于将<a href="http://octopress.org/" title="Octopass">Octopass</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
+
+<p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
+
+<p>octopress<strong>官方介绍</strong>：</p>
+
+<blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
+
+<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="Octopass">Octopass</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
+
+<ol>
+<li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
+<li>支持Markdown</li>
+<li><p>使用git进行版本控制</p>
+
+<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
+<li><p>轻松部署</p>
+
+<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
+
+<p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
+<li>支持各种插件</li>
+<li>支持<a href="https://gist.github.com/" title="gist">gist</a>(没用过，但是貌似很给力的样子，hoho！)</li>
+<li>使用<a href="http://sass-lang.com/" title="SASS">SASS</a>，<a href="http://compass-style.org/" title="Compass">Compass</a>等新奇玩意</li>
+</ol>
+
+
+<p>OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！</p>
+]]></content>
+  </entry>
   
 </feed>
