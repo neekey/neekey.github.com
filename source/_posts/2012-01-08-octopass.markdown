@@ -20,12 +20,12 @@ octopress**官方介绍**：
 2. 支持Markdown
 3. 使用git进行版本控制
 
-	[Octopass][1]本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。
+    [Octopass][1]本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。
 4. 轻松部署
 
-	[Octopass][1]使用[Jekyll][2]静态网站产生引擎，可以轻松生成**static-file based**类型的网站，部署非常方便（如上面一条，不需要任何database）
+    [Octopass][1]使用[Jekyll][2]静态网站产生引擎，可以轻松生成**static-file based**类型的网站，部署非常方便（如上面一条，不需要任何database）
 
-	你可以渲染放置到自己的服务器上，[Heroku][5]，或者是[Github Page][3]（我就是放到git上的，很cool吧！）上。
+    你可以渲染放置到自己的服务器上，[Heroku][5]，或者是[Github Page][3]（我就是放到git上的，很cool吧！）上。
 5. 支持各种插件
 6. 支持[gist][4](没用过，但是貌似很给力的样子，hoho！)
 7. 使用[SASS][6]，[Compass][7]等新奇玩意
