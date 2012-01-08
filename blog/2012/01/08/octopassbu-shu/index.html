@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Neekey</title>
+  <title>Octopass部署 - Neekey</title>
   <meta name="author" content="neekey(niyunjian)">
 
   
@@ -19,7 +19,7 @@ ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neekey.github.com">
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/01/08/octopassbu-shu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,15 +63,12 @@ ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a></h1>
+      <h1 class="entry-title">Octopass部署</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 
   </header>
 
 
-  <div class="entry-content"><p>部署可以参考：<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
+<div class="entry-content"><p>部署可以参考：<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
 
 <h3>本地部署</h3>
 
@@ -130,27 +127,114 @@ source ~/.zshrc
 </ul>
 
 
+<!-- more -->
+
+
+<p><strong>安装ruby 1.9.2</strong></p>
+
+<p>用安装好的rvm来安装ruby 和 <a href="http://rubygems.org/">rubygems</a>(ruby的包管理器)</p>
+
+<pre><code>rvm install 1.9.2 &amp;&amp; rvm use 1.9.2
+rvm rubygems latest
+</code></pre>
+
+<p><strong>配置Octopass</strong></p>
+
+<p>首先将Octopass的源码clone到本地</p>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
+ruby --version  # Should report Ruby 1.9.2
+</code></pre>
+
+<p>注意此处一定要确保<code>ruby --version</code>是1.9.2，否则后面的步骤会出错。</p>
+
+<p>进入Octopass根目录后，安装依赖包：</p>
+
+<pre><code>gem install bundler # 应该是一个用来管理依赖的组件(=.=)
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p>安装完成后，再安装Octopass默认的主题：</p>
+
+<pre><code>rake install
+</code></pre>
+
+<p>至此，本地的Octopass就差不多部署完毕了。</p>
+
+<hr />
+
+<h3>部署Octopass到Github Page</h3>
+
+<p>可以直接参考官方的说明：<a href="http://pages.github.com">Github Page</a></p>
+
+<p>简单的来说，就是：</p>
+
+<ul>
+<li>建立一个repository，命名：reponame.github.com</li>
+<li>在该 repo 根目录下放置一个index.html</li>
+<li>通过reponame.github.com来访问</li>
+</ul>
+
+
+<p>非常简单吧！当然Github Page也支持<a href="//http://pages.github.com/#custom_domains">Custom Domain</a></p>
+
+<p>建立好你自己的Github Page后，回到Octopass目录，使用一下命令：</p>
+
+<pre><code>rake setup_github_page
+</code></pre>
+
+<p>这个命令将：</p>
+
+<ul>
+<li>让你输入你的Github Page的repo的url</li>
+<li>Rename the remote pointing to imathis/octopress from ‘origin’ to ‘octopress’(不是很懂…这是原文)</li>
+<li><p>将你的Github Page的repo的url作为默认的origin remote</p>
+
+<p>  其实在这里，你在github上的repo对应的本地目录是Octopass/_deploy目录，这个目录下是编译后的静态文件。</p></li>
+<li><p>从master分支转换到source分支</p>
+
+<p>  我自己部署的时候发现没有这个变化。而且所谓的source，我自己认为应该是整个Octopass文件夹（里面的_deploy文件夹下的内容倒是不重要，因为每次<code>rake generate</code>都能更新）。我的做法是，<code>git init</code>整个Octopass文件夹，然后<code>add .</code>把所有文件都以<em>source</em>分支提交。</p></li>
+<li><p>配置blog的url指向repo</p></li>
+<li>为_deploy目录设置master分支，用户部署</li>
+</ul>
+
+
+<p>总之，这个命令的作用我自己还是有点<strong>confused</strong></p>
+
+<p>然后就是生成<strong>_deploy/</strong>目录下的文件，并部署到<strong>github</strong>上:</p>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<p>那么现在的repo各分支的状态就是：</p>
+
+<ul>
+<li>master： 对应_deploy目录下的文件</li>
+<li>source： 对应Octopass目录下的所有文件（但是不包括_deploy）</li>
+</ul>
+
+
+<p>这样我们就可以用source分支来编辑blog，使用master来发布!</p>
+
+<p><strong>Have Fun！</strong></p>
+
+<hr />
+
+<p>暂时准备先用这个github的域名，过一阵子觉得真心不错的时候，再考虑直接将我的<a href="http://neekey.net/blog">neekey.net</a>指向这边好了。</p>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/08/octopassbu-shu/">Read on &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/08/octopass/">Octopass</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
 
 
 
@@ -162,54 +246,32 @@ source ~/.zshrc
   
 
 
-<time datetime="2012-01-08T19:27:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-01-08T20:32:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>捣鼓了很久，终于将<a href="http://octopress.org/" title="Octopass">Octopass</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
-
-<p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
-
-<p>octopress<strong>官方介绍</strong>：</p>
-
-<blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
-
-<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="Octopass">Octopass</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
-
-<ol>
-<li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
-<li>支持Markdown</li>
-<li><p>使用git进行版本控制</p>
-
-<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
-<li><p>轻松部署</p>
-
-<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
-
-<p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
-<li>支持各种插件</li>
-<li>支持<a href="https://gist.github.com/" title="gist">gist</a>(没用过，但是貌似很给力的样子，hoho！)</li>
-<li>使用<a href="http://sass-lang.com/" title="SASS">SASS</a>，<a href="http://compass-style.org/" title="Compass">Compass</a>等新奇玩意</li>
-</ol>
-
-
-<p>OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/01/08/octopassbu-shu/" data-via="" data-counturl="http://neekey.github.com/blog/2012/01/08/octopassbu-shu/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/01/08/octopass/" title="Previous Post: Octopass">&laquo; Octopass</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -234,6 +296,7 @@ source ~/.zshrc
 
   
 </aside>
+
 
     </div>
   </div>
