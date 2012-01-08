@@ -3,7 +3,7 @@ layout: post
 title: "Octopass"
 date: 2012-01-08 19:27
 comments: true
-categories: 
+categories: [octopass]
 ---
 
 捣鼓了很久，终于将[Octopass][1]部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！

@@ -3,7 +3,7 @@ layout: post
 title: "Octopass部署"
 date: 2012-01-08 20:32
 comments: true
-categories: 
+categories: [octopass]
 ---
 
 部署可以参考：[Octopress Setup](http://octopress.org/docs/setup/)
@@ -12,7 +12,7 @@ categories:
 
 **首先是配置Octopress需要的环境：**
 
-* 由于Octopress需要使用到Git，因此需要先安装[git](http://git-scm.com/)
+* 由于Octopress需要使用到Git，因此需要先安装[Git](http://git-scm.com/)
 * ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 )
 
 **安装RVM**
@@ -52,7 +52,7 @@ categories:
 
 注意此处一定要确保`ruby --version`是1.9.2，否则后面的步骤会出错。
 
-进入Octopass根目录后，下面需要安装一些依赖包：
+进入Octopass根目录后，安装依赖包：
 
     gem install bundler # 应该是一个用来管理依赖的组件(=.=)
     rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
@@ -109,5 +109,9 @@ categories:
 * source： 对应Octopass目录下的所有文件（但是不包括_deploy）
 
 这样我们就可以用source分支来编辑blog，使用master来发布!
+
+**Have Fun！**
+
+---
 
 暂时准备先用这个github的域名，过一阵子觉得真心不错的时候，再考虑直接将我的[neekey.net](http://neekey.net/blog)指向这边好了。
