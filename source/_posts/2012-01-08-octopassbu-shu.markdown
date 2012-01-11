@@ -19,7 +19,7 @@ categories:
 
 用以下命令安装：
 
-`bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)``
+`bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)`
 
 安装完成后，需要修改用户目录下的.bash_profile文件，将RVM设置为shell的一个function:
 
