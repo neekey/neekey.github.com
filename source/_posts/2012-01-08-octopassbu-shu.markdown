@@ -3,7 +3,7 @@ layout: post
 title: "Octopass部署"
 date: 2012-01-08 20:32
 comments: true
-categories: 
+categories: [octopress,ruby]
 ---
 
 部署可以参考：[Octopress Setup](http://octopress.org/docs/setup/)

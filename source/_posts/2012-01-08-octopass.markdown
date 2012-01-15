@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Octopass"
+title: "Octopress"
 date: 2012-01-08 19:27
 comments: true
-categories: [octopass]
+categories: [octopress,ruby]
 ---
 
-捣鼓了很久，终于将[Octopass][1]部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！
+捣鼓了很久，终于将[octopress][1]部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！
 
 ![OctopassLogo](http://octopress.org/images/logo.png?1325260964)
 
@@ -14,16 +14,16 @@ octopress**官方介绍**：
 
 > Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.
 
-由于本人也是刚刚接触[Octopass][1]，了解不是很深入，我自己感觉它主要有下面这些特点：
+由于本人也是刚刚接触[octopress][1]，了解不是很深入，我自己感觉它主要有下面这些特点：
 
 1. 基于Ruby（所以对Ruby开发者来说非常友好）
 2. 支持Markdown
 3. 使用git进行版本控制
 
-    [Octopass][1]本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。
+    [octopress][1]本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。
 4. 轻松部署
 
-    [Octopass][1]使用[Jekyll][2]静态网站产生引擎，可以轻松生成**static-file based**类型的网站，部署非常方便（如上面一条，不需要任何database）
+    [octopress][1]使用[Jekyll][2]静态网站产生引擎，可以轻松生成**static-file based**类型的网站，部署非常方便（如上面一条，不需要任何database）
 
     你可以渲染放置到自己的服务器上，[Heroku][5]，或者是[Github Page][3]（我就是放到git上的，很cool吧！）上。
 5. 支持各种插件
@@ -33,7 +33,7 @@ octopress**官方介绍**：
 OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！
 
 
-[1]: http://octopress.org/ "Octopass"
+[1]: http://octopress.org/ "octopress"
 [2]: http://jekyllrb.com/ "jekyll"
 [3]: http://pages.github.com/ "github page"
 [4]: https://gist.github.com/ "gist"

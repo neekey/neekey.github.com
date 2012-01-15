@@ -3,7 +3,7 @@ layout: post
 title: "在nodejs中使用jasmina(一)"
 date: 2012-01-11 21:36
 comments: true
-categories: 
+categories: [jasmine,nodejs]
 ---
 
 寒假在家，终于可以开始好好做毕设！
