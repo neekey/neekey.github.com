@@ -9,7 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="寒假在家，终于可以开始好好做毕设！ 今天在写后台用户数据操作时，想到每次写类似的模块，在大体完成后总会出现各种Bug，往往调试占用了大量的时间。因此决定这次为每个接口都写一下单元测试。 由于之前听过同事关于Jasmine的分享，感觉还不错，所以就用它了。 ">
+  <meta name="description" content="NAE：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。 这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-15T15:53:00+08:00" pubdate data-updated="true">Jan 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/01/15/naechu-shi-yong/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/posts/Nae.png" alt="Nae-image" /></p>
+
+<p><a href="http://cnodejs.net/"><strong>NAE</strong></a>：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。</p>
+
+<p>这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号，干脆部署到上面去好了。</p>
+
+<p>昨天稻谷了半天，终于成功部署。在这里记下几点想法和总结把。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/15/naechu-shi-yong/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -196,7 +245,7 @@ source ~/.zshrc
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/01/08/octopass/">Octopass</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/01/08/octopass/">Octopress</a></h1>
     
     
       <p class="meta">
@@ -221,7 +270,7 @@ source ~/.zshrc
   </header>
 
 
-  <div class="entry-content"><p>捣鼓了很久，终于将<a href="http://octopress.org/" title="Octopass">Octopass</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
+  <div class="entry-content"><p>捣鼓了很久，终于将<a href="http://octopress.org/" title="octopress">octopress</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
 
 <p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
 
@@ -229,17 +278,17 @@ source ~/.zshrc
 
 <blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
 
-<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="Octopass">Octopass</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
+<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="octopress">octopress</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
 
 <ol>
 <li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
 <li>支持Markdown</li>
 <li><p>使用git进行版本控制</p>
 
-<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
 <li><p>轻松部署</p>
 
-<p> <a href="http://octopress.org/" title="Octopass">Octopass</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
 
 <p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
 <li>支持各种插件</li>
@@ -269,6 +318,10 @@ source ~/.zshrc
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
       </li>
     
@@ -277,7 +330,7 @@ source ~/.zshrc
       </li>
     
       <li class="post">
-        <a href="/blog/2012/01/08/octopass/">Octopass</a>
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
       </li>
     
   </ul>
