@@ -9,7 +9,8 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="NAE：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。 这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号， &hellip;">
+  <meta name="description" content="继续捣鼓毕设！ 前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧： 手机上传图片的功能主要有两方面: 客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。
+服务器端，主要是接受客户端的请求 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +65,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-26T17:13:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>继续捣鼓毕设！</strong></p>
+
+<p>前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧：</p>
+
+<p><img src="/images/posts/st_login.jpg" alt="secondaryTrading_login" /></p>
+
+<p>手机上传图片的功能主要有两方面:</p>
+
+<ul>
+<li>客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。</li>
+<li>服务器端，主要是接受客户端的请求，对图片信息进行验证和保存。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -316,6 +372,10 @@ source ~/.zshrc
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
