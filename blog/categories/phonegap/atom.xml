@@ -4,7 +4,7 @@
   <title><![CDATA[Category: phoneGap | Neekey]]></title>
   <link href="http://neekey.github.com/blog/categories/phonegap/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-01-29T17:09:40+08:00</updated>
+  <updated>2012-02-01T10:05:52+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[phoneGap+nodejs图片上传(二)]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/"/>
+    <updated>2012-01-31T16:50:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2</id>
+    <content type="html"><![CDATA[<p>上一篇文章已经介绍了客户端（phoneGap）中图片上传的相关技术。下面介绍服务器端（nodejs）对图片上传的处理。</p>
+
+<p>在对服务器端这边进行编码之前，在网上找了几篇关于nodejs处理文件上传的文章，基本上是使用<a href="https://github.com/visionmedia/connect-form">Connect Form</a>这个模块，但是实际调试的时候发现异常。仔细看了一下这个模块的说明，原来目前已经被废弃，并最终会被移除。对于文件上传的处理，<code>bodyParser()</code>目前已经直接支持。</p>
+
+<!--more-->
+
+
+<h3>上传文件信息获取</h3>
+
+<p>因此，对于文件上传的处理，首先需要引入<code>bodyParser()</code>:</p>
+
+<p>```javascript
+app.configure(function(){</p>
+
+<pre><code>app.use(express.bodyParser());
+</code></pre>
+
+<p>});
+```</p>
+
+<p>然后通过<code>req</code>中的<code>files</code>，根据文件的字段名来获取上传的文件信息。</p>
+
+<p>```javascript
+app.post( '/upload', function( req, res ){</p>
+
+<pre><code>var image = req.files.image;
+console.log( image );
+console.log( image.path );
+console.log( image.length );
+console.log( image.filename );
+console.log( image.mime );
+</code></pre>
+
+<p>});
+```</p>
+
+<p>上面的代码<code>req.files.image</code>中的<code>image</code>是我在客户端中指定的字段名，然后我们可以通过这个文件信息对象，获取到文件保存到服务器端的路径(<code>path</code>),文件的大小(<code>length</code>),文件名(<code>filename</code>),文件的MIME值(<code>mime</code>)。</p>
+
+<h3>图片类型验证</h3>
+
+<p>通过上面的信息，我们可以利用<code>fs</code>模块，对图片进行重命名等操作。但是在介绍客户端中的上传时，提到过，我们利用phoneGap选取文件的时候，无法获取文件的类型信息（MIME类型甚至没有后缀名）。因此在服务器端，我们不能仅仅凭借客户端发送过来的MIME值来验证文件类型。</p>
+
+<p>解决这个问题最根本的方法是解析二进制的文件头，借此来判断文件的实际类型。根据这个需求，我写了一个简单的模块<a href="https://github.com/neekey/gettype">gettype</a>.</p>
+
+<p>这个模块的API非常简单,给定文件的路径，然后文件类型会在回调函数中作为参数返回。不过因为自身需求有限，暂时只支持常用图片类型<code>JPEG|PNG|BMP|GIF</code>的判断。</p>
+
+<p>```javascript
+var GetType = require( 'getType' );
+var pathToParse = 'images/jpeg.jpg';</p>
+
+<p>GetType.parse( pathToParse, function( err, type ){</p>
+
+<pre><code>if( err ){
+    console.log( 'file format parse error!' );
+}
+else {
+    console.log( 'file format is : ' + type );
+}
+</code></pre>
+
+<p>});
+```</p>
+
+<p>完成了上面两部，基本上后端这边主要的技术难点就解决了，接下来还需要完成：</p>
+
+<ul>
+<li>结合上面两个技术点做文件的大小和类型验证</li>
+<li>文件重命名</li>
+<li>将文件信息写入到数据库</li>
+<li>想客户端返回结果</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[phoneGap+nodejs图片上传(一)]]></title>

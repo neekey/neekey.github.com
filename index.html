@@ -9,8 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="继续捣鼓毕设！ 前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧： 手机上传图片的功能主要有两方面: 客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。
-服务器端，主要是接受客户端的请求 &hellip;">
+  <meta name="description" content="上一篇文章已经介绍了客户端（phoneGap）中图片上传的相关技术。下面介绍服务器端（nodejs）对图片上传的处理。 在对服务器端这边进行编码之前，在网上找了几篇关于nodejs处理文件上传的文章，基本上是使用Connect Form这个模块，但是实际调试的时候发现异常。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-31T16:50:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章已经介绍了客户端（phoneGap）中图片上传的相关技术。下面介绍服务器端（nodejs）对图片上传的处理。</p>
+
+<p>在对服务器端这边进行编码之前，在网上找了几篇关于nodejs处理文件上传的文章，基本上是使用<a href="https://github.com/visionmedia/connect-form">Connect Form</a>这个模块，但是实际调试的时候发现异常。仔细看了一下这个模块的说明，原来目前已经被废弃，并最终会被移除。对于文件上传的处理，<code>bodyParser()</code>目前已经直接支持。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -364,6 +406,10 @@ source ~/.zshrc
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
       </li>
     
@@ -377,10 +423,6 @@ source ~/.zshrc
     
       <li class="post">
         <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/08/octopass/">Octopress</a>
       </li>
     
   </ul>
