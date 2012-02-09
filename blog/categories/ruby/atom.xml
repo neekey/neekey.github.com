@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Neekey]]></title>
   <link href="http://neekey.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-02-08T18:06:01+08:00</updated>
+  <updated>2012-02-09T23:41:00+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ruby学习笔记(一)]]></title>
+    <link href="http://neekey.github.com/blog/2012/02/09/rubyxue-xi-bi-ji-1/"/>
+    <updated>2012-02-09T22:18:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/02/09/rubyxue-xi-bi-ji-1</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/ruby_logo.gif" alt="ruby" /></p>
+
+<p>今天…闲来无事，去看了一下<a href="http://www.ruby-lang.org">Ruby</a>,因为Octopress是用<a href="http://www.ruby-lang.org">Ruby</a>写的，有必要学习一下<a href="http://www.ruby-lang.org">Ruby</a>。</p>
+
+<p>直接到官网上去，发现<a href="http://www.ruby-lang.org">Ruby</a>非常友好，最下方有中文版本的选择，不过感觉翻译的有点蹩脚，还是直接看英文吧。首页右边有常用的几个入口，比如<a href="http://www.ruby-lang.org/en/downloads/">下载</a>，<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，<a href="http://tryruby.org/">在浏览器里尝试Ruby</a>(这个页面非常有爱，见下图)</p>
+
+<!--more-->
+
+
+<p><img src="/images/posts/try_ruby_in_browser.png" alt="ruby" /></p>
+
+<p>很认真的花了20分钟看了<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，对<a href="http://www.ruby-lang.org">Ruby</a>算是有了一定的认识，总结一下：</p>
+
+<h3><strong>Interactive Ruby</strong></h3>
+
+<p>翻译成中文应该是可交互的<a href="http://www.ruby-lang.org">Ruby</a>，其实是可以让你在终端中执行ruby的程序，在Mac下直接在终端中输入<code>irb</code>就行了。然后尽情的尝试吧。</p>
+
+<h3><strong>控制台信息输出</strong></h3>
+
+<p>就是所谓的<code>print</code>之类的方法，在<a href="http://www.ruby-lang.org">Ruby</a>中是<code>puts</code>：
+``` ruby</p>
+
+<blockquote><p>puts "hello world"
+=> hello world
+```</p></blockquote>
+
+<h3><strong>基本的简单语法</strong></h3>
+
+<ul>
+<li>nil: 指的是<a href="http://www.ruby-lang.org">Ruby</a>中的空值</li>
+<li>简单的计算：
+``` ruby
+
+<blockquote><p>2+3
+=> 5
+2*3
+=> 6
+```</p></blockquote></li>
+<li>变量赋值：<a href="http://www.ruby-lang.org">Ruby</a>中的变量不需要声明
+``` ruby
+
+<blockquote><p>a = "hello world"
+puts a
+=> hello world
+```</p></blockquote></li>
+<li>调用方法: 调用方法和传参的方式比较随意，下面几种都可以。如果方法不需要参数，则括号可加可不加。
+``` ruby
+
+<blockquote><p>Math.sqrt(9)
+=> 3
+Math.sqrt 9
+=> 3
+```</p></blockquote></li>
+<li><strong>字符串只能用双引号</strong></li>
+</ul>
+
+
+<h3><strong>定义方法</strong></h3>
+
+<p>先看例子：
+``` ruby</p>
+
+<blockquote><p>def h ( name = "world" )
+puts "hello #{name}"
+end
+<code>``
+上面的例子定义了一个叫</code>h<code>的方法，该方法输出</code>hello world<code>。用</code>def<code>来表示一个方法定义的开始，</code>end<code>来表示定义的结束。其中</code>hello #{name}<code>和js中的模板引擎语法类似，其中的name可以调用自己的方法，比如需要让输出首字母大写，可以修改为</code>hello #{name.capitalize}`</p></blockquote>
+
+<h3><strong>类</strong></h3>
+
+<h4>类的定义</h4>
+
+<p>先看例子：
+``` ruby
+class Greeter</p>
+
+<pre><code>def initialize( name = "world" )
+    @name = name
+end
+def say_hi
+    puts "Hi #{@name}!"
+end
+def say_bye
+    puts "Bye #{@name}!"
+end
+</code></pre>
+
+<p>end
+<code>``
+类的定义由</code>class<code>关键字来声明，然后在</code>end<code>之前可以定义各种方法。上面的例子中</code>initialize<code>为构造函数，</code>@name<code>为定义的私有属性。注意到类中的方法都可以直接利用</code>@name`来访问该属性。</p>
+
+<h4>实例化</h4>
+
+<p>结合上面的代码和下面的代码，可知<code>name</code>无法直接访问，下面的例子由于访问<code>name</code>而报错：
+``` ruby</p>
+
+<blockquote><p>g = Greeter.new( "neekey" )
+g.say_hi()
+=> Hi neekey
+g.name
+NoMethodError: undefined method `name' for…
+```</p>
+
+<h4>判断类实例是否具有某方法</h4>
+
+<p>其实<code>class</code>定义的类本身已经继承了很多方法，我们可以通过下面的两种方式来查看：
+<code>ruby
+Greeter.instance_methods
+=&gt; ["inspect", "taguri", "tap", "clone", "public_methods", "__send__", "taguri=", "instance_variable_defined?", "equal?", "freeze", "say_hi", "extend", "send", "methods", "hash", "dup", "object_id", "instance_variables", "eql?", "to_yaml", "say_bye", "instance_eval", "id", "singleton_methods", "taint", "frozen?", "instance_variable_get", "to_enum", "instance_of?", "display", "to_a", "h", "to_yaml_style", "type", "instance_exec", "protected_methods", "==", "===", "instance_variable_set", "enum_for", "kind_of?", "respond_to?", "to_yaml_properties", "method", "to_s", "class", "private_methods", "=~", "tainted?", "__id__", "untaint", "nil?", "is_a?"]
+</code>
+上面输出了类<code>Greeter</code>拥有的全部方法，我们也可以通过给<code>instance_methods</code>传递<code>false</code>来指定只显示自己定义的方法：
+``` ruby</p>
+
+<blockquote><p>Greeter.instance_methods(false)
+=> ["say_hi", "say_bye"]
+<code>
+我们可以使用`respond_to?`(函数名可以直接用?有木有！)来检查一个实例对象是否具有某个方法：
+</code> ruby
+g.respond_to?("name")
+=> false
+g.respond_to?("say_hi")
+=> true
+```</p></blockquote></blockquote>
+
+<h4>类的动态特性</h4>
+
+<p>在类已经定义完成后，我们还可以继续对类进行修改：
+``` ruby
+class Greeter</p>
+
+<pre><code>attr_accessor :name
+</code></pre>
+
+<p>end
+<code>
+上面代码对class进行了修改，使得`name`可以被访问，注意上面的代码并未覆盖原有定义，而是**增加**了定义。并且这些修改将马上在新的实例化对象和**已经实例化**的对象身上起作用。
+</code> ruby</p>
+
+<blockquote><p>g.name
+=> "neekey"
+g.name = "nic"
+g.name
+=> nic"
+<code>``
+从上面的例子来看，似乎</code>name`已经从私有变成了公共可被外部访问了（不知道ruby里面是否存在这样的术语）。但是真的是这样么？我们继续看：</p></blockquote>
+
+<p>``` ruby</p>
+
+<blockquote><p>g.respond_to?("name")
+=> true
+g.respond_to?("name=")
+=> true
+<code>
+可以看到，其实通过`attr_accessor`的定义，**不是**将name变成所谓的`公有属性`，而是添加了该属性的`getter`和`setter`，完全可以用下面的方式来写：
+</code> ruby
+g.name()
+=> nic
+g.name=("neekey")
+=> neekey
+<code>``
+另外从构造函数中的</code>@name=name`一句可以看到，<a href="http://www.ruby-lang.org">Ruby</a>的属性是可以动态添加的。</p></blockquote>
+
+<p>上面就是教程的大体内容。有时间继续学习~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopass部署]]></title>
