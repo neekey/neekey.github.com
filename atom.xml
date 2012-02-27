@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-02-23T23:23:38+08:00</updated>
+  <updated>2012-02-27T14:30:42+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -428,12 +428,26 @@
 <p>作为一名程序员，技术是必须不断提高的！</p>
 
 <ul>
-<li>对Javascript基础知识来一次全面的回顾和总结！</li>
-<li>HTML5方面的技术，更多的学习和实践</li>
+<li>对Javascript基础知识来一次全面的回顾和总结
+
+<ul>
+<li>语言基础</li>
+<li>语言级别的常用方法</li>
+<li>浏览器相关的各种对象与方法</li>
+<li>兼容性总结</li>
+</ul>
+</li>
+<li>HTML5方面，可以进行各种小demo的实践</li>
 <li>nodeJS继续学习。尝试更多的小应用</li>
-<li>继续实践单元测试</li>
-<li>改进开发思维，多思考！学会迭代开发！</li>
-<li>学习一门新的语言(C++? pyton? ruby?)</li>
+<li>继续实践单元测试
+
+<ul>
+<li>后端nodeJS单元测试</li>
+<li>前端单元测试实践</li>
+</ul>
+</li>
+<li>改进开发思维，多思考！学会<strong>迭代开发</strong>！</li>
+<li>学习<strong>shell &amp; ruby</strong>来写些简单的脚本，用于处理文本/文件，提高平时的工作效率</li>
 <li>最后一点也是很重要的要求：多积累和总结，静下心来多看看书！</li>
 </ul>
 
