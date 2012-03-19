@@ -9,7 +9,25 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content=" 今天在看commonJS的package部分的时候，在讲到version字段的时候，建议参考Semantic Versioning作为版本号的编写标准。仔细了解了下，对版本号的写法有了一些认识，翻译其中重要的部分分享下。 ">
+  <meta name="description" content="今天做了一个小实验，简单地研究下浏览器对于html的渲染 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+&lt;div id=&quot;div&quot;&gt; &lt;div id=&quot;childDiv&quot;&gt; &lt;a id &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +82,88 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-19T10:47:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天做了一个小实验，简单地研究下浏览器对于html的渲染</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;div&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;childDiv&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;a&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="err">/a&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我想要看一下当脚本在html还未闭合的情况下执行，浏览器会如何处理。下面是运行结果截图：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -483,81 +583,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-08T20:32:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>部署可以参考：<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
-
-<h3>本地部署</h3>
-
-<p><strong>首先是配置Octopress需要的环境：</strong></p>
-
-<ul>
-<li>由于Octopress需要使用到Git，因此需要先安装<a href="http://git-scm.com/">Git</a></li>
-<li>ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 )</li>
-</ul>
-
-
-<p><strong>安装RVM</strong></p>
-
-<p>用以下命令安装：</p>
-
-<p><code>bash &lt; &lt;(curl -s https://rvm.beginrescueend.com/install/rvm)</code></p>
-
-<p>安装完成后，需要修改用户目录下的.bash_profile文件，将RVM设置为shell的一个function:</p>
-
-<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function' &gt;&gt; ~/.bash_profile
-source ~/.bash_profile
-
-# If using Zsh do this instead
-echo '[[ -s $HOME/.rvm/scripts/rvm ]] &amp;&amp; source $HOME/.rvm/scripts/rvm' &gt;&gt; ~/.zshrc
-source ~/.zshrc
-</code></pre>
-
-<p>由于我自己对shell命令不是很熟悉，所以简单的查了一下资料。上面的命令中：</p>
-
-<ul>
-<li>echo <code>echo 'text' &gt;&gt; targetfile</code> 将text添加到目标文件尾</li>
-<li>source <code>source fileHasCodeToRun</code> 执行指定文件中的脚本</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/08/octopassbu-shu/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -573,6 +598,10 @@ source ~/.zshrc
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
       </li>
     
@@ -586,10 +615,6 @@ source ~/.zshrc
     
       <li class="post">
         <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012必须要是一个充满改变的年份啊！</a>
       </li>
     
   </ul>
