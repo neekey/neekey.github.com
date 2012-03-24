@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Selenium - Web自动化测试工具 试用 - Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="什么是Selenium Selenium是一个web自动化测试工具集。它提供了多种工具来辅助自动化测试的进行。整个完整的套件提供了web应用测试需要的各种部件，并提供了非常灵活和丰富的配置，允许进行本地UI测试以及对期望值与应用的实际表现进行比较。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Selenium - Web自动化测试工具 试用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-24T19:33:00+08:00" pubdate data-updated="true">Mar 24<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/posts/selenium-logo.png" alt="Selenium" /></p>
+
+<h2>什么是Selenium</h2>
+
+<p>Selenium是一个web自动化测试工具集。它提供了多种工具来辅助自动化测试的进行。整个完整的套件提供了web应用测试需要的各种部件，并提供了非常灵活和丰富的配置，允许进行本地UI测试以及对期望值与应用的实际表现进行比较。</p>
+
+<p>Selenim最大的优势是它能支持几乎所有的浏览器平台（包括移动web）</p>
+
+<!--more-->
+
+
+<h2>Selenium简史</h2>
+
+<p>Selenium最早在2004年，由ThoughtWorks公司的一位名为Jason Huggins的员工开发的。后来他开发的这个部分成为了Selenium的核心，最终成为Selenium Remote Control（RC）和Selenium IDE的基础。由于可以用可选的语言来对浏览器进行控制，Selenium在当时成为一个巨大的突破。</p>
+
+<p>尽管如此，Selenium还是有很大的缺点。由于它的自动化测试引擎是基于Javascript，而浏览器在安全性方面对Javascript有很多限制，因此很多行为无法在测试中被执行。</p>
+
+<p>在2006年，一位来自Google的名为Simon Stewart的大胆的工程师开启了一个名为WebDriver的项目。Google在很长一段时间曾是Selenium的大客户之一，但是测试人员不得不上被上述的安全性所限制。因此Simon希望能开发出一个工具，可以直接和浏览器进行“对话”，并可以直接使用浏览器和操作系统的“本地”接口。这样就避免了Javascript在沙箱中执行所带来的各种限制。</p>
+
+<p>2008年，除了北京2008奥运会和金融危机外，或许最重要的事情就是Selenium和WebDriver的合并了。</p>
+
+<h2>Selenium测试简单原理</h2>
+
+<p>以下仅为个人理解，以后会更新</p>
+
+<p>一个最简单的Selenium工具，应该有以下几部分构成：
+* Selenium Server： 用来解析测试脚本，并和webDriver进行通信
+* WebDriver： Driver顾名思义是一个驱动，或者说就是一层接口的封装。WebDriver作为Server和browser的连接人。它接受server传来的命令，然后控制浏览器的行为。同时将浏览器中的信息反馈到server中。WebDriver一般会以浏览器的插件形式存在。每个浏览器都会对应一个自己的webDriver。
+* 测试脚本： 测试行为的具体编码。Selenium支持很多中语言，比如Java，PHP，Ruby等等，出了官方支持外，也有很多第三方开发人员编写的实现。本文中的实践将使用github上的nodeJS实现（<a href="https://github.com/Camme/webdriverjs">webDriverJS</a>）</p>
+
+<h2>部署Selenium</h2>
+
+<h3>Server</h3>
+
+<p>从官网上下载server的jar文件 <a href="http://seleniumhq.org/download/">download</a></p>
+
+<p>直接运行该jar文件，变开启了server</p>
+
+<p><code>java -jar selenium-server-standalone-2.20.0.jar</code></p>
+
+<h3>WebDriver</h3>
+
+<p>上面的Selenium简史中介绍过，webDriver和Selenium在08年已经合并，因此大部分浏览器的WebDriver都是由Selenium来维护，因此不需要下载和安装额外的webDriver，一般server那边的运行的时候会直接安装或者附带了。</p>
+
+<p>不过Chrome的webDriver：ChromeDriver是由Google团队自己维护，因此如果需要对chrome进行调试，需要下载ChromeDriver，并为server指定ChromeDriver的路径：</p>
+
+<p><code>java -jar selenium-server-standalone-2.20.0.jar -Dwebdriver.chrome.path=PATH_TO_CHROME_DRIVER</code></p>
+
+<h3>测试脚本</h3>
+
+<p>使用一种你喜欢的语言来编写测试用例，然后执行它！</p>
+
+<p>这边要说明一下测试脚本和Server之间的关系。</p>
+
+<p>实际上测试脚本执行后和Server是一种通信关系，而它们通过Restful的方式进行通信。在开启server后，我们可以看到控制台中有一句这样的说明：</p>
+
+<p><code>228 [main] INFO org.openqa.selenium.server.SeleniumServer - RemoteWebDriver instances should connect to: http://127.94.0.1:4444/wd/hub</code></p>
+
+<p>说明我们在测试脚本中，要做的第一件事情就是产生一个RemoteWebDriver的实例，然后通过这个实例对象和Server进行通信。并且利用Restful的方式进行通信。为什么说是用Restful的方式，下文会做说明。</p>
+
+<h2>编写我们的测试脚本</h2>
+
+<p>本文使用nodeJS进行测试脚本的编写，使用了第三方的接口实现<a href="https://github.com/Camme/webdriverjs">webDriverJS</a>.</p>
+
+<p>直接用npm安装</p>
+
+<p><code>npm webdriverjs</code></p>
+
+<p>然后新建一个js文件，输入：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">webdriverjs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;webdriverjs&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">webdriverjs</span><span class="p">.</span><span class="nx">remote</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">desiredCapabilities</span><span class="o">:</span><span class="p">{</span>
+</span><span class='line'>        <span class="nx">browserName</span><span class="o">:</span><span class="s2">&quot;chrome&quot;</span>
+</span><span class='line'>    <span class="p">}});</span>
+</span><span class='line'>  
+</span><span class='line'><span class="nx">client</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">init</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">url</span><span class="p">(</span><span class="s2">&quot;http://www.google.com&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">getTitle</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">t</span><span class="p">)})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>然后用node执行这个文件，可以看到Chrome自动打开，然后打开Google主页，打开后一下子就关掉了。查看终端我们可以看到下面的结果:</p>
+
+<p><img src="/images/posts/selenium-code.png" alt="selenium-code" /></p>
+
+<p>倒数第二行是我们在代码中log出来的页面的title。</p>
+
+<p>回到刚刚的话题，我们看看为什么说是用Restful方式通信。</p>
+
+<p>前面三行，是在向Server申请会话（session）。webDriver 对象发起了一个<code>/wd/hub/session</code>资源请求，并附上了会话的配置参数，然后server返回会话的<code>id</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">14</span><span class="p">]</span><span class="o">:</span>  <span class="nx">COMMAND</span>    <span class="nx">POST</span>     <span class="s2">&quot;/wd/hub/session&quot;</span>
+</span><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">14</span><span class="p">]</span><span class="o">:</span>  <span class="nx">DATA</span>       <span class="p">{</span><span class="s2">&quot;desiredCapabilities&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;browserName&quot;</span><span class="o">:</span><span class="s2">&quot;chrome&quot;</span><span class="p">,</span><span class="s2">&quot;version&quot;</span><span class="o">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;javascriptEnabled&quot;</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span><span class="s2">&quot;platform&quot;</span><span class="o">:</span><span class="s2">&quot;ANY&quot;</span><span class="p">},</span><span class="s2">&quot;sessionId&quot;</span><span class="o">:</span><span class="kc">null</span><span class="p">}</span>
+</span><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">15</span><span class="p">]</span><span class="o">:</span>  <span class="nx">SET</span> <span class="nx">SESSION</span> <span class="nx">ID</span>     <span class="s2">&quot;1332585814526&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来请求打开指定的url,注意到请求的<code>uri</code>中包含了返回的会话<code>id</code>：<code>/wd/hub/session/1332585814526/url</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">15</span><span class="p">]</span><span class="o">:</span>  <span class="nx">COMMAND</span>    <span class="nx">POST</span>     <span class="s2">&quot;/wd/hub/session/1332585814526/url&quot;</span>
+</span><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">15</span><span class="p">]</span><span class="o">:</span>  <span class="nx">DATA</span>       <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="o">:</span><span class="s2">&quot;http://www.google.com&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后请求页面的title值，这是一个<code>GET</code>方式的请求，因此有<code>RESULT</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">20</span><span class="p">]</span><span class="o">:</span>  <span class="nx">COMMAND</span>    <span class="nx">GET</span>      <span class="s2">&quot;/wd/hub/session/1332585814526/title&quot;</span>
+</span><span class='line'><span class="p">[</span><span class="mi">19</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">20</span><span class="p">]</span><span class="o">:</span>  <span class="nx">RESULT</span>         <span class="s2">&quot;Google&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后，关闭页面，也就是<code>end()</code>，实例对象想Server发起了一个<code>DELETE</code>请求，删除对话。</p>
+
+<p>那么说句题外话，其实对于Selenium的测试语言的实现本质上是<strong>对面向开发人员的接口到Selenium的Restful接口的封装</strong>。</p>
+
+<h2>Selenium的优势</h2>
+
+<ul>
+<li>兼容性</li>
+</ul>
+
+
+<p>几乎支持所有浏览器（Selenium2 目前好像还不支持Sarari），包括IE6以及移动浏览器（Android和iOS）</p>
+
+<ul>
+<li>没有安全性以及沙盒限制</li>
+</ul>
+
+
+<p>之前有用过<code>jasmine</code>来进行前端代码测试，但是由于Javascript作为一段页面脚本在页面上执行，因此有很多限制，对于很多测试条件无法实现。比如无法跨域，那么父页面的测试代码要去对子页面的相关情况进行测试就会有很多问题。另外也无法跨页面执行代码，因为一旦页面刷新，所有代码都被刷新了。</p>
+
+<p>由于Selenium2使用了webDriver，因此其脚本的执行是不受安全性沙盒限制的，因此上述的问题都不存在。</p>
+
+<ul>
+<li>可以用多种语言编写测试用例</li>
+</ul>
+
+
+<p>使用jasmine对前端页面进行测试，只能使用javascript，而selenium支持多种语言（JAVA，RUBY，PHP以及各种第三方的实现），因此其受众更广。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-24T19:33:00+08:00" pubdate data-updated="true">Mar 24<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/selenium-webdriver-测试/'>selenium， webdriver， 测试</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/" data-via="" data-counturl="http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/" title="Previous Post: 浏览器渲染小实验">&laquo; 浏览器渲染小实验</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/">记录一些可以在茫然时马上开始做的事情</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/">抗痘日记——泰尔丝（口服异维A酸）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012必须要是一个充满改变的年份啊！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
