@@ -1,62 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://neekey.github.com/blog/2012/01/08/octopass/</loc>
-        <lastmod>2012-01-15T16:40:14+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/01/08/octopassbu-shu/</loc>
-        <lastmod>2012-01-15T16:36:32+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/</loc>
-        <lastmod>2012-01-15T16:36:47+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/01/15/naechu-shi-yong/</loc>
-        <lastmod>2012-01-15T16:35:40+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://neekey.github.com/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/
-        </loc>
-        <lastmod>2012-01-29T17:00:22+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://neekey.github.com/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/
-        </loc>
-        <lastmod>2012-02-16T22:31:21+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://neekey.github.com/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/
-        </loc>
-        <lastmod>2012-02-27T14:29:51+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/02/09/rubyxue-xi-bi-ji-1/</loc>
-        <lastmod>2012-02-09T23:40:27+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://neekey.github.com/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/
-        </loc>
-        <lastmod>2012-03-12T20:12:37+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/</loc>
-        <lastmod>2012-02-14T20:56:44+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/02/27/semantic-versioning/</loc>
-        <lastmod>2012-02-27T19:28:52+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://neekey.github.com/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/</loc>
-        <lastmod>2012-03-19T11:09:52+08:00</lastmod>
-    </url>
-    <url>
         <loc>
             http://neekey.github.com/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/
         </loc>

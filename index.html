@@ -5,8 +5,8 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Neekey</title>
-  <meta name="author" content="neekey(niyunjian)">
+  <title>My Octopress Blog</title>
+  <meta name="author" content="Your Name">
 
   
   <meta name="description" content="什么是Selenium Selenium是一个web自动化测试工具集。它提供了多种工具来辅助自动化测试的进行。整个完整的套件提供了web应用测试需要的各种部件，并提供了非常灵活和丰富的配置，允许进行本地UI测试以及对期望值与应用的实际表现进行比较。 &hellip;">
@@ -24,20 +24,32 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Neekey</a></h1>
+  <h1><a href="/">My Octopress Blog</a></h1>
   
-    <h2>在此记录我的学习&生活.</h2>
+    <h2>A blogging framework for hackers.</h2>
   
 </hgroup>
 
@@ -112,462 +124,7 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-19T10:47:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天做了一个小实验，简单地研究下浏览器对于html的渲染</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;div&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;childDiv&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;a&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="err">/a&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我想要看一下当脚本在html还未闭合的情况下执行，浏览器会如何处理。下面是运行结果截图：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-27T16:51:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/semanticVersion.png" alt="firefox版本号" /></p>
-
-<p>今天在看<a href="http://www.commonjs.org/">commonJS</a>的<a href="http://wiki.commonjs.org/wiki/Packages/1.0">package</a>部分的时候，在讲到version字段的时候，建议参考<a href="http://semver.org/">Semantic Versioning</a>作为版本号的编写标准。仔细了解了下，对版本号的写法有了一些认识，翻译其中重要的部分分享下。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/27/semantic-versioning/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/">记录一些可以在茫然时马上开始做的事情</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-14T20:40:00+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这些年，经常会有这样的时刻：刚刚做完一件大事，想利用剩下的时间，做一些<strong>正经事</strong>之外的<strong>非正经事</strong>，但是也想看看电影啊玩玩游戏什么的。然后经常在这些选择中纠结！这个弄弄，那个弄弄，反而啥都木有干。有句很简单且很有效的做事原则是：</p>
-
-<blockquote><p>一次只做一件事</p></blockquote>
-
-<p>但是我这个人最大的缺点就是<strong>患得患失</strong>，作为一名具有完美主义偏向的人，总是想要做一些所谓的<strong>最正确的事情</strong>。其实本身上面的事情就不需要太纠结，从容洒脱的确实是一件乐事，但是境界上需要提升，心境更是需要修养。因此今天就想，与其每次如此纠结，不如事先为这些场景做好准备。做一个列表，里面是预先准备的可以在这些时刻做的事情。当这样的时刻到来的时候，至少纠结的范围小一点（哈哈… ）。如果还是可能造成<strong>选择</strong>上的的困难，可以事先进行排序！</p>
-
-<p>下面的列表不定期更新</p>
-
-<ul>
-<li>看一本相对轻松的小说</li>
-<li>看你的文章订阅：认真地看，速度跳过不感兴趣的，认真阅读你点开的</li>
-<li>可以静下心来背几个单词</li>
-<li>做一些整理工作：比如整理一下你的浏览器书签，文件目录，联系人列表，邮箱里的邮件等等</li>
-<li>找出几首你喜欢听的但是没有认真看过歌词的英文歌，认真查一下字典，重新理解下歌曲要表达的内容</li>
-<li>打扫一下卫生，整理一下桌面，洗个衣服什么的</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/">抗痘日记——泰尔丝（口服异维a酸）</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-12T16:08:00+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/Isotretinoin.jpg" alt="泰尔丝" /></p>
-
-<p>在做了几个星期的准备以后，终于在昨天狠下心来，开始服用泰尔丝！我的体重是<strong>65KG</strong>，因此我打算每天吃5颗(<code>早上2颗晚上3颗</code>)，吃满<strong>6</strong>个月。在此记录这段艰难漫长的历程，希望能坚持下去！</p>
-
-<p>根据<strong>Starui</strong>的<a href="http://bbs.trends.com.cn/viewthread.php?tid=802478&amp;extra=&amp;page=1">痘痘终极疗法泰尔丝（口服异维A酸）服药总结及战痘心得</a> ,在吃泰之前，败好了应对服药期间的副作用的护肤品和相关药物。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">Ruby学习笔记(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-09T22:18:00+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/ruby_logo.gif" alt="ruby" /></p>
-
-<p>今天…闲来无事，去看了一下<a href="http://www.ruby-lang.org">Ruby</a>,因为Octopress是用<a href="http://www.ruby-lang.org">Ruby</a>写的，有必要学习一下<a href="http://www.ruby-lang.org">Ruby</a>。</p>
-
-<p>直接到官网上去，发现<a href="http://www.ruby-lang.org">Ruby</a>非常友好，最下方有中文版本的选择，不过感觉翻译的有点蹩脚，还是直接看英文吧。首页右边有常用的几个入口，比如<a href="http://www.ruby-lang.org/en/downloads/">下载</a>，<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，<a href="http://tryruby.org/">在浏览器里尝试Ruby</a>(这个页面非常有爱，见下图)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012必须要是一个充满改变的年份啊！</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-08T17:55:00+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/mengmao1.jpg" alt="萌图啊" /></p>
-
-<p>转眼间就过完年，已经回到学校，都二月份了。趁着还不算太晚，在此把今年希望完成的和实现的东东列举一下，自勉!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-31T16:50:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>上一篇文章已经介绍了客户端（phoneGap）中图片上传的相关技术。下面介绍服务器端（nodejs）对图片上传的处理。</p>
-
-<p>在对服务器端这边进行编码之前，在网上找了几篇关于nodejs处理文件上传的文章，基本上是使用<a href="https://github.com/visionmedia/connect-form">Connect Form</a>这个模块，但是实际调试的时候发现异常。仔细看了一下这个模块的说明，原来目前已经被废弃，并最终会被移除。对于文件上传的处理，<code>bodyParser()</code>目前已经直接支持。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-26T17:13:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>继续捣鼓毕设！</strong></p>
-
-<p>前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧：</p>
-
-<p><img src="/images/posts/st_login.jpg" alt="secondaryTrading_login" /></p>
-
-<p>手机上传图片的功能主要有两方面:</p>
-
-<ul>
-<li>客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。</li>
-<li>服务器端，主要是接受客户端的请求，对图片信息进行验证和保存。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-15T15:53:00+08:00" pubdate data-updated="true">Jan 15<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/Nae.png" alt="Nae-image" /></p>
-
-<p><a href="http://cnodejs.net/"><strong>NAE</strong></a>：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。</p>
-
-<p>这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号，干脆部署到上面去好了。</p>
-
-<p>昨天稻谷了半天，终于成功部署。在这里记下几点想法和总结把。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/15/naechu-shi-yong/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -581,54 +138,6 @@
     
       <li class="post">
         <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/">记录一些可以在茫然时马上开始做的事情</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/">抗痘日记——泰尔丝（口服异维A酸）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012必须要是一个充满改变的年份啊！</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/08/octopass/">Octopress</a>
       </li>
     
   </ul>
@@ -645,25 +154,12 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - neekey(niyunjian) -
+  Copyright &copy; 2012 - Your Name -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'neekeygithub';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
 
 
 

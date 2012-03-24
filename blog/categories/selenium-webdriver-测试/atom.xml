@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: selenium， webdriver， 测试 | Neekey]]></title>
+  <title><![CDATA[Category: selenium， webdriver， 测试 | My Octopress Blog]]></title>
   <link href="http://neekey.github.com/blog/categories/selenium-webdriver-测试/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-03-24T19:45:12+08:00</updated>
+  <updated>2012-03-24T20:35:52+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
-    <name><![CDATA[neekey(niyunjian)]]></name>
-    <email><![CDATA[ni184775761@gmail.com]]></email>
+    <name><![CDATA[Your Name]]></name>
+    
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
