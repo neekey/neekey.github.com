@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="寒假在家，终于可以开始好好做毕设！ 今天在写后台用户数据操作时，想到每次写类似的模块，在大体完成后总会出现各种Bug，往往调试占用了大量的时间。因此决定这次为每个接口都写一下单元测试。 由于之前听过同事关于Jasmine的分享，感觉还不错，所以就用它了。 ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-11T21:36:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>寒假在家，终于可以开始好好做毕设！</p>
+
+<p>今天在写后台用户数据操作时，想到每次写类似的模块，在大体完成后总会出现各种Bug，往往调试占用了大量的时间。因此决定这次为每个接口都写一下单元测试。</p>
+
+<p>由于之前听过同事关于<a href="http://pivotal.github.com/jasmine/">Jasmine</a>的分享，感觉还不错，所以就用它了。</p>
+
+<p><img src="/images/posts/jasmine_logo.png" alt="Jasmine-logo" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T20:32:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>部署可以参考：<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
+
+<h3>本地部署</h3>
+
+<p><strong>首先是配置Octopress需要的环境：</strong></p>
+
+<ul>
+<li>由于Octopress需要使用到Git，因此需要先安装<a href="http://git-scm.com/">Git</a></li>
+<li>ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 )</li>
+</ul>
+
+
+<p><strong>安装RVM</strong></p>
+
+<p>用以下命令安装：</p>
+
+<p><code>bash &lt; &lt;(curl -s https://rvm.beginrescueend.com/install/rvm)</code></p>
+
+<p>安装完成后，需要修改用户目录下的.bash_profile文件，将RVM设置为shell的一个function:</p>
+
+<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function' &gt;&gt; ~/.bash_profile
+source ~/.bash_profile
+
+# If using Zsh do this instead
+echo '[[ -s $HOME/.rvm/scripts/rvm ]] &amp;&amp; source $HOME/.rvm/scripts/rvm' &gt;&gt; ~/.zshrc
+source ~/.zshrc
+</code></pre>
+
+<p>由于我自己对shell命令不是很熟悉，所以简单的查了一下资料。上面的命令中：</p>
+
+<ul>
+<li>echo <code>echo 'text' &gt;&gt; targetfile</code> 将text添加到目标文件尾</li>
+<li>source <code>source fileHasCodeToRun</code> 执行指定文件中的脚本</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/01/08/octopassbu-shu/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/08/octopass/">Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T19:27:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>捣鼓了很久，终于将<a href="http://octopress.org/" title="octopress">octopress</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
+
+<p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
+
+<p>octopress<strong>官方介绍</strong>：</p>
+
+<blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
+
+<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="octopress">octopress</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
+
+<ol>
+<li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
+<li>支持Markdown</li>
+<li><p>使用git进行版本控制</p>
+
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
+<li><p>轻松部署</p>
+
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
+
+<p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
+<li>支持各种插件</li>
+<li>支持<a href="https://gist.github.com/" title="gist">gist</a>(没用过，但是貌似很给力的样子，hoho！)</li>
+<li>使用<a href="http://sass-lang.com/" title="SASS">SASS</a>，<a href="http://compass-style.org/" title="Compass">Compass</a>等新奇玩意</li>
+</ol>
+
+
+<p>OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/">记录一些可以在茫然时马上开始做的事情</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/12/wo-de-kang-dou-ri-ji-tai-er-si-kou-fu-yi-wei-asuan/">抗痘日记——泰尔丝（口服异维A酸）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012必须要是一个充满改变的年份啊！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nae | Neekey]]></title>
+  <link href="http://neekey.github.com/blog/categories/nae/atom.xml" rel="self"/>
+  <link href="http://neekey.github.com/"/>
+  <updated>2012-03-25T22:29:56+08:00</updated>
+  <id>http://neekey.github.com/</id>
+  <author>
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NAE初使用]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/15/naechu-shi-yong/"/>
+    <updated>2012-01-15T15:53:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/15/naechu-shi-yong</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/Nae.png" alt="Nae-image" /></p>
+
+<p><a href="http://cnodejs.net/"><strong>NAE</strong></a>：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。</p>
+
+<p>这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号，干脆部署到上面去好了。</p>
+
+<p>昨天稻谷了半天，终于成功部署。在这里记下几点想法和总结把。</p>
+
+<!-- more -->
+
+
+<h3>NAE提供的功能</h3>
+
+<ul>
+<li>每个用户可以创建10个应用，每个应用都可以邀请其他用户一起参与合作，也可以申请加入其他人的应用</li>
+<li>可以为每个应用自定义子域名，比如<code>neekey.cnodejs.net</code></li>
+<li>代码部署
+
+<ul>
+<li>支持使用git进行代码管理</li>
+<li>支持本地上传</li>
+<li>可以自定义使用npm安装需要的模块</li>
+</ul>
+</li>
+<li>提供自带网络代码编辑器（很好用!!）</li>
+<li>提供网络日志（不过暂时智能查看，没办法清理啦删除之类的，这个有待改进啊）</li>
+<li>提供mongodb数据库，每个应用都拥有一个独立的db</li>
+<li>代办事项功能（类似一个todo-list）</li>
+</ul>
+
+
+<p><strong>总体来说，我觉得NAE这样一个免费的应用托管服务，提供的功能还是非常强大的，而且多人开发这样的功能也非常方便多人协作开发！</strong></p>
+
+<h3>第一次使用的几点经验</h3>
+
+<p><strong>配置好你的<code>package.json</code>文件</strong></p>
+
+<p>代码根目录下需要有<code>package.json</code>这个文件，其中要指定需要运行的主文件名：</p>
+
+<p>``` javascript
+{</p>
+
+<pre><code>'name': 'hello world',
+'main': './app.js'
+</code></pre>
+
+<p>}
+```</p>
+
+<p>如果不指定，会自动搜索<code>./index.js</code>文件执行</p>
+
+<p>另外，现在已经提供了<code>package.json</code>的GUI设置功能</p>
+
+<p><strong>数据库连接</strong></p>
+
+<p>默认已经给了数据库账号，密码，数据库名称，端口号。只要根据这些信息，在脚本中进行数据库的连接就可以了，以mongoose为例：</p>
+
+<p><code>javascript
+mongoose.connect( 'mongodb://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':' + PORT + '/' + DATABASE );
+</code></p>
+
+<p>由于本人粗心大意，第一次部署的时候忘了写上端口，导致日志里有相关错误（但是我看不明白），应用上线后，接口出错！</p>
+]]></content>
+  </entry>
+  
+</feed>

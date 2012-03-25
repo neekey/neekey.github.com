@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jasmine | Neekey]]></title>
+  <link href="http://neekey.github.com/blog/categories/jasmine/atom.xml" rel="self"/>
+  <link href="http://neekey.github.com/"/>
+  <updated>2012-03-25T22:29:56+08:00</updated>
+  <id>http://neekey.github.com/</id>
+  <author>
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在nodejs中使用jasmina(一)]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/"/>
+    <updated>2012-01-11T21:36:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1</id>
+    <content type="html"><![CDATA[<p>寒假在家，终于可以开始好好做毕设！</p>
+
+<p>今天在写后台用户数据操作时，想到每次写类似的模块，在大体完成后总会出现各种Bug，往往调试占用了大量的时间。因此决定这次为每个接口都写一下单元测试。</p>
+
+<p>由于之前听过同事关于<a href="http://pivotal.github.com/jasmine/">Jasmine</a>的分享，感觉还不错，所以就用它了。</p>
+
+<p><img src="/images/posts/jasmine_logo.png" alt="Jasmine-logo" /></p>
+
+<!-- more -->
+
+
+<h3>为nodejs添加jasmine模块</h3>
+
+<p>由于后端使用<a href="http://nodejs.org/">nodeJS</a>开发，因此先用<a href="http://npmjs.org/">npm</a>安装<a href="http://pivotal.github.com/jasmine/">Jasmine</a></p>
+
+<pre><code>npm install jasmine-node
+</code></pre>
+
+<p>安装完成后，就只可以直接在终端中使用jasmine-node命令了</p>
+
+<h3>使用Jasmine-node命令</h3>
+
+<p><strong>Jasmine-node 参数</strong></p>
+
+<p>``` bash
+USAGE: jasmine-node [--color|--noColor] [--verbose] [--coffee] directory</p>
+
+<p>Options:
+  --color            - use color coding for output
+  --noColor          - do not use color coding for output
+  -m, --match REGEXP - load only specs containing "REGEXPspec"
+  --verbose          - print extra information per each test run
+  --coffee           - load coffee-script which allows execution .coffee files
+  --junitreport      - export tests results as junitreport xml format
+  --teamcity         - converts all console output to teamcity custom test runner commands. (Normally auto detected.)
+  --runWithRequireJs - loads all specs using requirejs instead of node's native require method
+  --test-dir         - the absolute root directory path where tests are located
+  --nohelpers        - does not load helpers.
+  -h, --help         - display this help and exit
+```</p>
+
+<p><strong>使用简单说明</strong></p>
+
+<ul>
+<li>指定目录进行单元测试：</li>
+</ul>
+
+
+<p>```
+$ jasmine-node test</p>
+
+<p>```</p>
+
+<p>注意指定的目录下的包含单元测试代码的脚本文件必须为js或者coffee格式，并且文件名最后必须为<strong>spec</strong>，比如文件：<code>userSpec.js</code>，<code>user.spec.coffee</code></p>
+
+<ul>
+<li>常用的参数简单说明
+
+<ul>
+<li>verbose 默认的结果只显示成功了多少，失败了多少，然后显示失败的信息，指定该参数后，会将所有的信息都输出</li>
+<li>test-dir 指定目录的绝对路径</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>如何写测试代码</h3>
+
+<p>由于之前没怎么写过单元测试，因此对测试的理解比较肤浅，我的理解比较简单：</p>
+
+<p><em>通过某个过程得到一个结果，然后判断是否这个结果是我们预期的。一般这样的测试，其结果应该是可以预知并且可以对结果进行判断</em></p>
+
+<p><strong>最简单的测试代码</strong></p>
+
+<p>好，现在我们建立一个test文件夹，从最简单的测试代码开始：</p>
+
+<p>``` javascript
+describe( '描述一下这个单元测试', function(){</p>
+
+<pre><code>it( '算数的结果总是比较容易预测', function(){
+    expect( 1 + 2 ).toEqual( 3 );
+});
+</code></pre>
+
+<p>});
+```
+将这个文件命名为 simpleTestSpec.js，然后使用命令:</p>
+
+<p><code>bash
+$ jasmine-node test
+</code></p>
+
+<p>可以看到结果：</p>
+
+<p>``` bash
+描述一下这个单元测试
+  算数的结果总是比较容易预测</p>
+
+<p>Finished in 0.008 seconds
+1 test, 1 assertion, 0 failures
+```</p>
+
+<p>现在我们故意将测试代码改为<code>expect(1+2).toEqual(0);</code>，重新运行一下，得到结果：</p>
+
+<p>```
+描述一下这个单元测试
+  算数的结果总是比较容易预测</p>
+
+<p>Failures:</p>
+
+<p>  1) 算数的结果总是比较容易预测
+   Message:</p>
+
+<pre><code> Expected 3 to equal 0.
+</code></pre>
+
+<p>   Stacktrace:</p>
+
+<pre><code> Error: Expected 3 to equal 0.
+at new &lt;anonymous&gt; (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:102:32)
+at [object Object].toEqual (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1171:29)
+at [object Object].&lt;anonymous&gt; (/users/neekey/Desktop/mhevery-jasmine-node-d3dc963/spec/TestSpec.js:4:19)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1001:15)
+at [object Object].next_ (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1790:31)
+at [object Object].start (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1743:8)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:2070:14)
+at [object Object].next_ (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1790:31)
+at [object Object].start (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1743:8)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:2215:14)
+</code></pre>
+
+<p>Finished in 0.011 seconds
+1 test, 1 assertion, 1 failure
+```</p>
+
+<p>上面的describe可以最为一类测试的<strong>群组</strong>，而it则是这些测试中的其中一<strong>项</strong>。而<code>expect</code>就是做一次<strong>断言</strong>。</p>
+
+<h4>异步代码测试</h4>
+
+<p><a href="http://pivotal.github.com/jasmine/">Jasmine</a>主要提供了三个方法来让我们实现对异步脚本的测试：</p>
+
+<ul>
+<li><strong>runs(function)</strong> 官方的说明是：<em>runs() blocks by themselves simply run as if they were called directly</em>, 觉得不是很理解，直接看代码吧，当只有一个<code>runs()</code>的情况下，下面两端代码的效果一致：</li>
+</ul>
+
+
+<p>``` javascript
+it('should be a test', function () {
+  var foo = 0
+  foo++;</p>
+
+<p>  expect(foo).toEqual(1);
+});
+```</p>
+
+<p>``` javascript
+it('should be a test', function () {
+  runs( function () {</p>
+
+<pre><code>var foo = 0
+foo++;
+
+expect(foo).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<p>出现多个<code>runs()</code>的时候，他们将以串行的方式执行，需要注意的是，在<code>runs()</code>指定的函数内部，<code>this</code>是被多个<code>runs()</code>共享的。
+下面这个例子，多个<code>runs()</code>串行：</p>
+
+<p>``` javascript
+it('should be a test', function () {
+  runs( function () {</p>
+
+<pre><code>this.foo = 0
+this.foo++;
+var bar = 0;
+bar++;
+
+expect(this.foo).toEqual(1);
+expect(bar).toEqual(1);
+</code></pre>
+
+<p>  });
+  runs( function () {</p>
+
+<pre><code>this.foo++;
+var bar = 0
+bar++;
+
+expect(this.foo).toEqual(2);
+expect(bar).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<ul>
+<li><strong>waits(timeout)</strong> 这个方法和<code>runs()</code>一起使用，我们可以通过该方法来指定阻塞多久再执行下一个<code>runs()</code></li>
+</ul>
+
+
+<p>``` javascript
+it('should be a test', function () {
+  runs(function () {</p>
+
+<pre><code>this.foo = 0;
+var that = this;
+setTimeout(function () {
+  that.foo++;
+}, 250);
+</code></pre>
+
+<p>  });</p>
+
+<p>  runs(function () {</p>
+
+<pre><code>expect(this.foo).toEqual(0);
+</code></pre>
+
+<p>  });</p>
+
+<p>  waits(500);</p>
+
+<p>  runs(function () {</p>
+
+<pre><code>expect(this.foo).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<p>这段代码在执行完第二个<code>runs()</code>后没有直接执行第三个<code>runs()</code>,知道<code>waits()</code>指定的500毫秒到达后，再执行<code>runs()</code>。利用这个方法，我们可以对一些异步回调（这些回调的返回时间可以估计）进行测试。</p>
+
+<p>需要注意的是，如果第三个<code>runs()</code>内的代码不用runs来包裹，直接写在外面，<strong>将无法被阻塞执行。</strong></p>
+
+<ul>
+<li><strong>waitsFor(function, optional message, optional timeout)</strong> 在很多情况下，我们无法确切地知道回调的在什么时候返回（比如用户的自定义事件，鼠标点击等），这个时候我们就可以使用该方法。该方法只有在给定的function返回了<code>true</code>后才会执行下一个<code>runs()</code>，还可以指定最长等待时间，如果在这个时间内还没有返回<code>true</code>，则显示<code>optional message</code></li>
+</ul>
+
+
+<p>``` javascript
+describe('waitsFor Test', function() {
+  it('after 2sec, it will be true', function () {</p>
+
+<pre><code>var iWillBeTrue = false;
+
+setTimeout( function(){
+    iWillBeTrue = true;
+}, 2000 );
+
+waitsFor(function() {
+  return iWillBeTrue;
+}, "maybe i will never be true", 10000 );
+
+runs(function () {
+  expect( iWillBeTrue ).toEqual( true );
+});
+</code></pre>
+
+<p>  });
+});</p>
+
+<p>```</p>
+
+<p>运行一下：</p>
+
+<p>``` bash
+waitsFor Test
+  after 2sec, it will be true</p>
+
+<p>Finished in 2.013 seconds
+1 test, 1 assertion, 0 failures
+```</p>
+
+<p>我们去掉<code>setTimeout</code>，那么应该<code>iWillBeTrue</code>将永远为<code>false</code>，重新运行：</p>
+
+<p>``` bash
+waitsFor Test
+  after 2sec, it will be true</p>
+
+<p>Failures:</p>
+
+<p>  1) after 2sec, it will be true
+   Message:</p>
+
+<pre><code> timeout: timed out after 10000 msec waiting for maybe i will never be true
+</code></pre>
+
+<p>   Stacktrace:</p>
+
+<pre><code> undefined
+</code></pre>
+
+<p>Finished in 10.921 seconds
+1 test, 1 assertion, 1 failure
+```</p>
+
+<hr />
+
+<p>总体上来说，<a href="http://pivotal.github.com/jasmine/">Jasmine</a>感觉还不错，特别是提供的这几个异步测试的方法，基本上能满足一般单元测试的需求。</p>
+
+<p>先介绍到这，更多细节后续会跟进。</p>
+]]></content>
+  </entry>
+  
+</feed>

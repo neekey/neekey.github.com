@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nodejs | Neekey]]></title>
+  <link href="http://neekey.github.com/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://neekey.github.com/"/>
+  <updated>2012-03-25T22:29:56+08:00</updated>
+  <id>http://neekey.github.com/</id>
+  <author>
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[phoneGap+nodejs图片上传(二)]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/"/>
+    <updated>2012-01-31T16:50:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2</id>
+    <content type="html"><![CDATA[<p>上一篇文章已经介绍了客户端（phoneGap）中图片上传的相关技术。下面介绍服务器端（nodejs）对图片上传的处理。</p>
+
+<p>在对服务器端这边进行编码之前，在网上找了几篇关于nodejs处理文件上传的文章，基本上是使用<a href="https://github.com/visionmedia/connect-form">Connect Form</a>这个模块，但是实际调试的时候发现异常。仔细看了一下这个模块的说明，原来目前已经被废弃，并最终会被移除。对于文件上传的处理，<code>bodyParser()</code>目前已经直接支持。</p>
+
+<!--more-->
+
+
+<h3>上传文件信息获取</h3>
+
+<p>因此，对于文件上传的处理，首先需要引入<code>bodyParser()</code>:</p>
+
+<p>```javascript
+app.configure(function(){</p>
+
+<pre><code>app.use(express.bodyParser());
+</code></pre>
+
+<p>});
+```</p>
+
+<p>然后通过<code>req</code>中的<code>files</code>，根据文件的字段名来获取上传的文件信息。</p>
+
+<p>```javascript
+app.post( '/upload', function( req, res ){</p>
+
+<pre><code>var image = req.files.image;
+console.log( image );
+console.log( image.path );
+console.log( image.length );
+console.log( image.filename );
+console.log( image.mime );
+</code></pre>
+
+<p>});
+```</p>
+
+<p>上面的代码<code>req.files.image</code>中的<code>image</code>是我在客户端中指定的字段名，然后我们可以通过这个文件信息对象，获取到文件保存到服务器端的路径(<code>path</code>),文件的大小(<code>length</code>),文件名(<code>filename</code>),文件的MIME值(<code>mime</code>)。</p>
+
+<h3>图片类型验证</h3>
+
+<p>通过上面的信息，我们可以利用<code>fs</code>模块，对图片进行重命名等操作。但是在介绍客户端中的上传时，提到过，我们利用phoneGap选取文件的时候，无法获取文件的类型信息（MIME类型甚至没有后缀名）。因此在服务器端，我们不能仅仅凭借客户端发送过来的MIME值来验证文件类型。</p>
+
+<p>解决这个问题最根本的方法是解析二进制的文件头，借此来判断文件的实际类型。根据这个需求，我写了一个简单的模块<a href="https://github.com/neekey/gettype">gettype</a>.</p>
+
+<p>这个模块的API非常简单,给定文件的路径，然后文件类型会在回调函数中作为参数返回。不过因为自身需求有限，暂时只支持常用图片类型<code>JPEG|PNG|BMP|GIF</code>的判断。</p>
+
+<p>```javascript
+var GetType = require( 'getType' );
+var pathToParse = 'images/jpeg.jpg';</p>
+
+<p>GetType.parse( pathToParse, function( err, type ){</p>
+
+<pre><code>if( err ){
+    console.log( 'file format parse error!' );
+}
+else {
+    console.log( 'file format is : ' + type );
+}
+</code></pre>
+
+<p>});
+```</p>
+
+<p>完成了上面两部，基本上后端这边主要的技术难点就解决了，接下来还需要完成：</p>
+
+<ul>
+<li>结合上面两个技术点做文件的大小和类型验证</li>
+<li>文件重命名</li>
+<li>将文件信息写入到数据库</li>
+<li>想客户端返回结果</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[phoneGap+nodejs图片上传(一)]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/"/>
+    <updated>2012-01-26T17:13:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1</id>
+    <content type="html"><![CDATA[<p><strong>继续捣鼓毕设！</strong></p>
+
+<p>前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧：</p>
+
+<p><img src="/images/posts/st_login.jpg" alt="secondaryTrading_login" /></p>
+
+<p>手机上传图片的功能主要有两方面:</p>
+
+<ul>
+<li>客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。</li>
+<li>服务器端，主要是接受客户端的请求，对图片信息进行验证和保存。</li>
+</ul>
+
+
+<!--more-->
+
+
+<h2>phoneGap</h2>
+
+<p><em>注意，下面的代码实例在android中运行正常，但是不同平台可能会有区别，具体应用中，请仔细阅读API后面对不同平台的Hack!!</em></p>
+
+<p>好，回到主题！phoneGap这边主要分成两块内容</p>
+
+<h3>一、图片的获取</h3>
+
+<p>图片的获取主要靠API中的Camera对象</p>
+
+<p><strong>Camera</strong></p>
+
+<blockquote><p>The camera object provides access to the device's default camera application.</p></blockquote>
+
+<p>Camera对象提供了方法来调用系统默认的拍照程序。</p>
+
+<p>Camera对象只有一个方法<code>getPicture</code>,通过给定options，可以指定返回图片的<code>base64编码字符串</code>或者图片的本地URI。</p>
+
+<p><strong>getPicture</strong></p>
+
+<p><code>javascript
+Camera.getPicture( cameraSuccess, cameraError, [ cameraOptions ] );
+</code></p>
+
+<p><strong>cameraOptions</strong></p>
+
+<ul>
+<li>quality: 保存的图片质量（个人觉得应该是指拍照的情况），数字，范围为：0-100</li>
+<li>destinationType: 选择返回的图片数据格式。<code>URI</code>或者是<code>base64 encoded string</code>,这两个值定义如下：</li>
+</ul>
+
+
+<p>``` javascript
+Camera.DestinationType = {</p>
+
+<pre><code>DATA_URL : 0,                // Return image as base64 encoded string
+FILE_URI : 1                 // Return image file URI
+</code></pre>
+
+<p>};
+<code>``
+* sourceType: 设置图片的来源，拍照或者从图库中寻找（但是实际有三种选项，</code>PHOTOLIBRARY<code>和</code>SAVEDPHOTOALBUM`和区别不是很清楚哈～）</p>
+
+<p>``` javascript
+Camera.PictureSourceType = {</p>
+
+<pre><code>PHOTOLIBRARY : 0,
+CAMERA : 1,
+SAVEDPHOTOALBUM : 2
+</code></pre>
+
+<p>};
+```
+* allowEdit: 允许在图片被确认选择前进行简单的编辑
+* EncodingType: 设置照片的格式（应该是针对拍照的情况）</p>
+
+<p>```
+Camera.EncodingType = {</p>
+
+<pre><code>JPEG : 0,               // Return JPEG encoded image
+PNG : 1                 // Return PNG encoded image
+</code></pre>
+
+<p>};
+<code>``
+* targetWidth: 设定图片的宽度
+* targetHeight: 设定图片的高度
+* MediaType: 设置可以选取的文件类型（可以是只有图片，只有视频，或者都可以），这个选项只有在</code>sourceType<code>不是</code>Camera.PictureSourceType.CAMERA`才起作用</p>
+
+<p>```
+Camera.MediaType = {</p>
+
+<pre><code>PICTURE: 0,             // allow selection of still pictures only. DEFAULT. Will return format specified via DestinationType
+VIDEO: 1,               // allow selection of video only, WILL ALWAYS RETURN FILE_URI
+ALLMEDIA : 2            // allow selection from all media types
+</code></pre>
+
+<p>}
+```</p>
+
+<p><strong>代码示例</strong></p>
+
+<p>``` javascript
+navigator.camera.getPicture(onSuccess, onError, {</p>
+
+<pre><code>quality: 50,
+destinationType: Camera.DestinationType.FILE_URI,
+sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+</code></pre>
+
+<p>});</p>
+
+<p>function onSuccess( imageURI ) {</p>
+
+<pre><code>alert( imageURI );
+</code></pre>
+
+<p>};</p>
+
+<p>function onError( msg ){</p>
+
+<pre><code>alert( '图片获取失败:' + msg );
+</code></pre>
+
+<p>}
+```</p>
+
+<p>注意下面设置返回为图片的URI，除此之外没有其他参数。图片URI大概是这个样子：
+<code>content://media/external/images/media/4</code>
+我们将这段<code>URI</code>设置给<code>img</code>元素的<code>src</code>属性来实现本地图片，但是除此之外，<strong>貌似无法知道图片的具体格式</strong>，所以后面会涉及到后端nodejs的后端校验。</p>
+
+<h3>二、图片上传</h3>
+
+<p>上面介绍了如何让用户选取图片，下面介绍下文件的上传。</p>
+
+<p>phoneGap中封装了对手机中的文件进行操作的一些常用方法。其中<code>FileTransfer</code>对象允许你通过调用其实例对象的<code>upload</code>方法将本地文件上传到服务器。</p>
+
+<p><code>FileTransfer</code>使用<code>HTTP multi-part POST</code>请求. 支持<code>HTTP</code>和<code>HTTPS</code>协议. 可以通过传递一个<code>FileUploadOptions</code>对象到<code>upload</code>方法，来设置上传相关的参数.</p>
+
+<p><strong>upload</strong>方法的具体使用直接看代码吧：</p>
+
+<p>```javascript
+var options = new FileUploadOptions();
+var ft = new FileTransfer();</p>
+
+<p>options.fileKey= 'image';   // 相当与表单中的name字段
+options.fileName= '图片名称';
+options.mimeType= "image/png";
+options.params = {</p>
+
+<pre><code>field1: 'value1',
+field2: 'value2',
+...
+</code></pre>
+
+<p>};                          // 跟随文件一起发送的自定义额外的字段</p>
+
+<p>ft.upload( imageURI, url, op.success, op.error, options );</p>
+
+<p>function success( fileUploadResult ){</p>
+
+<pre><code>alert( '文件上传成功' );
+</code></pre>
+
+<p>}</p>
+
+<p>function error( fileTransferError ){</p>
+
+<pre><code>alert( '文件上传失败' );
+</code></pre>
+
+<p>}
+```</p>
+
+<p>接下来简单介绍<code>FileUploadResult</code>和<code>FileTransferError</code></p>
+
+<p><strong>FileUploadResult</strong></p>
+
+<p>Properties:</p>
+
+<ul>
+<li>bytesSent：总共传送到服务器的字节数</li>
+<li>responseCode：服务器返回的HTTP响应码</li>
+<li>response：服务其返回数据</li>
+</ul>
+
+
+<p><strong>fileTransferError</strong></p>
+
+<p>文件操作相关的方法出现的异常对象都是使用该对象。</p>
+
+<p>Properties:</p>
+
+<ul>
+<li>code: 预先定义的错误代码.</li>
+</ul>
+
+
+<p>预定义的代码有以下三种：</p>
+
+<ul>
+<li>FileTransferError.FILE_NOT_FOUND_ERR 文件未找到</li>
+<li>FileTransferError.INVALID_URL_ERR 非法的URL</li>
+<li>FileTransferError.CONNECTION_ERR 连接错误</li>
+</ul>
+
+
+<p><strong>OK！phoneGap这边主要就是上面两个方法，下一篇文章继续介绍nodejs这边的细节。</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NAE初使用]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/15/naechu-shi-yong/"/>
+    <updated>2012-01-15T15:53:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/15/naechu-shi-yong</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/Nae.png" alt="Nae-image" /></p>
+
+<p><a href="http://cnodejs.net/"><strong>NAE</strong></a>：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。</p>
+
+<p>这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号，干脆部署到上面去好了。</p>
+
+<p>昨天稻谷了半天，终于成功部署。在这里记下几点想法和总结把。</p>
+
+<!-- more -->
+
+
+<h3>NAE提供的功能</h3>
+
+<ul>
+<li>每个用户可以创建10个应用，每个应用都可以邀请其他用户一起参与合作，也可以申请加入其他人的应用</li>
+<li>可以为每个应用自定义子域名，比如<code>neekey.cnodejs.net</code></li>
+<li>代码部署
+
+<ul>
+<li>支持使用git进行代码管理</li>
+<li>支持本地上传</li>
+<li>可以自定义使用npm安装需要的模块</li>
+</ul>
+</li>
+<li>提供自带网络代码编辑器（很好用!!）</li>
+<li>提供网络日志（不过暂时智能查看，没办法清理啦删除之类的，这个有待改进啊）</li>
+<li>提供mongodb数据库，每个应用都拥有一个独立的db</li>
+<li>代办事项功能（类似一个todo-list）</li>
+</ul>
+
+
+<p><strong>总体来说，我觉得NAE这样一个免费的应用托管服务，提供的功能还是非常强大的，而且多人开发这样的功能也非常方便多人协作开发！</strong></p>
+
+<h3>第一次使用的几点经验</h3>
+
+<p><strong>配置好你的<code>package.json</code>文件</strong></p>
+
+<p>代码根目录下需要有<code>package.json</code>这个文件，其中要指定需要运行的主文件名：</p>
+
+<p>``` javascript
+{</p>
+
+<pre><code>'name': 'hello world',
+'main': './app.js'
+</code></pre>
+
+<p>}
+```</p>
+
+<p>如果不指定，会自动搜索<code>./index.js</code>文件执行</p>
+
+<p>另外，现在已经提供了<code>package.json</code>的GUI设置功能</p>
+
+<p><strong>数据库连接</strong></p>
+
+<p>默认已经给了数据库账号，密码，数据库名称，端口号。只要根据这些信息，在脚本中进行数据库的连接就可以了，以mongoose为例：</p>
+
+<p><code>javascript
+mongoose.connect( 'mongodb://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':' + PORT + '/' + DATABASE );
+</code></p>
+
+<p>由于本人粗心大意，第一次部署的时候忘了写上端口，导致日志里有相关错误（但是我看不明白），应用上线后，接口出错！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在nodejs中使用jasmina(一)]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/"/>
+    <updated>2012-01-11T21:36:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1</id>
+    <content type="html"><![CDATA[<p>寒假在家，终于可以开始好好做毕设！</p>
+
+<p>今天在写后台用户数据操作时，想到每次写类似的模块，在大体完成后总会出现各种Bug，往往调试占用了大量的时间。因此决定这次为每个接口都写一下单元测试。</p>
+
+<p>由于之前听过同事关于<a href="http://pivotal.github.com/jasmine/">Jasmine</a>的分享，感觉还不错，所以就用它了。</p>
+
+<p><img src="/images/posts/jasmine_logo.png" alt="Jasmine-logo" /></p>
+
+<!-- more -->
+
+
+<h3>为nodejs添加jasmine模块</h3>
+
+<p>由于后端使用<a href="http://nodejs.org/">nodeJS</a>开发，因此先用<a href="http://npmjs.org/">npm</a>安装<a href="http://pivotal.github.com/jasmine/">Jasmine</a></p>
+
+<pre><code>npm install jasmine-node
+</code></pre>
+
+<p>安装完成后，就只可以直接在终端中使用jasmine-node命令了</p>
+
+<h3>使用Jasmine-node命令</h3>
+
+<p><strong>Jasmine-node 参数</strong></p>
+
+<p>``` bash
+USAGE: jasmine-node [--color|--noColor] [--verbose] [--coffee] directory</p>
+
+<p>Options:
+  --color            - use color coding for output
+  --noColor          - do not use color coding for output
+  -m, --match REGEXP - load only specs containing "REGEXPspec"
+  --verbose          - print extra information per each test run
+  --coffee           - load coffee-script which allows execution .coffee files
+  --junitreport      - export tests results as junitreport xml format
+  --teamcity         - converts all console output to teamcity custom test runner commands. (Normally auto detected.)
+  --runWithRequireJs - loads all specs using requirejs instead of node's native require method
+  --test-dir         - the absolute root directory path where tests are located
+  --nohelpers        - does not load helpers.
+  -h, --help         - display this help and exit
+```</p>
+
+<p><strong>使用简单说明</strong></p>
+
+<ul>
+<li>指定目录进行单元测试：</li>
+</ul>
+
+
+<p>```
+$ jasmine-node test</p>
+
+<p>```</p>
+
+<p>注意指定的目录下的包含单元测试代码的脚本文件必须为js或者coffee格式，并且文件名最后必须为<strong>spec</strong>，比如文件：<code>userSpec.js</code>，<code>user.spec.coffee</code></p>
+
+<ul>
+<li>常用的参数简单说明
+
+<ul>
+<li>verbose 默认的结果只显示成功了多少，失败了多少，然后显示失败的信息，指定该参数后，会将所有的信息都输出</li>
+<li>test-dir 指定目录的绝对路径</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>如何写测试代码</h3>
+
+<p>由于之前没怎么写过单元测试，因此对测试的理解比较肤浅，我的理解比较简单：</p>
+
+<p><em>通过某个过程得到一个结果，然后判断是否这个结果是我们预期的。一般这样的测试，其结果应该是可以预知并且可以对结果进行判断</em></p>
+
+<p><strong>最简单的测试代码</strong></p>
+
+<p>好，现在我们建立一个test文件夹，从最简单的测试代码开始：</p>
+
+<p>``` javascript
+describe( '描述一下这个单元测试', function(){</p>
+
+<pre><code>it( '算数的结果总是比较容易预测', function(){
+    expect( 1 + 2 ).toEqual( 3 );
+});
+</code></pre>
+
+<p>});
+```
+将这个文件命名为 simpleTestSpec.js，然后使用命令:</p>
+
+<p><code>bash
+$ jasmine-node test
+</code></p>
+
+<p>可以看到结果：</p>
+
+<p>``` bash
+描述一下这个单元测试
+  算数的结果总是比较容易预测</p>
+
+<p>Finished in 0.008 seconds
+1 test, 1 assertion, 0 failures
+```</p>
+
+<p>现在我们故意将测试代码改为<code>expect(1+2).toEqual(0);</code>，重新运行一下，得到结果：</p>
+
+<p>```
+描述一下这个单元测试
+  算数的结果总是比较容易预测</p>
+
+<p>Failures:</p>
+
+<p>  1) 算数的结果总是比较容易预测
+   Message:</p>
+
+<pre><code> Expected 3 to equal 0.
+</code></pre>
+
+<p>   Stacktrace:</p>
+
+<pre><code> Error: Expected 3 to equal 0.
+at new &lt;anonymous&gt; (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:102:32)
+at [object Object].toEqual (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1171:29)
+at [object Object].&lt;anonymous&gt; (/users/neekey/Desktop/mhevery-jasmine-node-d3dc963/spec/TestSpec.js:4:19)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1001:15)
+at [object Object].next_ (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1790:31)
+at [object Object].start (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1743:8)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:2070:14)
+at [object Object].next_ (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1790:31)
+at [object Object].start (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:1743:8)
+at [object Object].execute (/usr/local/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-2.0.0.rc1.js:2215:14)
+</code></pre>
+
+<p>Finished in 0.011 seconds
+1 test, 1 assertion, 1 failure
+```</p>
+
+<p>上面的describe可以最为一类测试的<strong>群组</strong>，而it则是这些测试中的其中一<strong>项</strong>。而<code>expect</code>就是做一次<strong>断言</strong>。</p>
+
+<h4>异步代码测试</h4>
+
+<p><a href="http://pivotal.github.com/jasmine/">Jasmine</a>主要提供了三个方法来让我们实现对异步脚本的测试：</p>
+
+<ul>
+<li><strong>runs(function)</strong> 官方的说明是：<em>runs() blocks by themselves simply run as if they were called directly</em>, 觉得不是很理解，直接看代码吧，当只有一个<code>runs()</code>的情况下，下面两端代码的效果一致：</li>
+</ul>
+
+
+<p>``` javascript
+it('should be a test', function () {
+  var foo = 0
+  foo++;</p>
+
+<p>  expect(foo).toEqual(1);
+});
+```</p>
+
+<p>``` javascript
+it('should be a test', function () {
+  runs( function () {</p>
+
+<pre><code>var foo = 0
+foo++;
+
+expect(foo).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<p>出现多个<code>runs()</code>的时候，他们将以串行的方式执行，需要注意的是，在<code>runs()</code>指定的函数内部，<code>this</code>是被多个<code>runs()</code>共享的。
+下面这个例子，多个<code>runs()</code>串行：</p>
+
+<p>``` javascript
+it('should be a test', function () {
+  runs( function () {</p>
+
+<pre><code>this.foo = 0
+this.foo++;
+var bar = 0;
+bar++;
+
+expect(this.foo).toEqual(1);
+expect(bar).toEqual(1);
+</code></pre>
+
+<p>  });
+  runs( function () {</p>
+
+<pre><code>this.foo++;
+var bar = 0
+bar++;
+
+expect(this.foo).toEqual(2);
+expect(bar).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<ul>
+<li><strong>waits(timeout)</strong> 这个方法和<code>runs()</code>一起使用，我们可以通过该方法来指定阻塞多久再执行下一个<code>runs()</code></li>
+</ul>
+
+
+<p>``` javascript
+it('should be a test', function () {
+  runs(function () {</p>
+
+<pre><code>this.foo = 0;
+var that = this;
+setTimeout(function () {
+  that.foo++;
+}, 250);
+</code></pre>
+
+<p>  });</p>
+
+<p>  runs(function () {</p>
+
+<pre><code>expect(this.foo).toEqual(0);
+</code></pre>
+
+<p>  });</p>
+
+<p>  waits(500);</p>
+
+<p>  runs(function () {</p>
+
+<pre><code>expect(this.foo).toEqual(1);
+</code></pre>
+
+<p>  });
+});
+```</p>
+
+<p>这段代码在执行完第二个<code>runs()</code>后没有直接执行第三个<code>runs()</code>,知道<code>waits()</code>指定的500毫秒到达后，再执行<code>runs()</code>。利用这个方法，我们可以对一些异步回调（这些回调的返回时间可以估计）进行测试。</p>
+
+<p>需要注意的是，如果第三个<code>runs()</code>内的代码不用runs来包裹，直接写在外面，<strong>将无法被阻塞执行。</strong></p>
+
+<ul>
+<li><strong>waitsFor(function, optional message, optional timeout)</strong> 在很多情况下，我们无法确切地知道回调的在什么时候返回（比如用户的自定义事件，鼠标点击等），这个时候我们就可以使用该方法。该方法只有在给定的function返回了<code>true</code>后才会执行下一个<code>runs()</code>，还可以指定最长等待时间，如果在这个时间内还没有返回<code>true</code>，则显示<code>optional message</code></li>
+</ul>
+
+
+<p>``` javascript
+describe('waitsFor Test', function() {
+  it('after 2sec, it will be true', function () {</p>
+
+<pre><code>var iWillBeTrue = false;
+
+setTimeout( function(){
+    iWillBeTrue = true;
+}, 2000 );
+
+waitsFor(function() {
+  return iWillBeTrue;
+}, "maybe i will never be true", 10000 );
+
+runs(function () {
+  expect( iWillBeTrue ).toEqual( true );
+});
+</code></pre>
+
+<p>  });
+});</p>
+
+<p>```</p>
+
+<p>运行一下：</p>
+
+<p>``` bash
+waitsFor Test
+  after 2sec, it will be true</p>
+
+<p>Finished in 2.013 seconds
+1 test, 1 assertion, 0 failures
+```</p>
+
+<p>我们去掉<code>setTimeout</code>，那么应该<code>iWillBeTrue</code>将永远为<code>false</code>，重新运行：</p>
+
+<p>``` bash
+waitsFor Test
+  after 2sec, it will be true</p>
+
+<p>Failures:</p>
+
+<p>  1) after 2sec, it will be true
+   Message:</p>
+
+<pre><code> timeout: timed out after 10000 msec waiting for maybe i will never be true
+</code></pre>
+
+<p>   Stacktrace:</p>
+
+<pre><code> undefined
+</code></pre>
+
+<p>Finished in 10.921 seconds
+1 test, 1 assertion, 1 failure
+```</p>
+
+<hr />
+
+<p>总体上来说，<a href="http://pivotal.github.com/jasmine/">Jasmine</a>感觉还不错，特别是提供的这几个异步测试的方法，基本上能满足一般单元测试的需求。</p>
+
+<p>先介绍到这，更多细节后续会跟进。</p>
+]]></content>
+  </entry>
+  
+</feed>

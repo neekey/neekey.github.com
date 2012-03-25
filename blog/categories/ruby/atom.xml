@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Neekey]]></title>
+  <link href="http://neekey.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://neekey.github.com/"/>
+  <updated>2012-03-25T22:29:56+08:00</updated>
+  <id>http://neekey.github.com/</id>
+  <author>
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ruby学习笔记(一)]]></title>
+    <link href="http://neekey.github.com/blog/2012/02/09/rubyxue-xi-bi-ji-1/"/>
+    <updated>2012-02-09T22:18:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/02/09/rubyxue-xi-bi-ji-1</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/ruby_logo.gif" alt="ruby" /></p>
+
+<p>今天…闲来无事，去看了一下<a href="http://www.ruby-lang.org">Ruby</a>,因为Octopress是用<a href="http://www.ruby-lang.org">Ruby</a>写的，有必要学习一下<a href="http://www.ruby-lang.org">Ruby</a>。</p>
+
+<p>直接到官网上去，发现<a href="http://www.ruby-lang.org">Ruby</a>非常友好，最下方有中文版本的选择，不过感觉翻译的有点蹩脚，还是直接看英文吧。首页右边有常用的几个入口，比如<a href="http://www.ruby-lang.org/en/downloads/">下载</a>，<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，<a href="http://tryruby.org/">在浏览器里尝试Ruby</a>(这个页面非常有爱，见下图)</p>
+
+<!--more-->
+
+
+<p><img src="/images/posts/try_ruby_in_browser.png" alt="ruby" /></p>
+
+<p>很认真的花了20分钟看了<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，对<a href="http://www.ruby-lang.org">Ruby</a>算是有了一定的认识，总结一下：</p>
+
+<h3><strong>Interactive Ruby</strong></h3>
+
+<p>翻译成中文应该是可交互的<a href="http://www.ruby-lang.org">Ruby</a>，其实是可以让你在终端中执行ruby的程序，在Mac下直接在终端中输入<code>irb</code>就行了。然后尽情的尝试吧。</p>
+
+<h3><strong>控制台信息输出</strong></h3>
+
+<p>就是所谓的<code>print</code>之类的方法，在<a href="http://www.ruby-lang.org">Ruby</a>中是<code>puts</code>：
+``` ruby</p>
+
+<blockquote><p>puts "hello world"
+=> hello world
+```</p></blockquote>
+
+<h3><strong>基本的简单语法</strong></h3>
+
+<ul>
+<li>nil: 指的是<a href="http://www.ruby-lang.org">Ruby</a>中的空值</li>
+<li>简单的计算：
+``` ruby
+
+<blockquote><p>2+3
+=> 5
+2*3
+=> 6
+```</p></blockquote></li>
+<li>变量赋值：<a href="http://www.ruby-lang.org">Ruby</a>中的变量不需要声明
+``` ruby
+
+<blockquote><p>a = "hello world"
+puts a
+=> hello world
+```</p></blockquote></li>
+<li>调用方法: 调用方法和传参的方式比较随意，下面几种都可以。如果方法不需要参数，则括号可加可不加。
+``` ruby
+
+<blockquote><p>Math.sqrt(9)
+=> 3
+Math.sqrt 9
+=> 3
+```</p></blockquote></li>
+<li><strong>字符串只能用双引号</strong></li>
+</ul>
+
+
+<h3><strong>定义方法</strong></h3>
+
+<p>先看例子：
+``` ruby</p>
+
+<blockquote><p>def h ( name = "world" )
+puts "hello #{name}"
+end
+<code>``
+上面的例子定义了一个叫</code>h<code>的方法，该方法输出</code>hello world<code>。用</code>def<code>来表示一个方法定义的开始，</code>end<code>来表示定义的结束。其中</code>hello #{name}<code>和js中的模板引擎语法类似，其中的name可以调用自己的方法，比如需要让输出首字母大写，可以修改为</code>hello #{name.capitalize}`</p></blockquote>
+
+<h3><strong>类</strong></h3>
+
+<h4>类的定义</h4>
+
+<p>先看例子：
+``` ruby
+class Greeter</p>
+
+<pre><code>def initialize( name = "world" )
+    @name = name
+end
+def say_hi
+    puts "Hi #{@name}!"
+end
+def say_bye
+    puts "Bye #{@name}!"
+end
+</code></pre>
+
+<p>end
+<code>``
+类的定义由</code>class<code>关键字来声明，然后在</code>end<code>之前可以定义各种方法。上面的例子中</code>initialize<code>为构造函数，</code>@name<code>为定义的私有属性。注意到类中的方法都可以直接利用</code>@name`来访问该属性。</p>
+
+<h4>实例化</h4>
+
+<p>结合上面的代码和下面的代码，可知<code>name</code>无法直接访问，下面的例子由于访问<code>name</code>而报错：
+``` ruby</p>
+
+<blockquote><p>g = Greeter.new( "neekey" )
+g.say_hi()
+=> Hi neekey
+g.name
+NoMethodError: undefined method `name' for…
+```</p>
+
+<h4>判断类实例是否具有某方法</h4>
+
+<p>其实<code>class</code>定义的类本身已经继承了很多方法，我们可以通过下面的两种方式来查看：
+<code>ruby
+Greeter.instance_methods
+=&gt; ["inspect", "taguri", "tap", "clone", "public_methods", "__send__", "taguri=", "instance_variable_defined?", "equal?", "freeze", "say_hi", "extend", "send", "methods", "hash", "dup", "object_id", "instance_variables", "eql?", "to_yaml", "say_bye", "instance_eval", "id", "singleton_methods", "taint", "frozen?", "instance_variable_get", "to_enum", "instance_of?", "display", "to_a", "h", "to_yaml_style", "type", "instance_exec", "protected_methods", "==", "===", "instance_variable_set", "enum_for", "kind_of?", "respond_to?", "to_yaml_properties", "method", "to_s", "class", "private_methods", "=~", "tainted?", "__id__", "untaint", "nil?", "is_a?"]
+</code>
+上面输出了类<code>Greeter</code>拥有的全部方法，我们也可以通过给<code>instance_methods</code>传递<code>false</code>来指定只显示自己定义的方法：
+``` ruby</p>
+
+<blockquote><p>Greeter.instance_methods(false)
+=> ["say_hi", "say_bye"]
+<code>
+我们可以使用`respond_to?`(函数名可以直接用?有木有！)来检查一个实例对象是否具有某个方法：
+</code> ruby
+g.respond_to?("name")
+=> false
+g.respond_to?("say_hi")
+=> true
+```</p></blockquote></blockquote>
+
+<h4>类的动态特性</h4>
+
+<p>在类已经定义完成后，我们还可以继续对类进行修改：
+``` ruby
+class Greeter</p>
+
+<pre><code>attr_accessor :name
+</code></pre>
+
+<p>end
+<code>
+上面代码对class进行了修改，使得`name`可以被访问，注意上面的代码并未覆盖原有定义，而是**增加**了定义。并且这些修改将马上在新的实例化对象和**已经实例化**的对象身上起作用。
+</code> ruby</p>
+
+<blockquote><p>g.name
+=> "neekey"
+g.name = "nic"
+g.name
+=> nic"
+<code>``
+从上面的例子来看，似乎</code>name`已经从私有变成了公共可被外部访问了（不知道ruby里面是否存在这样的术语）。但是真的是这样么？我们继续看：</p></blockquote>
+
+<p>``` ruby</p>
+
+<blockquote><p>g.respond_to?("name")
+=> true
+g.respond_to?("name=")
+=> true
+<code>
+可以看到，其实通过`attr_accessor`的定义，**不是**将name变成所谓的`公有属性`，而是添加了该属性的`getter`和`setter`，完全可以用下面的方式来写：
+</code> ruby
+g.name()
+=> nic
+g.name=("neekey")
+=> neekey
+<code>``
+另外从构造函数中的</code>@name=name`一句可以看到，<a href="http://www.ruby-lang.org">Ruby</a>的属性是可以动态添加的。</p></blockquote>
+
+<p>上面就是教程的大体内容。有时间继续学习~</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopass部署]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/08/octopassbu-shu/"/>
+    <updated>2012-01-08T20:32:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/08/octopassbu-shu</id>
+    <content type="html"><![CDATA[<p>部署可以参考：<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
+
+<h3>本地部署</h3>
+
+<p><strong>首先是配置Octopress需要的环境：</strong></p>
+
+<ul>
+<li>由于Octopress需要使用到Git，因此需要先安装<a href="http://git-scm.com/">Git</a></li>
+<li>ruby 1.9.2 ( 可以使用RVM或者rbenv，他们都是ruby的环境管理软件 )</li>
+</ul>
+
+
+<p><strong>安装RVM</strong></p>
+
+<p>用以下命令安装：</p>
+
+<p><code>bash &lt; &lt;(curl -s https://rvm.beginrescueend.com/install/rvm)</code></p>
+
+<p>安装完成后，需要修改用户目录下的.bash_profile文件，将RVM设置为shell的一个function:</p>
+
+<pre><code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm" # Load RVM function' &gt;&gt; ~/.bash_profile
+source ~/.bash_profile
+
+# If using Zsh do this instead
+echo '[[ -s $HOME/.rvm/scripts/rvm ]] &amp;&amp; source $HOME/.rvm/scripts/rvm' &gt;&gt; ~/.zshrc
+source ~/.zshrc
+</code></pre>
+
+<p>由于我自己对shell命令不是很熟悉，所以简单的查了一下资料。上面的命令中：</p>
+
+<ul>
+<li>echo <code>echo 'text' &gt;&gt; targetfile</code> 将text添加到目标文件尾</li>
+<li>source <code>source fileHasCodeToRun</code> 执行指定文件中的脚本</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p><strong>安装ruby 1.9.2</strong></p>
+
+<p>用安装好的rvm来安装ruby 和 <a href="http://rubygems.org/">rubygems</a>(ruby的包管理器)</p>
+
+<pre><code>rvm install 1.9.2 &amp;&amp; rvm use 1.9.2
+rvm rubygems latest
+</code></pre>
+
+<p><strong>配置Octopass</strong></p>
+
+<p>首先将Octopass的源码clone到本地</p>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
+ruby --version  # Should report Ruby 1.9.2
+</code></pre>
+
+<p>注意此处一定要确保<code>ruby --version</code>是1.9.2，否则后面的步骤会出错。</p>
+
+<p>进入Octopass根目录后，安装依赖包：</p>
+
+<pre><code>gem install bundler # 应该是一个用来管理依赖的组件(=.=)
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p>安装完成后，再安装Octopass默认的主题：</p>
+
+<pre><code>rake install
+</code></pre>
+
+<p>至此，本地的Octopass就差不多部署完毕了。</p>
+
+<hr />
+
+<h3>部署Octopass到Github Page</h3>
+
+<p>可以直接参考官方的说明：<a href="http://pages.github.com">Github Page</a></p>
+
+<p>简单的来说，就是：</p>
+
+<ul>
+<li>建立一个repository，命名：reponame.github.com</li>
+<li>在该 repo 根目录下放置一个index.html</li>
+<li>通过reponame.github.com来访问</li>
+</ul>
+
+
+<p>非常简单吧！当然Github Page也支持<a href="//http://pages.github.com/#custom_domains">Custom Domain</a></p>
+
+<p>建立好你自己的Github Page后，回到Octopass目录，使用一下命令：</p>
+
+<pre><code>rake setup_github_page
+</code></pre>
+
+<p>这个命令将：</p>
+
+<ul>
+<li>让你输入你的Github Page的repo的url</li>
+<li>Rename the remote pointing to imathis/octopress from ‘origin’ to ‘octopress’(不是很懂…这是原文)</li>
+<li><p>将你的Github Page的repo的url作为默认的origin remote</p>
+
+<p>  其实在这里，你在github上的repo对应的本地目录是Octopass/_deploy目录，这个目录下是编译后的静态文件。</p></li>
+<li><p>从master分支转换到source分支</p>
+
+<p>  我自己部署的时候发现没有这个变化。而且所谓的source，我自己认为应该是整个Octopass文件夹（里面的_deploy文件夹下的内容倒是不重要，因为每次<code>rake generate</code>都能更新）。我的做法是，<code>git init</code>整个Octopass文件夹，然后<code>add .</code>把所有文件都以<em>source</em>分支提交。</p></li>
+<li><p>配置blog的url指向repo</p></li>
+<li>为_deploy目录设置master分支，用户部署</li>
+</ul>
+
+
+<p>总之，这个命令的作用我自己还是有点<strong>confused</strong></p>
+
+<p>然后就是生成<strong>_deploy/</strong>目录下的文件，并部署到<strong>github</strong>上:</p>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<p>那么现在的repo各分支的状态就是：</p>
+
+<ul>
+<li>master： 对应_deploy目录下的文件</li>
+<li>source： 对应Octopass目录下的所有文件（但是不包括_deploy）</li>
+</ul>
+
+
+<p>这样我们就可以用source分支来编辑blog，使用master来发布!</p>
+
+<p><strong>Have Fun！</strong></p>
+
+<hr />
+
+<p>暂时准备先用这个github的域名，过一阵子觉得真心不错的时候，再考虑直接将我的<a href="http://neekey.net/blog">neekey.net</a>指向这边好了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress]]></title>
+    <link href="http://neekey.github.com/blog/2012/01/08/octopass/"/>
+    <updated>2012-01-08T19:27:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/01/08/octopass</id>
+    <content type="html"><![CDATA[<p>捣鼓了很久，终于将<a href="http://octopress.org/" title="octopress">octopress</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
+
+<p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
+
+<p>octopress<strong>官方介绍</strong>：</p>
+
+<blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
+
+<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="octopress">octopress</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
+
+<ol>
+<li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
+<li>支持Markdown</li>
+<li><p>使用git进行版本控制</p>
+
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
+<li><p>轻松部署</p>
+
+<p> <a href="http://octopress.org/" title="octopress">octopress</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
+
+<p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
+<li>支持各种插件</li>
+<li>支持<a href="https://gist.github.com/" title="gist">gist</a>(没用过，但是貌似很给力的样子，hoho！)</li>
+<li>使用<a href="http://sass-lang.com/" title="SASS">SASS</a>，<a href="http://compass-style.org/" title="Compass">Compass</a>等新奇玩意</li>
+</ol>
+
+
+<p>OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！</p>
+]]></content>
+  </entry>
+  
+</feed>
