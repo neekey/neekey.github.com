@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Semantic Versioning 语义化版本号 - Neekey</title>
+  <title>Mac下使用goagent进行翻墙 - Neekey</title>
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="今天在看commonJS的package部分的时候，在讲到version字段的时候，建议参考Semantic Versioning作为版本号的编写标准。仔细了解了下，对版本号的写法有了一些认识，翻译其中重要的部分分享下。 语义化版本号说明(SemVer) &hellip;">
+  <meta name="description" content="这两天花钱买的SSH账号各种不给力，要么连接不上，要么频频掉线。无奈，想起同事@渐飞有一次在分享的免费翻墙利器goagent，于是便尝试了下。基本可用，本文简单介绍一下goagent在mac下的使用。 goagent是什么 goagent是使用Python和Google Appengine &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neekey.github.com/blog/2012/02/27/semantic-versioning">
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Semantic Versioning 语义化版本号</h1>
+      <h1 class="entry-title">Mac下使用goagent进行翻墙</h1>
     
     
       <p class="meta">
@@ -95,38 +95,72 @@
   
 
 
-<time datetime="2012-02-27T16:51:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2012</time>
+<time datetime="2012-04-12T16:40:00+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><img src="/images/posts/semanticVersion.png" alt="firefox版本号" /></p>
+<div class="entry-content"><p><img src="/images/posts/goagent.png" alt="goagent" /></p>
 
-<p>今天在看<a href="http://www.commonjs.org/">commonJS</a>的<a href="http://wiki.commonjs.org/wiki/Packages/1.0">package</a>部分的时候，在讲到version字段的时候，建议参考<a href="http://semver.org/">Semantic Versioning</a>作为版本号的编写标准。仔细了解了下，对版本号的写法有了一些认识，翻译其中重要的部分分享下。</p>
+<p>这两天花钱买的SSH账号各种不给力，要么连接不上，要么频频掉线。无奈，想起同事<strong>@渐飞</strong>有一次在分享的免费翻墙利器goagent，于是便尝试了下。基本可用，本文简单介绍一下goagent在mac下的使用。</p>
 
-<!--more-->
+<h3>goagent是什么</h3>
 
+<p>goagent是使用Python和Google Appengine SDK编写的网络软件，可以运行在Windows/Mac/Linux/Android/iTouch/iPhone/iPad/webOS/OpenWRT/Maemo上。</p>
 
-<h2>语义化版本号说明(SemVer)</h2>
+<p><--more--></p>
+
+<h3>安装和部署</h3>
 
 <ul>
-<li>使用语义化版本号的软件必须声明一个公共API。这个API可以在代码内部声明或者严格地写入文档中。不论如何，这个API必须是准确切让人用以理解的。</li>
-<li>一个标准的版本号必须是<strong>X.Y.Z</strong>的形式，其中<strong>X,Y,Z</strong>都不能为负数。<strong>X</strong>是主版本，Y是副版本，Z是补丁版本。每个元素必须一次只能增加1.比如：<code>1.9.0 -&gt; 1.10.0 -&gt; 1.110</code></li>
-<li>当一个主版本增加了，副版本和补丁版本必须被重置为0.当一个副版本增加，那么补丁版本必须被重置为0.比如：<code>1.1.3 -&gt; 2.00 和 2.1.7 -&gt; 2.2.0</code></li>
-<li>一旦一个版本包被发布，那么这个版本的内容不能被更改。任何修改都必须重新发布一个版本。</li>
-<li>主版本<strong>0</strong>（0.y.z）用于初始开发。在该阶段，任何时刻都可能发生改变。这个时候的公共API被认为是不稳固的。</li>
-<li>在版本号<strong>1.0.0</strong>中定义公共API。接下版本号的改变都依赖于这个公共API的改变。</li>
-<li>补丁版本号<strong>Z</strong>(x.y.Z | x > 0)必须只有在修复向下兼容的Bug时才会更新。Bug修复是指通过代码内部的修改来修正不正确的行为。</li>
-<li>当向下兼容的功能被提出或者任何公共API被废弃的时候，副版本号<strong>Y</strong>(x.Y.z | x > 0 )必须被更新。当大量的新功能或者改进出现在私有代码里面，副版本号也可以更新。副版本号的更新可能包括补丁版本的更新内容。副版本号更新后，补丁版本号必须重置为0</li>
-<li>当公共API出现了与向下兼容性有关的变更时，主版本号<strong>X</strong>(X.y.z | X > 0)必须被更新。它可能包含了副版本和补丁版本的变更内容。主版本更新后，副版本和补丁版本必须被重置为0</li>
-<li>一个预发布的版本号可能使用在补丁版本号后面添加一个破折号和一系列的被点分割的标示符构成。这些标示符必须由ASCII码中的包含文字和数字的符号以及破折号组成[0-9A-Za-z-]。预发布版本的优先级比正常的版本号低。比如：<code>1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7, 1.0.0-x.7.z.92</code></li>
-<li>一个生成版本可能使用在补丁版本和预发布版本后面添加一个加号和一系列由破折号分隔的标示符组成。这些标示符必须由ASCII码中的包含文字和数字的符号以及破折号组成[0-9A-Za-z-]。生成版本的优先级比正常版本的优先级高</li>
-<li>优先级必须通过将版本号根据主版本号，副版本号，补丁版本号，预发布版本号，生成版本号的顺序分割后进行计算。主版本，副版本，补丁版本总是通过数字大小进行比较。预发布版本和生成版本之间的比较必须通过被破折号分隔的标示符进行比较：只带有数字的版本号通过数字大小进行比较，带有字母的版本号则更具字符在ASCII表中的顺序比较优先级。数字标示符总是比非数字的标示符优先级低。比如：<code>1.0.0-alpha &lt; 1.0.0-alpha.1 &lt; 1.0.0-beta.2 &lt; 1.0.0-beta.11 &lt; 1.0.0-rc.1 &lt; 1.0.0-rc.1+build.1 &lt; 1.0.0 &lt; 1.0.0+0.3.7 &lt; 1.3.7+build &lt; 1.3.7+build.2.b8f12d7 &lt; 1.3.7+build.11.e0f985a.
-</code></li>
+<li>申请<a href="https://appengine.google.com/start">Google Appengine</a>并创建app。在创建App的时候会让你自定义一个appliction identifier 这个便是下面需要用到的appid</li>
 </ul>
 
+
+<p><img src="/images/posts/goagent-newapp.png" alt="newapp" /></p>
+
+<p><img src="/images/posts/goagent-appid.png" alt="appid" /></p>
+
+<ul>
+<li>进入goagent的<a href="http://code.google.com/p/goagent/">首页</a>（本身已经提供了非常清楚的教程）</li>
+<li>下载稳定版的goagent，解压后放在你自己希望放的位置</li>
+<li>配置：修改<code>local\proxy.ini</code>中的<code>[gae]</code>下的<code>appid=你的appid</code>(多appid请用|隔开)</li>
+<li>部署：进行server目录，执行 <code>python uploader.zip</code> 进行应用的部署，过程中会提示你输入你的google账号和密码，之后会不断检查部署是否成功，成功部署后会提示<code>Deployment successful</code></li>
+<li>运行goagent：进入local目录，执行<code>python proxy.py</code>就可以了。</li>
+<li>添加证书：添加local/CA.crt和local/certs/下的所有证书</li>
+</ul>
+
+
+<p><img src="/images/posts/goagent-cert.png" alt="goagent" /></p>
+
+<ul>
+<li>chrome请安装<a href="https://chrome.google.com/webstore/detail/dpplabbmogkhghncfbfdeeokoefdjegm">SwitchySharp</a>插件，然后导入这个设置<a href="http://goagent.googlecode.com/files/SwitchyOptions.bak">http://goagent.googlecode.com/files/SwitchyOptions.bak</a>，firefox请安装AutoProxy</li>
+</ul>
+
+
+<h3>设置快速启动</h3>
+
+<p>这方面我比较笨，一般我都是设置<code>alias</code>来达到一个命令启动翻墙的功能。</p>
+
+<p>假设我的goagent在<code>/users/neekey/goagent/</code>目录下，那么打开<code>.bath_profile</code></p>
+
+<p><code>mate ~/.bath_profile</code></p>
+
+<p>添加命令</p>
+
+<pre><code>#goagent
+alias goagent="python /users/neekey/goagent/local/proxy.py"
+</code></pre>
+
+<p>以后就可以在终端中直接通过<code>goagent</code>命令来启动了</p>
+
+<h3>与SSH的比较</h3>
+
+<p>与SSH相比，速度上差不多（当然这个和每个人用的SSH服务器有关），不过比SSH肯定更加方便（我每次都是用在终端中输入命令的形式连接ssh，因此每次都要输入一遍密码）。不过goagent的好处还是<strong>绿色，免费!!</strong>，并且相比来说会更加稳定（不过这个要看google了=.=）</p>
+
+<p>试用中，以后有想法会继续更新。</p>
 </div>
 
 
@@ -149,15 +183,21 @@
   
 
 
-<time datetime="2012-02-27T16:51:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2012</time>
+<time datetime="2012-04-12T16:40:00+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2012</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/google-appengine/'>Google Appengine</a>, <a class='category' href='/blog/categories/google/'>google</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/翻墙/'>翻墙</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/02/27/semantic-versioning/" data-via="" data-counturl="http://neekey.github.com/blog/2012/02/27/semantic-versioning/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/" data-via="" data-counturl="http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/" >Tweet</a>
   
   
   
@@ -166,10 +206,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/02/14/zai-xian-xia-shi-ke-ke-yi-zuo-de-shi/" title="Previous Post: 记录一些可以在茫然时马上开始做的事情">&laquo; 记录一些可以在茫然时马上开始做的事情</a>
+        <a class="basic-alignment left" href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/" title="Previous Post: Selenium - Web自动化测试工具 试用">&laquo; Selenium - Web自动化测试工具 试用</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/" title="next Post: 浏览器渲染小实验">浏览器渲染小实验 &raquo;</a>
       
     </p>
   </footer>
@@ -272,8 +310,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://neekey.github.com/blog/2012/02/27/semantic-versioning/';
-        var disqus_url = 'http://neekey.github.com/blog/2012/02/27/semantic-versioning/';
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/';
         var disqus_script = 'embed.js';
       
     (function () {

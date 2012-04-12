@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 翻墙 | Neekey]]></title>
+  <link href="http://neekey.github.com/blog/categories/翻墙/atom.xml" rel="self"/>
+  <link href="http://neekey.github.com/"/>
+  <updated>2012-04-12T16:51:23+08:00</updated>
+  <id>http://neekey.github.com/</id>
+  <author>
+    <name><![CDATA[neekey(niyunjian)]]></name>
+    <email><![CDATA[ni184775761@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下使用goagent进行翻墙]]></title>
+    <link href="http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/"/>
+    <updated>2012-04-12T16:40:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/goagent.png" alt="goagent" /></p>
+
+<p>这两天花钱买的SSH账号各种不给力，要么连接不上，要么频频掉线。无奈，想起同事<strong>@渐飞</strong>有一次在分享的免费翻墙利器goagent，于是便尝试了下。基本可用，本文简单介绍一下goagent在mac下的使用。</p>
+
+<h3>goagent是什么</h3>
+
+<p>goagent是使用Python和Google Appengine SDK编写的网络软件，可以运行在Windows/Mac/Linux/Android/iTouch/iPhone/iPad/webOS/OpenWRT/Maemo上。</p>
+
+<p><--more--></p>
+
+<h3>安装和部署</h3>
+
+<ul>
+<li>申请<a href="https://appengine.google.com/start">Google Appengine</a>并创建app。在创建App的时候会让你自定义一个appliction identifier 这个便是下面需要用到的appid</li>
+</ul>
+
+
+<p><img src="/images/posts/goagent-newapp.png" alt="newapp" /></p>
+
+<p><img src="/images/posts/goagent-appid.png" alt="appid" /></p>
+
+<ul>
+<li>进入goagent的<a href="http://code.google.com/p/goagent/">首页</a>（本身已经提供了非常清楚的教程）</li>
+<li>下载稳定版的goagent，解压后放在你自己希望放的位置</li>
+<li>配置：修改<code>local\proxy.ini</code>中的<code>[gae]</code>下的<code>appid=你的appid</code>(多appid请用|隔开)</li>
+<li>部署：进行server目录，执行 <code>python uploader.zip</code> 进行应用的部署，过程中会提示你输入你的google账号和密码，之后会不断检查部署是否成功，成功部署后会提示<code>Deployment successful</code></li>
+<li>运行goagent：进入local目录，执行<code>python proxy.py</code>就可以了。</li>
+<li>添加证书：添加local/CA.crt和local/certs/下的所有证书</li>
+</ul>
+
+
+<p><img src="/images/posts/goagent-cert.png" alt="goagent" /></p>
+
+<ul>
+<li>chrome请安装<a href="https://chrome.google.com/webstore/detail/dpplabbmogkhghncfbfdeeokoefdjegm">SwitchySharp</a>插件，然后导入这个设置<a href="http://goagent.googlecode.com/files/SwitchyOptions.bak">http://goagent.googlecode.com/files/SwitchyOptions.bak</a>，firefox请安装AutoProxy</li>
+</ul>
+
+
+<h3>设置快速启动</h3>
+
+<p>这方面我比较笨，一般我都是设置<code>alias</code>来达到一个命令启动翻墙的功能。</p>
+
+<p>假设我的goagent在<code>/users/neekey/goagent/</code>目录下，那么打开<code>.bath_profile</code></p>
+
+<p><code>mate ~/.bath_profile</code></p>
+
+<p>添加命令</p>
+
+<pre><code>#goagent
+alias goagent="python /users/neekey/goagent/local/proxy.py"
+</code></pre>
+
+<p>以后就可以在终端中直接通过<code>goagent</code>命令来启动了</p>
+
+<h3>与SSH的比较</h3>
+
+<p>与SSH相比，速度上差不多（当然这个和每个人用的SSH服务器有关），不过比SSH肯定更加方便（我每次都是用在终端中输入命令的形式连接ssh，因此每次都要输入一遍密码）。不过goagent的好处还是<strong>绿色，免费!!</strong>，并且相比来说会更加稳定（不过这个要看google了=.=）</p>
+
+<p>试用中，以后有想法会继续更新。</p>
+]]></content>
+  </entry>
+  
+</feed>
