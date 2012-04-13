@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2012必须要是一个充满改变的年份啊！"
+title: "2012小规划！"
 date: 2012-02-08 17:55
 comments: true
 categories: [ 个人规划 ]
