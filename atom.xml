@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-04-13T15:05:34+08:00</updated>
+  <updated>2012-04-13T17:39:32+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -248,6 +248,10 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 
 
 <p>使用jasmine对前端页面进行测试，只能使用javascript，而selenium支持多种语言（JAVA，RUBY，PHP以及各种第三方的实现），因此其受众更广。</p>
+
+<h2>最后附上自己制作的演示视频（勿喷呵呵）</h2>
+
+<p><embed src='http://player.youku.com/player.php/sid/XMzcwNjQwMzI0/v.swf' quality='high' width='480' height='400' align='middle' allowScriptAccess='sameDomain' type='application/x-shockwave-flash'></embed></p>
 ]]></content>
   </entry>
   
