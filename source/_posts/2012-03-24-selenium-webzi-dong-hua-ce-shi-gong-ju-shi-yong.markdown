@@ -135,3 +135,7 @@ client
 * 可以用多种语言编写测试用例
 
 使用jasmine对前端页面进行测试，只能使用javascript，而selenium支持多种语言（JAVA，RUBY，PHP以及各种第三方的实现），因此其受众更广。
+
+##最后附上自己制作的演示视频（勿喷呵呵）
+
+<embed src='http://player.youku.com/player.php/sid/XMzcwNjQwMzI0/v.swf' quality='high' width='480' height='400' align='middle' allowScriptAccess='sameDomain' type='application/x-shockwave-flash'></embed>
