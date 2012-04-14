@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>浏览器缓存和304小结 - Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="昨天有网友在询问关于浏览器缓存的问题，只记得以前写PHP的时候，自己简单地写过Etag的304方式，倒是没有认真看过浏览器本地缓存和304的区别，今天做了一些资料查询和测试，总结一下。 关于浏览器缓存 浏览器的资源请求，如果使用了缓存基本上是两种情况 status code: 200 ok ( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">浏览器缓存和304小结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T15:06:00+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/posts/browser-cache304.png" alt="browser-cache" /></p>
+
+<p>昨天有网友在询问关于浏览器缓存的问题，只记得以前写PHP的时候，自己简单地写过Etag的304方式，倒是没有认真看过浏览器本地缓存和304的区别，今天做了一些资料查询和测试，总结一下。</p>
+
+<!--more-->
+
+
+<h3>关于浏览器缓存</h3>
+
+<p>浏览器的资源请求，如果使用了缓存基本上是两种情况</p>
+
+<ul>
+<li>status code: 200 ok ( from cache )</li>
+<li>status code: 304 Not Modified</li>
+</ul>
+
+
+<p><img src="/images/posts/browser-cache304-200.png" alt="browser-cache" /></p>
+
+<p><img src="/images/posts/browser-cache304-304.png" alt="browser-cache" /></p>
+
+<p>上面两种方式有什么区别呢？简单地说，第一种方式是不向浏览器发送请求，直接使用本地缓存文件。第二种方式，浏览器虽然发现了本地有该资源的缓存，但是不确定是否是最新的，于是想服务器询问，若服务器认为浏览器的缓存版本还可用，那么便会返回304。</p>
+
+<h3>浏览器关于缓存使用的决策</h3>
+
+<p>那么，浏览器如何决定是使用哪种方式呢？这就和服务器在请求返回中的Header字段有关了。下面对相关的字段进行简单介绍。</p>
+
+<h4>Cache-Control</h4>
+
+<p>Cache-Control 是最重要的规则。这个字段用于指定所有缓存机制在整个请求/响应链中必须服从的指令。该字段通常覆盖默认缓存算法。另外，缓存指令是单向的，即请求中存在一个指令并不意味着响应中将存在同一个指令。</p>
+
+<p>简单地说，该字段用于控制浏览器在什么情况下直接使用本地缓存而不向服务器发送请求。一般具有以下值：</p>
+
+<ul>
+<li><code>public</code>: 所有内容都将被缓存</li>
+<li><code>private</code>: 内容只缓存到似有缓存中</li>
+<li><code>no-cache</code>: 所有内容都不会被缓存</li>
+<li><code>no-store</code>: 所有内容都不会被缓存到缓存或者internet临时文件中</li>
+<li><code>must-revalidation/proxy-revalidation</code>: 如果缓存的内容失效，请求必须发送到服务器/代理以进行重新验证</li>
+<li><code>max-age=xxx( xxx is numeric )</code>: 缓存的内容将在 xxx 秒后失效, 这个选项只在HTTP 1.1可用, 并如果和Last-Modified一起使用时, 优先级较高</li>
+</ul>
+
+
+<p>其中最常用的属性便是 <code>max-age</code>, 这个字段很简单，就是浏览器在资源成功请求后的制定时间内，都将直接调用本地缓存和不会向服务器去请求数据。</p>
+
+<h4>Expires</h4>
+
+<p>Expires 头部字段提供一个日期和时间，在该日期前的所有对该资源的请求都会直接使用浏览器缓存而不用向服务器请求（注意：cache-control max-age 和 s-maxage 将覆盖 Expires 头部。）</p>
+
+<p>Expires 字段接收以下格式的值：“Expires: Sun, 08 Nov 2009 03:37:26 GMT”。</p>
+
+<p>但是使用<code>Expires</code>存在服务器端时间和浏览器时间不一致的问题。</p>
+
+<h4>Last-Modified/E-tag</h4>
+
+<p><code>Last-Modified</code>和<code>E-tag</code>的作用都是向服务器确认当前缓存文件是否为最新。抛开功能不看，这两个字段的表现如下：</p>
+
+<ul>
+<li>若服务器在响应一个资源时添加了<code>Last-Modified</code>字段，那么当下一次浏览器再一次向服务器请求该资源时（前提是浏览器中上一次的资源被缓存过了），会在请求header中包含<code>If-Modified-Since</code>字段，且值与服务器第一次响应给浏览器的<code>Last-Modified</code>字段一致</li>
+<li>若服务器在响应一个资源时添加了<code>ETag</code>字段，那么当下一次浏览器再一次向服务器请求该资源时（前提是浏览器中上一次的资源被缓存过了），会在请求header中包含<code>If-None-Match</code>字段，且值与服务器第一次响应给浏览器的<code>ETag</code>字段一致</li>
+</ul>
+
+
+<p>那么上述是遵循了Http协议的浏览器会自动实现的，而要实现304的功能，就需要服务器（比如Apache对于静态资源会自动实现这两个字段的响应）或者我们手动在服务器端编写响应的逻辑来实现。</p>
+
+<ul>
+<li>若服务器在收到的资源请求中发现含有<code>Last-Modified</code>字段，则说明浏览器中包含了该资源的某一版本的缓存，此时服务器端将根据该字段的值进行一定的逻辑判断，以决定让浏览器直接使用已有的缓存（返回<code>304</code>）还是将最新的文件发送过去（<code>200</code>，发送新文件并更新<code>Last-Modified</code>字段）</li>
+<li>若服务器在收到的资源请求中发现含有<code>If-None-Matc</code>字段，则说明浏览器中包含了该资源的某一版本的缓存，此时服务器端将根据该字段的值进行一定的逻辑判断，以决定让浏览器直接使用已有的缓存（返回<code>304</code>）还是将最新的文件发送过去（<code>200</code>，发送新文件，并更新<code>ETag</code>）</li>
+</ul>
+
+
+<p>若同时使用了<code>Last-Modified</code>和<code>ETag</code>，正确的做法应该是当两者都符合条件时，才返回<code>304</code></p>
+
+<h5>什么时候使用ETag？</h5>
+
+<p><code>Etag</code> 主要为了解决 <code>Last-Modified</code> 无法解决的一些问题。</p>
+
+<ul>
+<li>一些文件也许会周期性的更改，但是他的内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新GET。这种情况下可以将某个能用来表明文件内容是否被更改的值（比如<code>md5</code>）来作为<code>ETag</code></li>
+<li>某些文件修改非常频繁，比如在秒以下的时间内进行修改，(比方说1s内修改了N次)，<code>If-Modified-Since</code>能检查到的粒度是s级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)</li>
+<li>某些服务器不能精确的得到文件的最后修改时间</li>
+</ul>
+
+
+<h3>不同的页面打开方式产生的请求区别</h3>
+
+<p>一般我们打开（或者更新）一个页面（或者资源）有几种方式：</p>
+
+<ul>
+<li>在地址栏中输入地址，然后回车</li>
+<li>激活当前页面地址，然后回车</li>
+<li>F5刷新页面</li>
+<li>单机Back/Forward按钮</li>
+</ul>
+
+
+<p>上面几种方式对资源的请求，会产生不同的结果，并且各浏览器的表现并不一致。具体的区别可以参考鸟哥的《<a href="http://www.laruence.com/2010/03/05/1332.html?cp=2#comment-6618">浏览器缓存机制</a>》</p>
+
+<p>其中大家需要注意的一点是，刷新页面（F5或者刷新按钮），不管是否设置了<code>max-age</code>，都会重新像服务器发送请求。但是这不影响<code>304</code>逻辑。</p>
+
+<h3>实例代码测试</h3>
+
+<p>用<code>nodejs</code>写了一个简单的静态文件服务器，用来测试上面的<code>Cache-Control</code>和<code>Last-Modified</code>，具体代码可以看<a href="https://gist.github.com/2382491"><code>gist</code></a></p>
+
+<p>例子比较简单，大体逻辑：</p>
+
+<ul>
+<li>每个资源的<code>200</code>返回设置<code>max-age=10</code>，即缓存10秒。同时设置<code>Last-Modified</code></li>
+<li>每次收到请求后，若发现包含<code>if-modified-since</code>字段，则<code>304</code></li>
+</ul>
+
+
+<p>测试过程和结果：</p>
+
+<ul>
+<li>第一次请求，不管是<code>index.html</code>还是<code>index.css</code>均为<code>200</code>，且response中包含了<code>max-age</code>和<code>Last-Modified</code></li>
+<li>在地址栏中回车（10s以内），<code>index.html</code>为<code>304</code>，<code>index.css</code>为<code>200 ok ( from cache )</code></li>
+<li>若对页面进行刷新（ F5或者刷新页面 ），两者均为 <code>304</code>（在10s内或者不在10s内）</li>
+</ul>
+
+
+<p>需要注意的问题：</p>
+
+<ul>
+<li><code>index.html</code>不管是否设置了<code>max-age</code>，都是<code>304</code>，同理，将<code>index.css</code>直接放到地址栏中请求也是<code>304</code></li>
+<li><code>index.css</code>一次<code>304</code>之后的10s内又能继续进行不需要请求服务器的直接本地缓存。这里我个人认为，浏览器的“<strong>直接使用本地缓存</strong>“的效果和从服务器成功<code>200</code>到数据产生的效果是一致的，除了文件本身，header字段等信息也是同样会被cache的，因此<code>304</code>之后，<code>max-age</code>又可以被继续使用一遍。</li>
+</ul>
+
+
+<hr />
+
+<p>做了<code>nodejs</code>的实验之后，又开启了<code>apache</code>服务器，同样的将<code>index.html</code>和i<code>ndex.css</code>文件放置到服务器根目录中，请求后，发现<code>apache</code>默认已经做了<code>Last-Modified</code>和<code>ETag</code>的处理，并且在修改<code>index.css</code>文件后，可以观察到这两个值的变化。</p>
+
+<p><img src="/images/posts/browser-cache304-apache.png" alt="browser-cache" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T15:06:00+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/" data-via="" data-counturl="http://neekey.github.com/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/" title="Previous Post: Mac下使用goagent进行翻墙">&laquo; Mac下使用goagent进行翻墙</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/">浏览器缓存和304小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/">Mac下使用goagent进行翻墙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012小规划！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
