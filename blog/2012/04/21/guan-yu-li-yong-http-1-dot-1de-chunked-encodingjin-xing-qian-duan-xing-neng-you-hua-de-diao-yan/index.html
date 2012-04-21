@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研 - Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="什么是chunked encoding？ 可以翻译为分块编码，是一种HTTP/1.1中定义的服务器向客户端发送数据时，对消息体的编码方式。它是服务器的请求响应Headers中Transfer-Encoding字段的值之一。 Transfer Encoding &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于利用HTTP 1.1的Chunked Encoding进行前端性能优化的调研</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-21T15:52:00+08:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/posts/httpChunkEncoding.png" alt="Http/1.1 Chunked Encoding" /></p>
+
+<h3>什么是chunked encoding？</h3>
+
+<p>可以翻译为分块编码，是一种HTTP/1.1中定义的服务器向客户端发送数据时，对消息体的编码方式。它是服务器的请求响应Headers中<code>Transfer-Encoding</code>字段的值之一。</p>
+
+<h4>Transfer Encoding</h4>
+
+<p>该字段表明了对于返回的消息体使用何种编码以保证消息在发送者和接受者之间的安全传输。该字段与<code>Content-Coding</code>的区别在于该字段应用于消息体，而不是响应实体对象。</p>
+
+<!--more-->
+
+
+<p>该字段的的基本格式：</p>
+
+<p><code>"Transfer-Encoding" ":" 1#transfer-coding</code></p>
+
+<p>注意，许多HTTP/1.0应用无法接受该字段。</p>
+
+<h4>Transfer Coding</h4>
+
+<p><code>transfer-coding</code>便是<code>Transfer-Encoding</code>字段的值，同时在请求Header字段中也可以作为字段<code>TE</code>的值，以表明客户端可以接收的编码。所有的<code>transfer-coding</code>都对大小写不敏感。</p>
+
+<p>无论通过<code>transfer-coding</code>指定给消息体的编码是什么，在编码集合中，最后一个值必须为<code>chunked</code>，且该编码只能出现一次。</p>
+
+<p><code>transfer-coding</code>可用的选项有：<code>chunked</code>,<code>identity</code>,<code>gzip</code>,<code>compress</code>以及<code>deflate</code></p>
+
+<h4>Chunked Transfer Coding</h4>
+
+<p>分块编码将消息体按照顺序分割成一个块序列。每一个块都由<code>大小指示器</code>（size indicator），块数据以及紧跟其后的一个可选的包含实体头域的尾部（trailer）组成。这允许发送端能动态生成内容，并能携带有用的信息，这些信息能让接收者判断消息是否接收完整。</p>
+
+<p>大小指示器是用16 进制数字字符串。块编码（chunked encoding）以任一大小为0的块结束，紧接着是尾部（trailer），尾部以一个空行终止。</p>
+
+<p>可以具体看一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HTTP/1.1 200 OK
+</span><span class='line'>Content-Type: text/plain
+</span><span class='line'>Transfer-Encoding: chunked
+</span><span class='line'>
+</span><span class='line'>25
+</span><span class='line'>This is the data in the first chunk
+</span><span class='line'>
+</span><span class='line'>1C
+</span><span class='line'>and this is the second one
+</span><span class='line'>
+</span><span class='line'>3
+</span><span class='line'>con
+</span><span class='line'>8
+</span><span class='line'>sequence
+</span><span class='line'>0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以通过计算确认每一个chunk的size是否正确：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"This is the data in the first chunk\r\n"      (37 chars =&gt; hex: 0x25)
+</span><span class='line'>"and this is the second one\r\n"               (28 chars =&gt; hex: 0x1C)
+</span><span class='line'>"con"                                          (3  chars =&gt; hex: 0x03)
+</span><span class='line'>"sequence"                                     (8  chars =&gt; hex: 0x08)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>分段对脚本执行的影响</h3>
+
+<h4>一个引子</h4>
+
+<p>我们来看一段简单的代码</p>
+
+<p>下面为<code>simple.php</code>文件的一个片段</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--scriptA&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--emitByScriptA&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span> <span class="mi">0</span> <span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--scriptB&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行一下，不出错料，hash值显示为：</p>
+
+<p><code>--scriptA--scriptB--emitByScriptA</code></p>
+
+<p>现在我们做一下修改，使用php的<code>flush</code>方法来进行<code>chunk</code>的处理：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--scriptA&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--emitByScriptA&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span> <span class="mi">0</span> <span class="p">);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>    <span class="nx">flush</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">sleep</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+</span><span class='line'><span class="o">?&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">+=</span> <span class="s1">&#39;--scriptB&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样的话，内容将被分为两段（要验证这一点，可以利用调试工具查看返回的header中是否有<code>Transfer-Encoding: chunked</code>, 并用<a href="http://fiddler2.com/fiddler2/">fiddler</a>等工具查看返回的raw数据，是否符合上面的<code>chunk</code>格式）。运行，hash值显示为：</p>
+
+<p><code>--scriptA--emitByScriptA--scriptB</code></p>
+
+<p><strong>emitByScriptA</strong>提前执行了！好像chunk的原因导致上面的代码提前执行了的样子！</p>
+
+<p>要解释上面的现象，我们还需要继续做实验，并深入理解JavaScript的<strong>执行</strong>和浏览器<strong>加载</strong>的关系</p>
+
+<h4>请耐心看完下面的测试</h4>
+
+<p>细心的读者可能已经注意到了上面的第二个例子中，在flush后家了一个sleep方法，那我们现在把sleep方法去掉，只保留flush方法，重新执行，你会发现和第一个例子一样：</p>
+
+<p><code>--scriptA--scriptB--emitByScriptA</code></p>
+
+<p>好吧，那我们把flush方法去掉，只留下sleep方法，看看会发生什么：</p>
+
+<p><code>--scriptA--emitByScriptA--scriptB</code></p>
+
+<p>只不过这一次由于没有flush，是先观察到明显的页面空白，然后所有脚本执行完毕。</p>
+
+<p>那么看来，似乎chunk对于脚本的执行顺序没有本质上的影响。而执行结果顺序的区别，反而是sleep产生了影响！那么sleep的影响是什么？没错，是不同脚本块<strong>加载完成时间</strong>！</p>
+
+<hr />
+
+<p>继续看下面的测试！</p>
+
+<p>接下来，我们准备了一个<strong>mass.php</strong>里面包含了大概1M左右的文本数据，然后去掉sleep，在flush后面引入该文件:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">flush();</span>
+</span><span class='line'><span class="x">include &quot;mass.php&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行，观察到结果：</p>
+
+<p><code>--scriptA--emitByScriptA--scriptB</code></p>
+
+<p>发现和sleep的效果一致。</p>
+
+<p>我们去掉flush,只剩下mass.php，现在的测试代码是这个样子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&lt;script id=&quot;A&quot;&gt;…&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;?php</span> <span class="k">include</span> <span class="s2">&quot;mass.php&quot;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;script id=&quot;B&quot;&gt;..&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行结果还是一样：</p>
+
+<p><code>--scriptA--emitByScriptA--scriptB</code></p>
+
+<p>至此我们可以进一步证实了，脚本的执行顺序和chunk无关，和不同的独立的代码块的完成载入的时间有关系。</p>
+
+<p>而从上面的几个例子中均可以看到的是，JavaScript脚本是一边加载一边解析，一边执行的。</p>
+
+<p><strong>我们继续测试！</strong></p>
+
+<p>相信会有人对下面的这段代码的执行情况感到好奇：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">output</span><span class="p">();</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">function</span> <span class="nx">output</span><span class="p">(){</span>
+</span><span class='line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s1">&#39;output&#39;</span> <span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果是JavaScript会报错，提示<code>output</code>未定义。</p>
+
+<p>在做这个调研之前，我对于JavaScript脚本可以一边加载一边执行的困惑有很多。其中一点就是像上面的这个例子一样的问题：如果页面中尚未加载的部分定义了一些东西（比如全局变量，方法），而上面已经加载的脚本需要这个东西，那怎么执行？而显然，浏览器已经提供了一种机制，可以不用管下方的JavaScript代码块，而直接执行。</p>
+
+<p>我们可以把每个script标签（不管是页面内脚本，还是外部引入的脚本）看做一个互相独立的闭包，只是相对我们在一个文件中写的多个闭包的关系，这些闭包的执行是以此被抛进JavaScript执行线程队列的，且这些闭包的上下文都是Global（window）</p>
+
+<p>有了上面这个结论，我们再看一个例子，如果在script的中间部分chunk会怎么样？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">&lt;script&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    var beginDate = Date.now();</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;?php</span> <span class="nb">flush</span><span class="p">();</span> <span class="nb">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    document.location.hash += &#39;---scriptSleepfor: &#39; + ( Date.now() -  beginDate );</span>
+</span><span class='line'><span class="x">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果是 <strong>0</strong>，说明，虽然js可以一遍加载一般执行，但是js可执行的最小单元是一个script，只有一个script快被完全加载完毕且解析完毕后，其中的代码才会执行。</p>
+
+<h3>总结一下关于js执行的几个结论</h3>
+
+<ul>
+<li>页面中的script标签是独立解析的执行的，因此一个script标签的解析不依赖其他script标签，换句话说，只要一个完整的解析单元完成，且上一个可以被执行的脚本已经执行完毕，这个单元应该就是可以执行的 &#8212;> 此处想要说明，即使页面下方还有很多脚本（script类型的）尚未加载，已经加载且完整的script也是可以执行的</li>
+<li>不同的script的执行（假设他们的加载和解析非常连贯）可以理解为顺序且间隔极小（至少小于setTimeout=0的情况）并依次抛入js线程队列中。这个结论来自于，当直接flush之后，setTimeout出的方法并未在下一个script之前执行，但是添加了sleep或者下一个chunk的长度特别大（导致加载时间比较长）的情况下，却会导致setTimeout在下一个script之前执行。可以理解为setTimeout是作为第一个script后第一个抛入线程的js脚本块，因此先执行了。</li>
+<li>JavaScript的执行是一边加载一边解析一边执行的，JavaScript执行的最小单元为一个script，只有该script被完全加载完毕，并解析完成后，才会执行。</li>
+<li>理解各自独立的script块：可以将每个script块理解为一个个会按照循序执行的闭包，特点在于他们都公用一个上下文（ this -> global -> window ）</li>
+</ul>
+
+
+<h4>那么chunk是否能对前端性能进行优化？</h4>
+
+<p>根据上面对于js执行的一些总结，其实chunk对于js的提前执行或者加载没有太大的影响。唯一可以优化的场景是：</p>
+
+<p>一个动态页面，其在响应请求时的总体计算时间比较长，但是它可以先将部分结果通过chunk的方式提前响应，这样提前响应的部分会预先被浏览器解析其中完整的JavaScript在加载完毕后也将被提早执行。</p>
+
+<hr />
+
+<p>最后在补充点课外知识：</p>
+
+<h4>动态页面一般会自动做分段处理(比如Apache)</h4>
+
+<ul>
+<li>动态文件（比如PHP），在内容很少的情况下，也没有出现chunked标识，在header中存在content-length字段</li>
+<li>在内容很多的时候出现了即使没有调用flush方法，也出现了chunked标识，且结尾标识也符合chunked规则（结尾为0以表示结束）</li>
+<li>在php文件中，使用flush方法，可以看到预期的标识位置</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-21T15:52:00+08:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/" data-via="" data-counturl="http://neekey.github.com/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/" title="Previous Post: 浏览器缓存和304小结">&laquo; 浏览器缓存和304小结</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/">浏览器缓存和304小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/">Mac下使用goagent进行翻墙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012小规划！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

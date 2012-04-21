@@ -9,7 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content=" 昨天有网友在询问关于浏览器缓存的问题，只记得以前写PHP的时候，自己简单地写过Etag的304方式，倒是没有认真看过浏览器本地缓存和304的区别，今天做了一些资料查询和测试，总结一下。 ">
+  <meta name="description" content="什么是chunked encoding？ 可以翻译为分块编码，是一种HTTP/1.1中定义的服务器向客户端发送数据时，对消息体的编码方式。它是服务器的请求响应Headers中Transfer-Encoding字段的值之一。 Transfer Encoding &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked Encoding进行前端性能优化的调研</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-21T15:52:00+08:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/posts/httpChunkEncoding.png" alt="Http/1.1 Chunked Encoding" /></p>
+
+<h3>什么是chunked encoding？</h3>
+
+<p>可以翻译为分块编码，是一种HTTP/1.1中定义的服务器向客户端发送数据时，对消息体的编码方式。它是服务器的请求响应Headers中<code>Transfer-Encoding</code>字段的值之一。</p>
+
+<h4>Transfer Encoding</h4>
+
+<p>该字段表明了对于返回的消息体使用何种编码以保证消息在发送者和接受者之间的安全传输。该字段与<code>Content-Coding</code>的区别在于该字段应用于消息体，而不是响应实体对象。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -523,53 +572,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-15T15:53:00+08:00" pubdate data-updated="true">Jan 15<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/Nae.png" alt="Nae-image" /></p>
-
-<p><a href="http://cnodejs.net/"><strong>NAE</strong></a>：Node App Engine，是基于Node.js v0.6.2开发的应用托管服务, 可提供node.js应用的在线部署功能。</p>
-
-<p>这两天把毕设作品中的，后端权限验证部分的接口写了大概，准备放到手机上测试。但是手机上要请求本本这边的本地服务器有点麻烦，想想一直闲着没用过的NAE账号，干脆部署到上面去好了。</p>
-
-<p>昨天稻谷了半天，终于成功部署。在这里记下几点想法和总结把。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/15/naechu-shi-yong/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -583,6 +585,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/">浏览器缓存和304小结</a>
