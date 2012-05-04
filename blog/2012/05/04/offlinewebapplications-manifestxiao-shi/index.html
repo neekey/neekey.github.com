@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Offline Web applications -- Manifest小试 - Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="今天简单地对HTML5的Offline特性进行了了解，把一些简单表层的知识点总结，分享下。 什么是Manifest 为了让用户在没有网络连接的状况下能继续的使用Web Application，HTML5提供了对于Offline的支持：通过一个叫做manifest的配置文件，我们可以提供一个列表， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/05/04/offlinewebapplications-manifestxiao-shi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Offline Web Applications -- Manifest小试</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-04T16:20:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/posts/manifest.png" alt="manifest" /></p>
+
+<p>今天简单地对HTML5的Offline特性进行了了解，把一些简单表层的知识点总结，分享下。</p>
+
+<hr />
+
+<h2>什么是Manifest</h2>
+
+<p>为了让用户在没有网络连接的状况下能继续的使用Web Application，HTML5提供了对于Offline的支持：通过一个叫做manifest的配置文件，我们可以提供一个列表，让浏览器缓存我们指定的文件，并在以后的请求中都直接直接使用本地的缓存文件而不用去向服务器请求数据。</p>
+
+<p>HTML5便是通过这种机制来实现离线应用</p>
+
+<p><em>注意：manifest的缓存控制是覆盖Http的那些缓存机制的（cache-control/304）</em></p>
+
+<!--more-->
+
+
+<h2>配置manifest</h2>
+
+<ul>
+<li>在我们的html标签中引入manifest文件</li>
+</ul>
+
+
+<p><code>&lt;html manifest="mysite.manifest"&gt;</code></p>
+
+<ul>
+<li>manifest文件的<code>Content-Type</code>值必须为<code>text/cache-manifest</code></li>
+</ul>
+
+
+<p>然后我们就可以通过编辑manifest文件来对缓存做配置了。</p>
+
+<h2>manifest语法</h2>
+
+<p>先看一个例子<a href="http://www.w3.org/TR/2011/WD-html5-20110525/offline.html#introduction-4">w3.org</a>上提供的例子吧：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- clock.html --&gt;</span>
+</span><span class='line'><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">manifest=</span><span class="s">&quot;clock.appcache&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'> <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Clock<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;clock.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;clock.css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'> <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'> <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span>The time is: <span class="nt">&lt;output</span> <span class="na">id=</span><span class="s">&quot;clock&quot;</span><span class="nt">&gt;&lt;/output&gt;&lt;/p&gt;</span>
+</span><span class='line'> <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span><span class='line'>/* clock.css */
+</span><span class='line'>output { font: 2em sans-serif; }
+</span><span class='line'>/* clock.js */
+</span><span class='line'>setTimeout(function () {
+</span><span class='line'>    document.getElementById(&#39;clock&#39;).value = new Date();
+</span><span class='line'>}, 1000);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中的manifest文件<code>clock.appcache</code>内容如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>ACHE MANIFEST
+</span><span class='line'>clock.html
+</span><span class='line'>clock.css
+</span><span class='line'>clock.js
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行这个例子，除了第一次是正常的200请求外，此后观察网络，你会发现，不管你怎么强刷页面，都是直接<strong>from cache</strong>！</p>
+
+<p><img src="/images/posts/manifest-example.png" alt="manifest-example" /></p>
+
+<p>下面我们简单介绍一下manifest的语法</p>
+
+<ul>
+<li>必须以<code>CACHE MANIFEST</code>作为第一行出现，任何不符合这条规则的manifest都会被浏览器忽略</li>
+<li>使用 # 作为注释，比如</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'># 我是注释君
+</span><span class='line'>  # 我是前面有空格的注释君
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不过一行中只能有注释，注释和内容不能在同一行中。</p>
+
+<ul>
+<li><code>CACHE:</code> 作为标示符，用来表示该行下方的内容都是需要缓存的文件</li>
+</ul>
+
+
+<p>下面的文件列表，每一行一个文件，文件可以是相对路径（相对该manifest文件），也可以是绝对路径，如:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>CACHE:
+</span><span class='line'>index.css
+</span><span class='line'>http://demos/index/assets/js/index.js
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>NETWORK:</code> 作为标示符，用来表明该行下面的内容都不走缓存，都请求网络</li>
+</ul>
+
+
+<p>和<code>CACHE</code>的写法一样，不过<strong>NETWORK</strong>支持通配符<code>*</code>，但是不支持包含路径的同配…</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>NETWORK:
+</span><span class='line'>#将匹配所有的资源
+</span><span class='line'>*
+</span><span class='line'>#下面的无效
+</span><span class='line'>assets/*
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>FALLBACK:</code> 作为标示符，用来表明该行下面的内容都是<code>fallback</code>的内容</li>
+</ul>
+
+
+<p>该列表用来指定，如果一个资源请求失败，则请求另一个资源，如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>FALLBACK:
+</span><span class='line'>noexists.css clock.css
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个功能非常神奇，至少从<code>网络</code>这块来看似乎是无缝的，看chrome控制台截图：</p>
+
+<p><img src="/images/posts/manifest-fallback.png" alt="manifest" /></p>
+
+<h2>如何更新缓存？</h2>
+
+<p>缓存到本地，速度是快了，没网也能用，那要更新文件怎么办？</p>
+
+<p><strong>更新manifest文件!</strong></p>
+
+<p>每次浏览器都会去先去检查manifest是否有更新，如果有更新，就会重新请求列表中的所有<code>CACHE</code>文件，并替换掉本地的缓存。</p>
+
+<p>注意，在修改了manifest之后，页面第一次访问的时候，虽然浏览器会重新请求<code>CACHE</code>列表中的文件，但是页面上使用的脚本和样式以及图片等将还是原有的，到第二次访问的时候才会是新的。</p>
+
+<p>为什么呢？我的理解是，页面上的资源请求和manifest的请求是并发的，因此第一次访问，页面上的资源（那些被缓存的）还是会按照原来去读本地的缓存，而此时新版本的资源还没到位，还来不及替换浏览器中保留的旧版本的资源。</p>
+
+<h2>浏览器处理manifest的过程</h2>
+
+<p>下面内容直接翻译自官方<a href="http://www.w3.org/TR/2011/WD-html5-20110525/offline.html#appcacheevents">Event Summary</a>，markdown不支持表格，排版上有点蛋疼，大家将就着看吧：</p>
+
+<ul>
+<li>checking: 浏览器检查manifest是否有更新，或者是第一次请求。</li>
+<li>noupdate: 如果manifest没有改变，则<strong>结束</strong></li>
+<li>downloading: 浏览器发现了manifest的改变后者在下载manifest中罗列的资源</li>
+<li>progress: 浏览器在下载manifest中罗列的资源</li>
+<li>cached: manifest中罗列的资源已经下载完毕，并被缓存完毕</li>
+<li>updateready: manifest中罗列的资源均为重新下载，此时可以使用JavaScript使用<code>window.applicationCache.swapCache()</code>将缓存切换到最新的状态，整个过程<strong>结束</strong></li>
+<li>obsolete: manifest请求返回了<code>404</code>或者<code>410</code>，则本地缓存将被<strong>删除</strong>，整个过程<strong>结束</strong></li>
+<li>error: 好吧… 反正就是出错了，整个过程<strong>结束</strong></li>
+</ul>
+
+
+<h2>浏览器兼容器</h2>
+
+<p>Chrome / Safari / Firefox / Opera</p>
+
+<p>IE9表示不支持</p>
+
+<h2>存在的一些问题和注意点</h2>
+
+<h3>页面文件本身会被缓存!</h3>
+
+<p>是的，不只是是默认，是会一直被缓存，即使你把页面文件放到<code>NETWORK</code>下面去,还是会被缓存… 悲剧，这个需要再研究下，有没有好的解决方案。</p>
+
+<h3>将文件从<code>CACHE</code>中删除出错</h3>
+
+<p>文件从<code>CACHE</code>中删除出错后，你会发现浏览器无论如何都请求不到这些资源了… 直接显示的是fail… 解决方案是将这些文件添加到<code>NETWORK</code>列表中</p>
+
+<h3>跨域</h3>
+
+<p>这个地方没细究，不过在FALLBACK中，替代方案的连接如果被替换的资源不在同一个域中，就会失败…</p>
+
+<h2>小小地总结一下</h2>
+
+<p>总体上来说，manifest是个好东西，想想一下全站资源都被缓存到，对与性能的提升就知道了，但是如上面所述如果要应用到实际环境中，还是有很多问题，另外还有很多细节也还需要调研清楚。</p>
+
+<p>总体来说，觉得这个东西<strong>安装上去后不好卸下</strong>，请慎用。</p>
+
+<p><em>这篇文章毕竟是<strong>小试</strong>，其实关于manifest还有很多细节（比如manifest中罗列出资源会不会影响第一次的资源请求顺序）需要验证和研究，以后的文章中继续补充</em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-04T16:20:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/html5/'>html5</a>, <a class='category' href='/blog/categories/manifest/'>manifest</a>, <a class='category' href='/blog/categories/offline/'>offline</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/" data-via="" data-counturl="http://neekey.github.com/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/" title="Previous Post: 关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研">&laquo; 关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/">Offline Web applications -- Manifest小试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/">浏览器缓存和304小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/">Mac下使用goagent进行翻墙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012小规划！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

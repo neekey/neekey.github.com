@@ -9,7 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="什么是chunked encoding？ 可以翻译为分块编码，是一种HTTP/1.1中定义的服务器向客户端发送数据时，对消息体的编码方式。它是服务器的请求响应Headers中Transfer-Encoding字段的值之一。 Transfer Encoding &hellip;">
+  <meta name="description" content="今天简单地对HTML5的Offline特性进行了了解，把一些简单表层的知识点总结，分享下。 什么是Manifest 为了让用户在没有网络连接的状况下能继续的使用Web Application，HTML5提供了对于Offline的支持：通过一个叫做manifest的配置文件，我们可以提供一个列表， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/">Offline Web Applications &#8211; Manifest小试</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-04T16:20:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/posts/manifest.png" alt="manifest" /></p>
+
+<p>今天简单地对HTML5的Offline特性进行了了解，把一些简单表层的知识点总结，分享下。</p>
+
+<hr />
+
+<h2>什么是Manifest</h2>
+
+<p>为了让用户在没有网络连接的状况下能继续的使用Web Application，HTML5提供了对于Offline的支持：通过一个叫做manifest的配置文件，我们可以提供一个列表，让浏览器缓存我们指定的文件，并在以后的请求中都直接直接使用本地的缓存文件而不用去向服务器请求数据。</p>
+
+<p>HTML5便是通过这种机制来实现离线应用</p>
+
+<p><em>注意：manifest的缓存控制是覆盖Http的那些缓存机制的（cache-control/304）</em></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -519,59 +572,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-26T17:13:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>继续捣鼓毕设！</strong></p>
-
-<p>前两天将登陆和注册这些通用功能搞定后，现在需要解决从手机端上传图片到服务器的需求。先来一张目前登陆界面截图吧：</p>
-
-<p><img src="/images/posts/st_login.jpg" alt="secondaryTrading_login" /></p>
-
-<p>手机上传图片的功能主要有两方面:</p>
-
-<ul>
-<li>客户端，phoneGap是否提供了接口可以让用户选择图片以及拍照上传。选择了图片后的上传方式又是如何。</li>
-<li>服务器端，主要是接受客户端的请求，对图片信息进行验证和保存。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -585,6 +585,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/">Offline Web applications &#8211; Manifest小试</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
