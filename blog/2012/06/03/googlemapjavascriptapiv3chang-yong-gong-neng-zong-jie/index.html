@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Google Map JavaScript API v3 常用功能总结 - Neekey</title>
+  <meta name="author" content="neekey(niyunjian)">
+
+  
+  <meta name="description" content="本文将总结Google Map API使用中最简单也是最常用的一些操作以及相关的概念。如果你需要更加详细的信息，那么最好直接详细地阅读Google提供的关于Map的文档. 在页面中引入Google Map 服务 在使用Google Map服务之前，我们必须在我们的页面中引入响应的脚本， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Neekey" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30271450-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Neekey</a></h1>
+  
+    <h2>在此记录我的学习&生活.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:neekey.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Google Map JavaScript API V3 常用功能总结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-03T15:01:00+08:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/posts/googleMap.png" alt="image" /></p>
+
+<p>本文将总结Google Map API使用中最简单也是最常用的一些操作以及相关的概念。如果你需要更加详细的信息，那么最好直接详细地阅读Google提供的关于Map的<a href="https://developers.google.com/maps/documentation/javascript/tutorial">文档</a>.</p>
+
+<!--more-->
+
+
+<h2>在页面中引入Google Map 服务</h2>
+
+<p>在使用Google Map服务之前，我们必须在我们的页面中引入响应的脚本，在页面中插入：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span>
+</span><span class='line'>  <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;https://maps.google.com/maps/api/js?sensor=set_to_true_or_false&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中<code>sensor</code>参数用于指明此应用程序是否使用传感器确定用户的位置。</p>
+
+<h2>异步加载Google Map API</h2>
+
+<p>我们也可以在需要使用Google Map服务的时候动态地添加资源，并指定回调函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">function</span> <span class="nx">initialize</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">myLatlng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="o">-</span><span class="mf">34.397</span><span class="p">,</span> <span class="mf">150.644</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">myOptions</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">zoom</span><span class="o">:</span> <span class="mi">8</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">center</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">mapTypeId</span><span class="o">:</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">MapTypeId</span><span class="p">.</span><span class="nx">ROADMAP</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;map_canvas&quot;</span><span class="p">),</span> <span class="nx">myOptions</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">loadScript</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;script&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">script</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s2">&quot;text/javascript&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;http://maps.google.com/maps/api/js?sensor=false&amp;callback=initialize&quot;</span><span class="p">;</span>
+</span><span class='line'>          <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">loadScript</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意其中使用<code>callback</code>参数指定了回调函数名，其原理同JSONP</p>
+
+<h2>初始化Google Map对象</h2>
+
+<p><img src="/images/posts/googleMapInit.png" alt="image" /></p>
+
+<p>所有需要在页面中显示地图视图的行为都必须以初始化一个<a href="https://developers.google.com/maps/documentation/javascript/reference#Map">Map</a>对象为起点。每个<code>Map</code>对象的显示都需要指定一个页面中的dom结构作为容器，并给定一定的配置，如下面的代码所示：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myLatlng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="o">-</span><span class="mf">34.397</span><span class="p">,</span> <span class="mf">150.644</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">myOptions</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">zoom</span><span class="o">:</span> <span class="mi">8</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">center</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">mapTypeId</span><span class="o">:</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">MapTypeId</span><span class="p">.</span><span class="nx">ROADMAP</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;map_canvas&quot;</span><span class="p">),</span> <span class="nx">myOptions</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中，map对象将id为map_canvas（主要，dom容器只要是一般的div等容器就可以）作为容器，并指定了初始化<a href="https://developers.google.com/maps/documentation/javascript/reference#MapOptions">配置信息</a>。上例中的配置信息包括：</p>
+
+<ul>
+<li>zoom： 地图的缩放级别</li>
+<li>center： 地图中心位置</li>
+<li>mapTypeId： 用户指定地图显示类别</li>
+</ul>
+
+
+<h3>位置对象LatLng</h3>
+
+<p>在Google Map API使用中，我们经常需要对经纬度坐标进行操作，而所有的操作都会被封装成<a href="https://developers.google.com/maps/documentation/javascript/reference#LatLng">LatLng</a>对象，其构造方法为:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myLatlng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="err">维度</span><span class="p">(</span><span class="nx">latitude</span><span class="p">),</span> <span class="err">经度</span><span class="p">(</span><span class="nx">longitude</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>地图显示常用操作</h2>
+
+<p>有了<code>Map</code>对象后，我们可以通过调用其方法对地图的显示做调整，下面介绍常用的几个方法：</p>
+
+<ul>
+<li>setCenter(LatLng) 设置地图显示中心的位置</li>
+<li>setZoom（Number） 设置地图的缩放级别</li>
+<li>fitBounds(<a href="https://developers.google.com/maps/documentation/javascript/reference#LatLngBounds">LatLngBounds</a>) 使得地图显示适应指定的包围盒&#8230;(翻译的不好，就是使得一个指定的矩形区域能在地图中显示出来)</li>
+</ul>
+
+
+<p>其中<code>fitBounds</code>方法在我们需要在地图上显示多个结果的时候非常有用。使用方法也非常简单。</p>
+
+<p>假设我们现在有这么写个坐标位置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">beaches</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>          <span class="p">[</span><span class="s1">&#39;Bondi Beach&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">33.890542</span><span class="p">,</span> <span class="mf">151.274856</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+</span><span class='line'>          <span class="p">[</span><span class="s1">&#39;Coogee Beach&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">33.423036</span><span class="p">,</span> <span class="mf">151.259052</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+</span><span class='line'>          <span class="p">[</span><span class="s1">&#39;Cronulla Beach&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">34.028249</span><span class="p">,</span> <span class="mf">121.157507</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+</span><span class='line'>          <span class="p">[</span><span class="s1">&#39;Manly Beach&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">33.80010128657071</span><span class="p">,</span> <span class="mf">151.28747820854187</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+</span><span class='line'>          <span class="p">[</span><span class="s1">&#39;Maroubra Beach&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">33.450198</span><span class="p">,</span> <span class="mf">151.259302</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么我们只须先构造一个空的Bounds对象，然后将这些坐标一一添加进这个Bounds就能得到一个同时包含这里所有点的Bounds了:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">var</span> <span class="nx">bounds</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLngBounds</span><span class="p">();</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">beach</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">latLng</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">beach</span> <span class="o">=</span> <span class="nx">beaches</span><span class="p">[</span> <span class="nx">i</span> <span class="p">];</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nx">latLng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="nx">beach</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">beach</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</span><span class='line'>          <span class="nx">Bounds</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span> <span class="nx">latLng</span> <span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中extend的作用就是扩展Bounds以使得给定的坐标位置被包含进去。</p>
+
+<h2>向地图中添加图标</h2>
+
+<p>本快内容主要分为两块，添加标记<a href="https://developers.google.com/maps/documentation/javascript/reference#Marker">Marker</a>和添加信息窗口<a href="https://developers.google.com/maps/documentation/javascript/reference#InfoWindow">infoWindow</a>，</p>
+
+<h3>添加标记</h3>
+
+<p><img src="/images/posts/googleMapMarker.png" alt="image" /></p>
+
+<p>每个标记都是一个<code>google.maps.Marker</code>对象，在实例化时需要给定一定的配置信息，如标记的位置。下面的例子中直接在配置信息中制定了显示的<code>Map</code>对象。我们也可以通过Marker对象的<code>setMap</code>方法来制定显示在那个map实例中。要隐藏标记时，只需设置<code>setMap(null)</code>便可:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">myLatlng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="o">-</span><span class="mf">25.363882</span><span class="p">,</span><span class="mf">131.044922</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">myOptions</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">zoom</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">center</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">mapTypeId</span><span class="o">:</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">MapTypeId</span><span class="p">.</span><span class="nx">ROADMAP</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;map_canvas&quot;</span><span class="p">),</span> <span class="nx">myOptions</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">marker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Marker</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">position</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">title</span><span class="o">:</span><span class="s2">&quot;Hello World!&quot;</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>      
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>添加信息窗口</h3>
+
+<p><img src="/images/posts/googleMapInfoWindow.png" alt="image" /></p>
+
+<p>每个信息窗口都是一个<code>google.maps.InfoWindow</code>对象，在实例化时需要给定一定的配置信息，如窗口中的内容，标记的位置。</p>
+
+<p>其中需要说明的是，配置信息中的<code>content</code>即可以是html字符串，也可以是一个dom节点。要让一个信息窗口显示出来，我们可以调用它的open方法，并制定显示在那个Map实例对象中。注意，如果在信息窗口构造时的配置中已经制定了位置（通过position字段），那么直接使用<code>infoWindow.open( map )</code>，就可以显示在地图的制定位置上。当然，我们也可以将信息窗口的显示绑定在已经在地图中的标记对象中，只需在open的第二个参数中制定标记对象即可<code>infoWindow.open( map, marker )</code>，如下面代码中所示：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">var</span> <span class="nx">myLatlng</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">LatLng</span><span class="p">(</span><span class="o">-</span><span class="mf">25.363882</span><span class="p">,</span><span class="mf">131.044922</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">myOptions</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">zoom</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">center</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>          <span class="nx">mapTypeId</span><span class="o">:</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">MapTypeId</span><span class="p">.</span><span class="nx">ROADMAP</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Map</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;map_canvas&quot;</span><span class="p">),</span> <span class="nx">myOptions</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">contentString</span> <span class="o">=</span> <span class="s1">&#39;Hello World&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">infowindow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">InfoWindow</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">content</span><span class="o">:</span> <span class="nx">contentString</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">marker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">Marker</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">position</span><span class="o">:</span> <span class="nx">myLatlng</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">title</span><span class="o">:</span><span class="s2">&quot;Uluru (Ayers Rock)&quot;</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="nx">marker</span><span class="p">,</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">infowindow</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">map</span><span class="p">,</span><span class="nx">marker</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>事件绑定</h2>
+
+<p>使用google.maps.event.addListener()方法来进行事件的监听。该方法接受三个参数：一个对象，一个待侦听事件以及一个在指定事件发生时调用的函数。</p>
+
+<p>举几个例子，更加详细的介绍参考<a href="https://developers.google.com/maps/documentation/javascript/events">文档</a>。</p>
+
+<p>监听地图的缩放：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="nx">map</span><span class="p">,</span> <span class="s1">&#39;zoom_changed&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* 状态改变时间不提供回调参数，我们需要去手动获取数值，比如利用map.getZoom()来获取当前的缩放级别 */</span>
+</span><span class='line'>      <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>标记的点击：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span> <span class="nx">marker</span><span class="p">,</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">placeMarker</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">latLng</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>监听dom事件:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">addDomListener</span><span class="p">(</span><span class="nb">window</span><span class="p">,</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="nx">initialize</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外关于事件需要补充的一点是，当我们初始化map的时候，其div为不显示的，之后通过某种逻辑过程显示出来时，其地图在容器中的显示会出现不完整的情况，这时候我们需要告诉组件去重新设置显示区域的大小：</p>
+
+<blockquote><p>Developers should trigger this event on the map when the div changes size: google.maps.event.trigger(map, &#8216;resize&#8217;)</p></blockquote>
+
+<h2>地址解析</h2>
+
+<p>Google Map API 本身已经提供了非常方便的地址解析与反地址解析的方法，使用方法非常简单：</p>
+
+<p>实例化一个<code>google.maps.Geocoder</code>对象，调用<code>Geocoder.geocode()</code>方法，在其回到中获取结果：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="nx">geocoder</span><span class="p">.</span><span class="nx">geocode</span><span class="p">(</span> <span class="p">{</span> <span class="s1">&#39;address&#39;</span><span class="o">:</span> <span class="nx">address</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">,</span> <span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="nx">status</span> <span class="o">==</span> <span class="nx">google</span><span class="p">.</span><span class="nx">maps</span><span class="p">.</span><span class="nx">GeocoderStatus</span><span class="p">.</span><span class="nx">OK</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="cm">/* do somethind */</span>
+</span><span class='line'>          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Geocode was not successful for the following reason: &quot;</span> <span class="o">+</span> <span class="nx">status</span><span class="p">);</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处介绍一些第一个参数中最重要的两个字段，根据不同的搜索需求，我们每次只需要给定其中一个参数即可:</p>
+
+<ul>
+<li>address (required*) — 你需要解析的地址</li>
+<li>latLng (required*) — 你需要解析的LatLng对象</li>
+</ul>
+
+
+<p>两种方式的结果返回值格式都一致，具体格式可以看<a href="https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResponses">文档</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-03T15:01:00+08:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/googlemap/'>googleMap</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/" data-via="" data-counturl="http://neekey.github.com/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/" title="Previous Post: Offline Web applications -- Manifest小试">&laquo; Offline Web applications -- Manifest小试</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/">Google Map JavaScript API v3 常用功能总结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/">Offline Web applications -- Manifest小试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/">关于利用HTTP 1.1的Chunked encoding进行前端性能优化的调研</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/">浏览器缓存和304小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/">Mac下使用goagent进行翻墙</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/">Selenium - Web自动化测试工具 试用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/27/semantic-versioning/">Semantic Versioning 语义化版本号</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">ruby学习笔记(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/08/2012bi-xu-yao-shi-yi-ge-chong-man-gai-bian-de-nian-fen-a/">2012小规划！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/31/phonegap-plus-nodejstu-pian-shang-chuan-2/">phoneGap+nodejs图片上传(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/26/phonegap-plus-nodejstu-pian-shang-chuan-1/">phoneGap+nodejs图片上传(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/15/naechu-shi-yong/">NAE初使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/11/zai-nodejszhong-shi-yong-jasmina-1/">在nodejs中使用jasmina(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopassbu-shu/">Octopass部署</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/08/octopass/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - neekey(niyunjian) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'neekeygithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
