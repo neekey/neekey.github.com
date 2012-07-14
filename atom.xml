@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-06-03T15:18:13+08:00</updated>
+  <updated>2012-07-14T23:16:45+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova(PhoneGap)插件编写]]></title>
+    <link href="http://neekey.github.com/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/"/>
+    <updated>2012-06-05T08:40:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie</id>
+    <content type="html"><![CDATA[<p>PhoneGap的插件机制为我们提供了自由拓展Native API的可能。但是网络上和PhoneGap插件开发相关的资料较少，本文介绍插件开发的简单过程。</p>
+
+<p>参考资料：</p>
+
+<p><a href="http://wiki.phonegap.com/w/page/36753494/How%20to%20Create%20a%20PhoneGap%20Plugin%20for%20Android">How to Create a PhoneGap Plugin for Android</a></p>
+
+<p><a href="http://simonmacdonald.blogspot.ca/2012/04/migrating-your-phonegap-plugins-to.html">Migrating your PhoneGap Plugins to Version 1.5+</a></p>
+
+<h2>PhoneGap的Plugin原理</h2>
+
+<h3>PhoneGap由两部分组件构成：</h3>
+
+<ul>
+<li>PhoneGap JavaScript API将native功能暴露给运行在浏览器中的JavaScript</li>
+<li>被PhoneGap JavaScript API调用的native code（JAVA）</li>
+</ul>
+
+
+<p>PhoneGap的这种方式让JavaScript可以调用手机的常用功能。</p>
+
+<h3>局限性</h3>
+
+<p>JavaScript在处理一些繁重的任务时，其效率与原生的代码不能比。另外，JavaScript也不能在后台运行，所以我们无法用JavaScript处理后台服务。因此如果我们需要实现一些复杂的商业功能，那么应该尽量使用原生的语言编写。</p>
+
+<h3>解决方案</h3>
+
+<p>自然地，解决方案就是扩展暴露更多原生的手机功能给JavaScript，让它能做更多的事情。要实现这点，需要两个关键点：</p>
+
+<ul>
+<li>需要一个实现响应功能的原生代码编写的组件</li>
+<li>需要构造一个JavaScript API</li>
+</ul>
+
+
+<p>需要注意的是，你需要为每一个你想要实现的系统编写一份独立的原生组件。所有这些原生代码编写的组件都必须与响应的JavaScript API配套。</p>
+
+<p>而这种解决方案也就是PhoneGap提供的插件方式。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Google Map JavaScript API v3 常用功能总结]]></title>
@@ -1661,17 +1706,52 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 <li>兼容性总结</li>
 </ul>
 </li>
-<li>HTML5方面，可以进行各种小demo的实践</li>
-<li>nodeJS继续学习。尝试更多的小应用</li>
+<li>CSS知识整理
+
+<ul>
+<li>css基础（所有的属性，值）</li>
+<li>css兼容性的总结</li>
+<li>仔细地看几本CSS的书</li>
+</ul>
+</li>
+<li>HTML5方面
+
+<ul>
+<li>可以进行各种小demo的实践</li>
+<li>对一些常用的html5新特性进行学习和实践</li>
+</ul>
+</li>
+<li>nodeJS继续学习
+
+<ul>
+<li>根据API对各个系统模块进行实践</li>
+<li>尝试更多的小应用</li>
+</ul>
+</li>
 <li>继续实践单元测试
 
 <ul>
 <li>后端nodeJS单元测试</li>
 <li>前端单元测试实践</li>
+<li>看一本单元测试的书籍</li>
 </ul>
 </li>
+<li>继续学习和实践SASS &amp; LESS：SASS更加牛逼的样子！</li>
 <li>改进开发思维，多思考！学会<strong>迭代开发</strong>！</li>
 <li>学习<strong>shell &amp; ruby</strong>来写些简单的脚本，用于处理文本/文件，提高平时的工作效率</li>
+<li>学习Objective-C
+
+<ul>
+<li>看完2本或者以上的书籍</li>
+<li>编写一个简单的Mac应用（比如定时关机）</li>
+</ul>
+</li>
+<li>Wordpress开发：发现wordpress的二次开发非常有用..特别是对于快读建站来说
+
+<ul>
+<li>试着用wp建立一个自定义的咨询网站</li>
+</ul>
+</li>
 <li>最后一点也是很重要的要求：多积累和总结，静下心来多看看书！</li>
 </ul>
 
@@ -1682,6 +1762,7 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 
 <ul>
 <li>使用<a href="http://sass-lang.com/">SASS</a>修改网站样式</li>
+<li>添加一个自定义页，添加自己的各种应用啊组件的gallery</li>
 <li>添加订阅功能</li>
 </ul>
 
@@ -1701,7 +1782,7 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 
 <ul>
 <li>单词！不求别的，尼玛今年务必把六级单词先背背熟啊！(靠RP六级已过…)</li>
-<li>口语！至少把<a href="http://www.douban.com/note/133888998/">Rosetta Stone</a>课程上完</li>
+<li>口语！至少把<a href="http://www.douban.com/note/133888998/">Rosetta Stone</a>课程上完，话说要不要破点财，报个新东方神马的试试看，自己学的话缺少外教啊~~ 自己去找，人家表示很羞涩。</li>
 <li>英文歌词！英文歌听了无数，但是这么多年，就没有认认真真读过歌词。所以尽量把每首歌的歌词看一遍，最好能记下来，也方便唱。</li>
 </ul>
 
@@ -1711,23 +1792,33 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 <p>其实内心深处还是有很强烈的表达欲望的，但是文笔已经完全不行了，也没了初中高中的时候写QQ日志的那种激情。对自己的要求：</p>
 
 <ul>
-<li>每个月能写一片非技术类的文章。写的好坏没关系，反正…目前来说这个博客没多少流量= =#</li>
-<li>今年至少看四本文学作品</li>
-<li>平时对周围的生活实事多观察多思考，养成随手记下想法的习惯</li>
+<li>每个月能写一片非技术类的文章。写的好坏没关系。非技术类的矫情文章发表在QQ空间，也可以考虑人人和豆瓣</li>
+<li>多看文学作品，利用好Kindle</li>
+<li>平时对周围的生活实事多观察多思考，养成<strong>随手记下想法</strong>的习惯</li>
 </ul>
 
 
 <h3>旅行</h3>
 
-<p>由于今年在时间和金钱上都不是很充裕，而且本身自己的旅游经验就很少，因此今年关于旅游的期望是：短途（杭州周边，甚至杭州都可以），二到三次。然后，可以考虑一个人去。</p>
+<p><del>由于今年在时间和金钱上都不是很充裕，而且本身自己的旅游经验就很少，因此今年关于旅游的期望是：短途（杭州周边，甚至杭州都可以），二到三次。然后，可以考虑一个人去。</del></p>
+
+<p>没想到毕业旅行一路西安-西宁-诺木洪-格尔木-拉萨 完了差不多20天。今年还会有旅游的机会。倒是暂时没有心仪的地点，反而希望能给自己一个明确的理由，再决定去哪里。</p>
+
+<h3>听歌</h3>
+
+<p>不断更新在听的音乐，国产摇滚可以尝试，欧美英伦摇滚可以继续，流行自己喜欢的继续跟上，其他形式的音乐也可以多听（轻音乐，音乐剧）</p>
 
 <h3>声乐</h3>
 
-<p>每次在寝室里都能唱的很嗨，高音都能控制的很好。但是每次去KTV就萎了！真心不爽，而且本身就喜欢唱歌，所以最好今年能去报个专业的声乐班（或者找个老师）</p>
+<p>每次在寝室里都能唱的很嗨，高音都能控制的很好。但是每次去KTV就萎了！真心不爽，而且本身就喜欢唱歌，所以最好今年能去报个专业的声乐班（或者找个老师）。</p>
+
+<p>要求是声乐的演唱技巧和理论知识（比如五线谱啦&#8230;音乐的一些意识啦，流派啦）都能学习到。</p>
 
 <h3>游泳</h3>
 
-<p>第一次去深水区，就被救生员吆喝上岸…这种耻辱一辈子忘不了啊！今年必须能熟练游泳！</p>
+<p><del>第一次去深水区，就被救生员吆喝上岸…这种耻辱一辈子忘不了啊！今年必须能熟练游泳！</del></p>
+
+<p>表示在深水区淡定地哇用过了，今年求继续熟练，最后好能学会别的泳姿。恩恩。</p>
 
 <h3>牙套</h3>
 
@@ -1739,25 +1830,32 @@ alias goagent="python /users/neekey/goagent/local/proxy.py"
 
 <h3>护肤</h3>
 
-<p>泪流满面的问题，痘痘长了这么多年，今年必须有突破啊！下了狠心，也败了很多相关护肤品，今年准备服用泰尔丝了！希望能坚持下来，也希望副作用没有想象中那么可怕！等开始吃了，发一篇每日更新的日志！</p>
+<p><del>泪流满面的问题，痘痘长了这么多年，今年必须有突破啊！下了狠心，也败了很多相关护肤品，今年准备服用泰尔丝了！希望能坚持下来，也希望副作用没有想象中那么可怕！等开始吃了，发一篇每日更新的日志！</del></p>
+
+<p>泰尔丝吃了这么多个月，痘痘基本上已经不长了，HOHO~</p>
+
+<p>接下来的任务是维护和学习理论知识（=。=，多看写牛逼的帖子吧），以及去痘印。</p>
+
+<h3>绘画</h3>
+
+<p>突然回忆起以前作画的感觉了。恩，可以考虑买个画架和画板放在有阳光的房间里，偶尔可以重温一下。可以画点水彩漫画神马的~。要是有时间和精力，真想重新找个好老师，认真学一下素描啊！</p>
 
 <h3>态度</h3>
 
 <ul>
-<li>更加尊重他人</li>
+<li>更加<strong>尊重他人</strong></li>
 <li>做事更加的专注</li>
-<li>沉稳</li>
+<li>沉稳、从容</li>
 <li>积极乐观</li>
-<li>做自己</li>
+<li>做自己、学会释放</li>
 </ul>
 
 
 <h3>其他</h3>
 
-<ul>
-<li>重构机械学院网站。虽然早就离开创E网络了，但是这个网站以后还是需要传承下来继续维护的。所以希望在毕业前能完成重构！同时也能对PHP更加熟练，还能赚点外快…嗯嗯。</li>
-</ul>
+<p><del>重构机械学院网站。虽然早就离开创E网络了，但是这个网站以后还是需要传承下来继续维护的。所以希望在毕业前能完成重构！同时也能对PHP更加熟练，还能赚点外快…嗯嗯。</del></p>
 
+<p>好吧，表示实在木有时间和精力，无耻地交付给下一届的孩纸们了，阿门&#8230;</p>
 
 <p><strong>先这些，想到啥再添加上去！</strong></p>
 ]]></content>
