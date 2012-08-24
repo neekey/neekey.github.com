@@ -98,6 +98,8 @@
 
 <time datetime="2012-01-26T17:13:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2012</time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -412,6 +414,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/">升级SVN1.6-1.7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/">Cordova(PhoneGap)插件编写</a>
       </li>
     
@@ -480,6 +486,35 @@
       </li>
     
   </ul>
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/neekey">@neekey</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'neekey',
+            count: 35,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 

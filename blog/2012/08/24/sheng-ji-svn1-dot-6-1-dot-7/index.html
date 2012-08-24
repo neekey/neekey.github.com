@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: python - Neekey</title>
+  <title>升级SVN1.6-1.7 - Neekey</title>
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="Category: python">
+  <meta name="description" content="SVN这个东西虽然不好用（当然也是因为自身没有重视，但是谁让GIT这么好用呢&#8230;!），但是公司暂时用的还是SVN，因此还是不得不每天应对它。 由于一直用phpstorm因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://neekey.github.comblog/categories/python">
+  <link rel="canonical" href="http://neekey.github.com/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,36 +75,142 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Python</h1>
+    
+      <h1 class="entry-title">升级SVN1.6-1.7</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-24T17:06:00+08:00" pubdate data-updated="true">Aug 24<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>SVN这个东西虽然不好用（当然也是因为自身没有重视，但是谁让GIT这么好用呢&#8230;!），但是公司暂时用的还是SVN，因此还是不得不每天应对它。</p>
 
-  
-  <h2>2012</h2>
+<p>由于一直用<code>phpstorm</code>因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新，因此需要在终端中直接使用SVN的命令行工具，但是&#8230;关键时刻就给我掉链子了!</p>
 
-<article>
-  
-<h1><a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/">Mac下使用goagent进行翻墙</a></h1>
-<time datetime="2012-04-12T16:40:00+08:00" pubdate><span class='month'>Apr</span> <span class='day'>12</span> <span class='year'>2012</span></time>
+<p>在终端中输入:</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/google-appengine/'>Google Appengine</a>, <a class='category' href='/blog/categories/google/'>google</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/翻墙/'>翻墙</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn update</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>然后就悲剧了，提示项目的svn是1.7及以上的，我的svn版本太低!表示记得前一阵子刚刚更新过了的。用<code>svn version</code>一看，果然是1.6.</p>
 
+<p>但是1.7确实是记得手动更新过的，不甘心，在目录中找，果然在<code>/usr/local/bin/</code>中找到了1.7的svn版本，然后在<code>/usr/bin/</code>中找到了1.6版本的svn!</p>
+
+<p>系统默认先调用<code>/usr/bin</code>中的!</p>
+
+<p>于是定位到原因，估计是升级系统到<code>moutain lion</code>的时候，又自动在<code>/usr/bin</code>中给我安装了系统自带的<code>1.6</code>的svn，于是覆盖了我的1.7的&#8230;悲剧!</p>
+
+<p>于是&#8230;最简单的方法，就是把1.7的覆盖掉<code>local/bin</code>中的1.6版本!覆盖完之后，在终端中查看，果然<code>version</code>变成1.7了，于是继续<code>svn update</code>，结果接续报错：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn: E170000: Unrecognized URL scheme for http*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>F******k!</p>
+
+<p>好吧，Google之，得到答案如下：<a href="http://azimbabu.blogspot.com/2008/07/using-svn-and-got-unrecognized-url.html">答案</a></p>
+
+<p>没细看&#8230;反正SVN要使用<code>http</code>类型的仓库需要某块支持，然后报这个错误意味着它可能找不到一个名为<code>neon</code>的模块了。因此需要重新编译安装svn，告诉它这个模块在哪里。</p>
+
+<p>因此做法是：</p>
+
+<ul>
+<li>下载最新的<a href="http://www.webdav.org/neon">neon</a>，然后<code>./configure</code>, <code>make</code>, <code>make install</code>安装好</li>
+<li>配置SVN源码 :</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-apr<span class="o">=</span>/usr/local/apache2/bin/apr-config --with-apr-util<span class="o">=</span>/usr/local/apache2/bin/apu-config --with-neon<span class="o">=</span>/usr/local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>编译安装：<code>make</code>, <code>make install</code></li>
+</ul>
+
+
+<p>在配置SVN源码之前，细心的我还是发现了我的路径里面不存在/<code>usr/local/apache2</code>这个目录，看了下面的评论，这个应该是在你要配置一台svn服务器时使用，因此像我这种情况，就直接使用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-neon<span class="o">=</span>/usr/local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就OK了!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">neekey(niyunjian)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-24T17:06:00+08:00" pubdate data-updated="true">Aug 24<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://neekey.github.com/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/" data-via="" data-counturl="http://neekey.github.com/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/" title="Previous Post: Cordova(PhoneGap)插件编写">&laquo; Cordova(PhoneGap)插件编写</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -241,7 +347,10 @@
       var disqus_shortname = 'neekeygithub';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://neekey.github.com/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/';
+        var disqus_url = 'http://neekey.github.com/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

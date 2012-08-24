@@ -9,7 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="PhoneGap的插件机制为我们提供了自由拓展Native API的可能。但是网络上和PhoneGap插件开发相关的资料较少，本文介绍插件开发的简单过程。 参考资料： How to Create a PhoneGap Plugin for Android Migrating your &hellip;">
+  <meta name="description" content="SVN这个东西虽然不好用（当然也是因为自身没有重视，但是谁让GIT这么好用呢&#8230;!），但是公司暂时用的还是SVN，因此还是不得不每天应对它。 由于一直用phpstorm因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,99 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/">升级SVN1.6-1.7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-24T17:06:00+08:00" pubdate data-updated="true">Aug 24<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>SVN这个东西虽然不好用（当然也是因为自身没有重视，但是谁让GIT这么好用呢&#8230;!），但是公司暂时用的还是SVN，因此还是不得不每天应对它。</p>
+
+<p>由于一直用<code>phpstorm</code>因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新，因此需要在终端中直接使用SVN的命令行工具，但是&#8230;关键时刻就给我掉链子了!</p>
+
+<p>在终端中输入:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后就悲剧了，提示项目的svn是1.7及以上的，我的svn版本太低!表示记得前一阵子刚刚更新过了的。用<code>svn version</code>一看，果然是1.6.</p>
+
+<p>但是1.7确实是记得手动更新过的，不甘心，在目录中找，果然在<code>/usr/local/bin/</code>中找到了1.7的svn版本，然后在<code>/usr/bin/</code>中找到了1.6版本的svn!</p>
+
+<p>系统默认先调用<code>/usr/bin</code>中的!</p>
+
+<p>于是定位到原因，估计是升级系统到<code>moutain lion</code>的时候，又自动在<code>/usr/bin</code>中给我安装了系统自带的<code>1.6</code>的svn，于是覆盖了我的1.7的&#8230;悲剧!</p>
+
+<p>于是&#8230;最简单的方法，就是把1.7的覆盖掉<code>local/bin</code>中的1.6版本!覆盖完之后，在终端中查看，果然<code>version</code>变成1.7了，于是继续<code>svn update</code>，结果接续报错：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn: E170000: Unrecognized URL scheme for http*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>F******k!</p>
+
+<p>好吧，Google之，得到答案如下：<a href="http://azimbabu.blogspot.com/2008/07/using-svn-and-got-unrecognized-url.html">答案</a></p>
+
+<p>没细看&#8230;反正SVN要使用<code>http</code>类型的仓库需要某块支持，然后报这个错误意味着它可能找不到一个名为<code>neon</code>的模块了。因此需要重新编译安装svn，告诉它这个模块在哪里。</p>
+
+<p>因此做法是：</p>
+
+<ul>
+<li>下载最新的<a href="http://www.webdav.org/neon">neon</a>，然后<code>./configure</code>, <code>make</code>, <code>make install</code>安装好</li>
+<li>配置SVN源码 :</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-apr<span class="o">=</span>/usr/local/apache2/bin/apr-config --with-apr-util<span class="o">=</span>/usr/local/apache2/bin/apu-config --with-neon<span class="o">=</span>/usr/local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>编译安装：<code>make</code>, <code>make install</code></li>
+</ul>
+
+
+<p>在配置SVN源码之前，细心的我还是发现了我的路径里面不存在/<code>usr/local/apache2</code>这个目录，看了下面的评论，这个应该是在你要配置一台svn服务器时使用，因此像我这种情况，就直接使用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-neon<span class="o">=</span>/usr/local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就OK了!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/">Cordova(PhoneGap)插件编写</a></h1>
     
     
@@ -99,6 +192,8 @@
 
 
 <time datetime="2012-06-05T08:40:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/#disqus_thread">Comments</a>
         
       </p>
     
@@ -172,6 +267,8 @@
 
 <time datetime="2012-06-03T15:01:00+08:00" pubdate data-updated="true">Jun 3<span>rd</span>, 2012</time>
         
+         | <a href="/blog/2012/06/03/googlemapjavascriptapiv3chang-yong-gong-neng-zong-jie/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -214,6 +311,8 @@
 
 
 <time datetime="2012-05-04T16:20:00+08:00" pubdate data-updated="true">May 4<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/05/04/offlinewebapplications-manifestxiao-shi/#disqus_thread">Comments</a>
         
       </p>
     
@@ -268,6 +367,8 @@
 
 <time datetime="2012-04-21T15:52:00+08:00" pubdate data-updated="true">Apr 21<span>st</span>, 2012</time>
         
+         | <a href="/blog/2012/04/21/guan-yu-li-yong-http-1-dot-1de-chunked-encodingjin-xing-qian-duan-xing-neng-you-hua-de-diao-yan/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -317,6 +418,8 @@
 
 <time datetime="2012-04-14T15:06:00+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
         
+         | <a href="/blog/2012/04/14/liu-lan-qi-huan-cun-he-304xiao-jie/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -359,6 +462,8 @@
 
 
 <time datetime="2012-04-12T16:40:00+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/12/macxia-shi-yong-goagentjin-xing-fan-qiang/#disqus_thread">Comments</a>
         
       </p>
     
@@ -407,6 +512,8 @@
 
 <time datetime="2012-03-24T19:33:00+08:00" pubdate data-updated="true">Mar 24<span>th</span>, 2012</time>
         
+         | <a href="/blog/2012/03/24/selenium-webzi-dong-hua-ce-shi-gong-ju-shi-yong/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -453,6 +560,8 @@
 
 
 <time datetime="2012-03-19T10:47:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/#disqus_thread">Comments</a>
         
       </p>
     
@@ -536,6 +645,8 @@
 
 <time datetime="2012-02-27T16:51:00+08:00" pubdate data-updated="true">Feb 27<span>th</span>, 2012</time>
         
+         | <a href="/blog/2012/02/27/semantic-versioning/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -556,51 +667,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">Ruby学习笔记(一)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-09T22:18:00+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/images/posts/ruby_logo.gif" alt="ruby" /></p>
-
-<p>今天…闲来无事，去看了一下<a href="http://www.ruby-lang.org">Ruby</a>,因为Octopress是用<a href="http://www.ruby-lang.org">Ruby</a>写的，有必要学习一下<a href="http://www.ruby-lang.org">Ruby</a>。</p>
-
-<p>直接到官网上去，发现<a href="http://www.ruby-lang.org">Ruby</a>非常友好，最下方有中文版本的选择，不过感觉翻译的有点蹩脚，还是直接看英文吧。首页右边有常用的几个入口，比如<a href="http://www.ruby-lang.org/en/downloads/">下载</a>，<a href="http://www.ruby-lang.org/en/documentation/quickstart/">二十分钟学习ruby</a>，<a href="http://tryruby.org/">在浏览器里尝试Ruby</a>(这个页面非常有爱，见下图)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/02/09/rubyxue-xi-bi-ji-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -614,6 +680,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/">升级SVN1.6-1.7</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/06/05/cordova-phonegapcha-jian-bian-xie/">Cordova(PhoneGap)插件编写</a>
@@ -684,6 +754,35 @@
       </li>
     
   </ul>
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/neekey">@neekey</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'neekey',
+            count: 35,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 
