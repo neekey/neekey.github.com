@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-08-24T17:36:31+08:00</updated>
+  <updated>2012-08-25T12:04:18+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[生在好时代]]></title>
+    <link href="http://neekey.github.com/blog/2012/08/25/sheng-zai-hao-shi-dai/"/>
+    <updated>2012-08-25T10:23:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/08/25/sheng-zai-hao-shi-dai</id>
+    <content type="html"><![CDATA[<p>这是一篇感慨，想必这样的感觉好多人都有过了，我就再啰嗦一遍。</p>
+
+<p>我们生在了好时代，这个世界忽然近在咫尺。</p>
+
+<!--more-->
+
+
+<p>这两天为了处理公司项目，需要进行一个<code>KISSY</code>的打包，本来<code>KISSY</code>自己提供了一套打包工具（<code>ant</code>,<code>jar</code>包，<code>xml</code>配置等，繁琐不解释），当然主要原因是我对<code>ant</code>不熟悉，同时也很不喜欢<code>xml</code>类型的文件配置。所以决定自己写一个打包工具。</p>
+
+<p>在做这个工具的过程中，使用了很多模块：</p>
+
+<ul>
+<li><a href="https://github.com/visionmedia/commander.js">commander</a>: TJ大神写的用来编写命令行工具的神器</li>
+<li><a href="https://github.com/ashtuchkin/iconv-lite">iconv-lite</a>: 文件编码转化工具</li>
+<li><a href="https://github.com/janl/mustache.js">mustache</a>: JS模板工具</li>
+<li><a href="https://github.com/mishoo/UglifyJS">uglify-js</a>: JS压缩工具</li>
+<li><a href="https://github.com/isaacs/npmlog">npmlog</a>: node的包管理工具<code>npm</code>使用的log输出工具</li>
+<li>当然，最重要的还是同事写的用来解析<code>KISSY</code>模块的<code>moduleCompiler</code>.</li>
+</ul>
+
+
+<p>于是站在这些模块的肩膀上，我花了一个双休日把我的小工具完成了：<a href="https://github.com/neekey/KSP">KSP</a>，简单，灵活，正是我想要的。马上用到手上的项目中。</p>
+
+<p>中间的一两天，当需求不饱和的时候，我看了一下<code>github</code>上的关注的人们的最新动态，偶尔会看到TJ大神又新<code>star</code>（如果你对<code>github</code>不熟悉，你可以把它理解为关注别人的项目）了几个项目，于是我便屁颠屁颠地点开那个项目，看看是什么好东西。顺便又遍历了一下TJ大神的所有项目，然后又像捡到财宝一般发现好多有用的工具。</p>
+
+<p>其实这样的情况在<a href="http://zhihu.com">知乎</a>，<a href="http://douban.com">豆瓣</a>，<a href="http://weibo.com">微博</a>上都一样。</p>
+
+<p>因为网络，那些与我们毫无关系，又可能远在地球另一端的世界上最聪明的人们，他们的所思所想突然就触手可及了。甚至有时候你会发现：</p>
+
+<blockquote><p>哦，我也并不比他们差，他们做的事情我也能做。</p></blockquote>
+
+<p>想到<a href="http://www.douban.com/people/lemonhall2012/">柠檬</a>说的（有点记不清了）：</p>
+
+<blockquote><p>通过关注牛人，来关注更多的牛人，同时也让更多的人关注自己。</p></blockquote>
+
+<p>关注当然不是目的，但是通过关注，拓宽了自己的视野，同时参与到其中，更能打破自己思维的局限。</p>
+
+<hr />
+
+<p>想起来在淘宝的这段时间，不知道专业技能是否有很多的提升，但是在做事的思路上有了很大的改变。</p>
+
+<p>淘宝的技术的自由和开发还是对我产生了很大的影响。特别是刚刚来的时候，经常有的分享会，发现这群人不仅会去玩新技术（我也会），而且会直接将新技术应用到公司项目中转化为生产力（技术的使用真心自由）。</p>
+
+<p>在这样的影响下，我也做了很多工具，也更大大胆地自己对自己处理的项目进行新技术的尝试。</p>
+
+<p>可能最大的影响还是从原来的纯技术，到现在更加倾向于让技术为实际工作服务。</p>
+
+<hr />
+
+<p>这篇文章写的比较乱啊，但是希望能继续保持和这个世界的紧密联系。</p>
+
+<p>自勉！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[升级SVN1.6-1.7]]></title>
