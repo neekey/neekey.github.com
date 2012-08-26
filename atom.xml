@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-08-26T10:11:28+08:00</updated>
+  <updated>2012-08-26T10:15:19+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -18,7 +18,7 @@
     <link href="http://neekey.github.com/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/"/>
     <updated>2012-08-26T09:15:00+08:00</updated>
     <id>http://neekey.github.com/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou</id>
-    <content type="html"><![CDATA[<p><img src="images/posts/cats/1.png" alt="我是萌猫" /></p>
+    <content type="html"><![CDATA[<p><img src="http://neekey.github.com/images/posts/cats/1.png" alt="我是萌猫" /></p>
 
 <p>一个人的感觉，开始变得比原来好。</p>
 
