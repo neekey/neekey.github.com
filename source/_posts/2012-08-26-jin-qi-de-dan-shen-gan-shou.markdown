@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-![我是萌猫](images/posts/cats/1.png)
+![我是萌猫](/images/posts/cats/1.png)
 
 一个人的感觉，开始变得比原来好。
 
@@ -72,7 +72,7 @@ neekey$ mou source/_posts/2012-08-26-jin-qi-de-dan-shen-gan-shou.markdown
 ```
 码字界面，最重要的是自带打字机的声音，每按一下键盘，就有打字机的嘟嘟声，好带感!
 
-![Mou](images/posts/use_mou_writing.png)
+![Mou](/images/posts/use_mou_writing.png)
 
 **Step four**: 最后生成，然后发布!
 
