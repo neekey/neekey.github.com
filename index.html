@@ -9,7 +9,7 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content="这是一篇感慨，想必这样的感觉好多人都有过了，我就再啰嗦一遍。 我们生在了好时代，这个世界忽然近在咫尺。 ">
+  <meta name="description" content=" 一个人的感觉，开始变得比原来好。 从7月份正式成为朝九晚五的上班族以后，生活似乎没有太大的变化，虽然有个室友（毕业前也是有室友嘛），但是内心还是“一个人”，只是这份感觉，更加舒适，或许已经慢慢学会如何与自己相处了。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/">近期的单身感受</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-26T09:15:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="images/posts/cats/1.png" alt="我是萌猫" /></p>
+
+<p>一个人的感觉，开始变得比原来好。</p>
+
+<p>从7月份正式成为朝九晚五的上班族以后，生活似乎没有太大的变化，虽然有个室友（毕业前也是有室友嘛），但是内心还是“一个人”，只是这份感觉，更加舒适，或许已经慢慢学会如何与自己相处了。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -156,60 +203,12 @@
 
 <p>由于一直用<code>phpstorm</code>因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新，因此需要在终端中直接使用SVN的命令行工具，但是&#8230;关键时刻就给我掉链子了!</p>
 
-<p>在终端中输入:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn update</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后就悲剧了，提示项目的svn是1.7及以上的，我的svn版本太低!表示记得前一阵子刚刚更新过了的。用<code>svn version</code>一看，果然是1.6.</p>
-
-<p>但是1.7确实是记得手动更新过的，不甘心，在目录中找，果然在<code>/usr/local/bin/</code>中找到了1.7的svn版本，然后在<code>/usr/bin/</code>中找到了1.6版本的svn!</p>
-
-<p>系统默认先调用<code>/usr/bin</code>中的!</p>
-
-<p>于是定位到原因，估计是升级系统到<code>moutain lion</code>的时候，又自动在<code>/usr/bin</code>中给我安装了系统自带的<code>1.6</code>的svn，于是覆盖了我的1.7的&#8230;悲剧!</p>
-
-<p>于是&#8230;最简单的方法，就是把1.7的覆盖掉<code>local/bin</code>中的1.6版本!覆盖完之后，在终端中查看，果然<code>version</code>变成1.7了，于是继续<code>svn update</code>，结果接续报错：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn: E170000: Unrecognized URL scheme for http*</span></code></pre></td></tr></table></div></figure>
-
-
-<p>F******k!</p>
-
-<p>好吧，Google之，得到答案如下：<a href="http://azimbabu.blogspot.com/2008/07/using-svn-and-got-unrecognized-url.html">答案</a></p>
-
-<p>没细看&#8230;反正SVN要使用<code>http</code>类型的仓库需要某块支持，然后报这个错误意味着它可能找不到一个名为<code>neon</code>的模块了。因此需要重新编译安装svn，告诉它这个模块在哪里。</p>
-
-<p>因此做法是：</p>
-
-<ul>
-<li>下载最新的<a href="http://www.webdav.org/neon">neon</a>，然后<code>./configure</code>, <code>make</code>, <code>make install</code>安装好</li>
-<li>配置SVN源码 :</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-apr<span class="o">=</span>/usr/local/apache2/bin/apr-config --with-apr-util<span class="o">=</span>/usr/local/apache2/bin/apu-config --with-neon<span class="o">=</span>/usr/local
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>编译安装：<code>make</code>, <code>make install</code></li>
-</ul>
-
-
-<p>在配置SVN源码之前，细心的我还是发现了我的路径里面不存在/<code>usr/local/apache2</code>这个目录，看了下面的评论，这个应该是在你要配置一台svn服务器时使用，因此像我这种情况，就直接使用</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span> ./configure --with-ssl --with-neon<span class="o">=</span>/usr/local
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就OK了!</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/24/sheng-ji-svn1-dot-6-1-dot-7/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -583,90 +582,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-19T10:47:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天做了一个小实验，简单地研究下浏览器对于html的渲染</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;div&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;childDiv&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;a&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="err">/a&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="err">/script&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="err">/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我想要看一下当脚本在html还未闭合的情况下执行，浏览器会如何处理。下面是运行结果截图：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -680,6 +595,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/">近期的单身感受</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/08/25/sheng-zai-hao-shi-dai/">生在好时代</a>

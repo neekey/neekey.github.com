@@ -9,7 +9,25 @@
   <meta name="author" content="neekey(niyunjian)">
 
   
-  <meta name="description" content=" 今天在看commonJS的package部分的时候，在讲到version字段的时候，建议参考Semantic Versioning作为版本号的编写标准。仔细了解了下，对版本号的写法有了一些认识，翻译其中重要的部分分享下。 ">
+  <meta name="description" content="今天做了一个小实验，简单地研究下浏览器对于html的渲染 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+&lt;div id=&quot;div&quot;&gt; &lt;div id=&quot;childDiv&quot;&gt; &lt;a id &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +94,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">浏览器渲染小实验</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-19T10:47:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天做了一个小实验，简单地研究下浏览器对于html的渲染</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;div&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;childDiv&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;a&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="err">/a&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="nx">alert</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span> <span class="s1">&#39;div&#39;</span> <span class="p">).</span><span class="nx">innerHTML</span> <span class="p">);</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我想要看一下当脚本在html还未闭合的情况下执行，浏览器会如何处理。下面是运行结果截图：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/03/19/liu-lan-qi-xuan-ran-xiao-shi-yan/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -567,6 +669,10 @@ source ~/.zshrc
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/">近期的单身感受</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/08/25/sheng-zai-hao-shi-dai/">生在好时代</a>

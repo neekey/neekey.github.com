@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-08-25T12:04:18+08:00</updated>
+  <updated>2012-08-26T10:11:28+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[近期的单身感受]]></title>
+    <link href="http://neekey.github.com/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou/"/>
+    <updated>2012-08-26T09:15:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/08/26/jin-qi-de-dan-shen-gan-shou</id>
+    <content type="html"><![CDATA[<p><img src="images/posts/cats/1.png" alt="我是萌猫" /></p>
+
+<p>一个人的感觉，开始变得比原来好。</p>
+
+<p>从7月份正式成为朝九晚五的上班族以后，生活似乎没有太大的变化，虽然有个室友（毕业前也是有室友嘛），但是内心还是“一个人”，只是这份感觉，更加舒适，或许已经慢慢学会如何与自己相处了。</p>
+
+<!--more-->
+
+
+<p>每天自己做饭，一个人坐公交上班，中午一个人坐自己位置吃自己做的午饭，下班一个人挤在人群中，听音乐，然后望着面前的一张张陌生的面孔，下班，回家。</p>
+
+<p>一个人对着电脑敲代码写文章，一个人深情地唱歌。然后累了，盖上电脑，睡觉。</p>
+
+<p>一个人的生活，其实并没有那么可怕。</p>
+
+<p>但是为什么还是有时候会觉得不想要一个人，这是个问题。</p>
+
+<p>首先，大概在心底总会觉得，两个人的世界会有更多的幸福。但是这个情景有时候仔细琢磨，却反而怕自己无法适应和另一个人那么亲近地相处。一个人，总是更加自由的。</p>
+
+<p>再者，或许另一个更本源的原因，是因为我们想要和这个世界发生联系，因为“孤独”，对，我提过多次的，作为意识到自己是一个独一无二的生命个体的孤独感。但是对于我，这种感觉业已变得越来越微弱。我已经比原来的我强大很多（这正是生命让我惊喜的地方，从纵向的角度观察自己的生命历程，然后发现变化），已经不太需要这种“两个人”的形式才能让我感觉自己在和这个世界发生联系。</p>
+
+<p>虽然事实上，正如我另一篇文章《<a href="http://blog.neekey.net/blog/2012/08/25/sheng-zai-hao-shi-dai/">生在好时代</a>》末尾提到的，我最渴望的，便是时刻和这个世界保持紧密的联系。只是要达到这个目的，有好多方式，比如<strong>思考</strong>也是一种非常好的和世界发生联系的方式。所以，<strong>Open your mind</strong>吧。</p>
+
+<p>因此，内心的强大，我认为，算是治愈内心寂寞的强力药方之一。</p>
+
+<p>不过呢，让我<strong>feel better</strong>的另一个比较重要的原因，还是因为最近在某方面更加有自信了= =&#8230;嗯嗯，又把我内心的不够强大暴露了。</p>
+
+<p><strong>谈人生谈理想</strong>到此为止&#8230;好吧，我知道文章开头的配图有点奇怪&#8230;但是！！这是我的博客！！！我喜欢贴我喜欢的<strong>萌猫</strong>你管的着么！！！！</p>
+
+<p>&#8230;冷静冷静&#8230;接下来暴露程序员的本质&#8230;</p>
+
+<hr />
+
+<p>近期应该又会开始刷文章了，因为又一次觉得用<a href="http://blog.neekey.net/blog/2012/01/08/octopass/">Octopress</a>写blog的便捷了，基本上我现在写文章的流程是这样的：</p>
+
+<p><strong>Step one</strong>: 在终端中进入我的<code>octopuses</code>文件夹：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>neekey<span class="nv">$ </span><span class="nb">cd</span> ~/Dropbox/octopress/
+</span><span class='line'><span class="o">==============================================================================</span>
+</span><span class='line'><span class="o">=</span> <span class="nv">NOTICE</span>                                                                     <span class="o">=</span>
+</span><span class='line'><span class="o">==============================================================================</span>
+</span><span class='line'><span class="o">=</span> RVM has encountered a new or modified .rvmrc file in the current <span class="nv">directory</span> <span class="o">=</span>
+</span><span class='line'><span class="o">=</span> This is a shell script and therefore may contain any shell commands.       <span class="o">=</span>
+</span><span class='line'><span class="o">=</span>                                                                            <span class="o">=</span>
+</span><span class='line'><span class="o">=</span> Examine the contents of this file carefully to be sure the contents <span class="nv">are</span>    <span class="o">=</span>
+</span><span class='line'><span class="o">=</span> safe before trusting it! <span class="o">(</span> Choose v<span class="o">[</span>iew<span class="o">]</span> below to view the contents <span class="o">)</span>      <span class="o">=</span>
+</span><span class='line'><span class="o">==============================================================================</span>
+</span><span class='line'>Do you wish to trust this .rvmrc file? <span class="o">(</span>/Users/neekey/Dropbox/octopress/.rvmrc<span class="o">)</span>
+</span><span class='line'>y<span class="o">[</span>es<span class="o">]</span>, n<span class="o">[</span>o<span class="o">]</span>, v<span class="o">[</span>iew<span class="o">]</span>, c<span class="o">[</span>ancel<span class="o">]</span>&gt; y
+</span><span class='line'>Using /usr/local/rvm/gems/ruby-1.9.2-p290
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Step two</strong>: 然后新建一篇文章:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>neekey<span class="nv">$ </span>rake new_post<span class="o">[</span>近期的单身感受<span class="o">]</span>
+</span><span class='line'>Creating new post: <span class="nb">source</span>/_posts/2012-08-26-jin-qi-de-dan-shen-gan-shou.markdown
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Step three</strong>: 然后用我最爱的<a href="http://mouapp.com/">Mou</a>来写文章:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>neekey<span class="nv">$ </span>mou <span class="nb">source</span>/_posts/2012-08-26-jin-qi-de-dan-shen-gan-shou.markdown
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>码字界面，最重要的是自带打字机的声音，每按一下键盘，就有打字机的嘟嘟声，好带感!</p>
+
+<p><img src="images/posts/use_mou_writing.png" alt="Mou" /></p>
+
+<p><strong>Step four</strong>: 最后生成，然后发布!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>neekey<span class="nv">$ </span>rake generte
+</span><span class='line'>neekey<span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后文章就自动提交到<a href="http://github.com">Github</a>上去啦，点开我的<a href="http://blog.neekey.net">blog</a>，查看最新的文章吧~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[生在好时代]]></title>
@@ -81,6 +185,9 @@
     <content type="html"><![CDATA[<p>SVN这个东西虽然不好用（当然也是因为自身没有重视，但是谁让GIT这么好用呢&#8230;!），但是公司暂时用的还是SVN，因此还是不得不每天应对它。</p>
 
 <p>由于一直用<code>phpstorm</code>因此SVN的操作都是GUI，非常方便（推荐&#8230;!）,但是今天由于有个需求我需要写个命令让SVN自动更新，因此需要在终端中直接使用SVN的命令行工具，但是&#8230;关键时刻就给我掉链子了!</p>
+
+<!--more-->
+
 
 <p>在终端中输入:</p>
 
