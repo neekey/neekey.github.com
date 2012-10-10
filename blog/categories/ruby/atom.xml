@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Neekey]]></title>
   <link href="http://neekey.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-08-26T10:33:33+08:00</updated>
+  <updated>2012-10-10T20:00:49+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Mac/Win中安装SASS/Compass]]></title>
+    <link href="http://neekey.github.com/blog/2012/10/10/zai-mac-slash-winzhong-an-zhuang-ruby-slash-sass-slash-compass/"/>
+    <updated>2012-10-10T19:26:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/10/10/zai-mac-slash-winzhong-an-zhuang-ruby-slash-sass-slash-compass</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/installSassInMacWin.png" alt="installSASSInMacWin" /></p>
+
+<p>最近在公司的项目中开始使用<a href="http://sass-lang.com">SASS</a>进行样式的开发。在团队协作中，不管用什么工具或者技术，有一点需要考虑的就是维护性。正巧下周要参加公司培训，手头的东西没弄完，但是进度已经摆在那里了不能因为我不在就停滞下来，之得交接给同事。</p>
+
+<p>在交接给同事前，我需要帮他配置好<a href="http://sass-lang.com">SASS</a>的开发环境。</p>
+
+<!--more-->
+
+
+<p>我用的Mac，他用目前在用的公司的机器，预装XP（吐槽吧...）。要知道Mac是自带ruby的...于是帮他配置了半天，还遇到一个bug...纠结了半天还是解决了，下面简单介绍下如何在这两个平台下安装<a href="http://sass-lang.com">SASS</a>吧。</p>
+
+<h2>Mac</h2>
+
+<p>由于已经安装好了Ruby，使用Ruby自带的包管理工具，安装<a href="http://sass-lang.com">SASS</a>相当简单：</p>
+
+<p>```bash
+// 用SASS相比都会去用Compass吧，直接安装Compass会自动安装好SASS的
+$ gem install compass</p>
+
+<p>// 或者单单只安装sass
+$ gem install sass
+```</p>
+
+<h2>Windows</h2>
+
+<h3>Ruby</h3>
+
+<p>直接到<a href="http://rubyinstaller.org/downloads/">官网</a>下载exe的安装包，然后双击之安装：</p>
+
+<p><img src="/images/posts/ruby_install.jpg" alt="ruby-install" /></p>
+
+<p>建议三个勾选都选中，至少也选中中间的，免得还要自己手动添加环境变量（让你可以在控制台全局使用<code>ruby</code>命令）</p>
+
+<p>然后打开控制台，先验证一下有木有安装成功：</p>
+
+<p><code>bash
+$ ruby -v
+</code></p>
+
+<p>出现ruby的版本号就说明你成功了。</p>
+
+<h3><a href="http://compass-style.org">Compass</a></h3>
+
+<p>接下来就和在Mac下一样了：</p>
+
+<p>```bash
+// 用SASS相比都会去用Compass吧，直接安装Compass会自动安装好SASS的
+$ gem install compass</p>
+
+<p>// 或者单单只安装sass
+$ gem install sass
+```</p>
+
+<p>那么基本上就成功了。还是很简单的，自带包管理的ruby还是很方便的，就像<a href="http://nodejs.org">nodeJS</a>一样，安装完毕以后就可以用<code>npm</code>进行包的安装。</p>
+
+<p>虽然看似成功了，但是当在同事的电脑上进行<a href="http://sass-lang.com">SASS</a>的文件编译时，还是出现了错误：</p>
+
+<p><img src="/images/posts/ruby_1.9+_error.jpg" alt="ruby 1.9+ error" /></p>
+
+<p>尼玛!!!修改了半天看不出问题（我不懂ruby...），于是到自己的Mac下的虚拟机里面（win7/xp）测试了一下，发现只有土鳖的xp下会有这个问题。</p>
+
+<p>Google了半天，发现不仅<a href="http://sass-lang.com">SASS</a>有这个问题，很多需要使用Ruby的框架之类的都会出现同样的错误，最后得到的结论是，1.9+的ruby都会出现这个问题。于是，解决问题的方法很简单，替换成<code>1.8.7</code>的ruby，恩恩...果然就好了</p>
+
+<p>windows下面删除ruby很简单，直接在控制面板里面山吃醋就行了，不过注意，删除了ruby以后，<a href="http://sass-lang.com">SASS</a>什么的用gem安装的模块也都删除了，因此重装后需要重新安装一遍~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ruby学习笔记(一)]]></title>

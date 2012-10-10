@@ -4,7 +4,7 @@
   <title><![CDATA[Neekey]]></title>
   <link href="http://neekey.github.com/atom.xml" rel="self"/>
   <link href="http://neekey.github.com/"/>
-  <updated>2012-08-26T10:33:33+08:00</updated>
+  <updated>2012-10-10T20:00:49+08:00</updated>
   <id>http://neekey.github.com/</id>
   <author>
     <name><![CDATA[neekey(niyunjian)]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Mac/Win中安装SASS/Compass]]></title>
+    <link href="http://neekey.github.com/blog/2012/10/10/zai-mac-slash-winzhong-an-zhuang-ruby-slash-sass-slash-compass/"/>
+    <updated>2012-10-10T19:26:00+08:00</updated>
+    <id>http://neekey.github.com/blog/2012/10/10/zai-mac-slash-winzhong-an-zhuang-ruby-slash-sass-slash-compass</id>
+    <content type="html"><![CDATA[<p><img src="http://neekey.github.com/images/posts/installSassInMacWin.png" alt="installSASSInMacWin" /></p>
+
+<p>最近在公司的项目中开始使用<a href="http://sass-lang.com">SASS</a>进行样式的开发。在团队协作中，不管用什么工具或者技术，有一点需要考虑的就是维护性。正巧下周要参加公司培训，手头的东西没弄完，但是进度已经摆在那里了不能因为我不在就停滞下来，之得交接给同事。</p>
+
+<p>在交接给同事前，我需要帮他配置好<a href="http://sass-lang.com">SASS</a>的开发环境。</p>
+
+<!--more-->
+
+
+<p>我用的Mac，他用目前在用的公司的机器，预装XP（吐槽吧&#8230;）。要知道Mac是自带ruby的&#8230;于是帮他配置了半天，还遇到一个bug&#8230;纠结了半天还是解决了，下面简单介绍下如何在这两个平台下安装<a href="http://sass-lang.com">SASS</a>吧。</p>
+
+<h2>Mac</h2>
+
+<p>由于已经安装好了Ruby，使用Ruby自带的包管理工具，安装<a href="http://sass-lang.com">SASS</a>相当简单：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 用SASS相比都会去用Compass吧，直接安装Compass会自动安装好SASS的
+</span><span class='line'><span class="nv">$ </span>gem install compass
+</span><span class='line'>
+</span><span class='line'>// 或者单单只安装sass
+</span><span class='line'><span class="nv">$ </span>gem install sass
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Windows</h2>
+
+<h3>Ruby</h3>
+
+<p>直接到<a href="http://rubyinstaller.org/downloads/">官网</a>下载exe的安装包，然后双击之安装：</p>
+
+<p><img src="http://neekey.github.com/images/posts/ruby_install.jpg" alt="ruby-install" /></p>
+
+<p>建议三个勾选都选中，至少也选中中间的，免得还要自己手动添加环境变量（让你可以在控制台全局使用<code>ruby</code>命令）</p>
+
+<p>然后打开控制台，先验证一下有木有安装成功：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby -v
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>出现ruby的版本号就说明你成功了。</p>
+
+<h3><a href="http://compass-style.org">Compass</a></h3>
+
+<p>接下来就和在Mac下一样了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>// 用SASS相比都会去用Compass吧，直接安装Compass会自动安装好SASS的
+</span><span class='line'><span class="nv">$ </span>gem install compass
+</span><span class='line'>
+</span><span class='line'>// 或者单单只安装sass
+</span><span class='line'><span class="nv">$ </span>gem install sass
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么基本上就成功了。还是很简单的，自带包管理的ruby还是很方便的，就像<a href="http://nodejs.org">nodeJS</a>一样，安装完毕以后就可以用<code>npm</code>进行包的安装。</p>
+
+<p>虽然看似成功了，但是当在同事的电脑上进行<a href="http://sass-lang.com">SASS</a>的文件编译时，还是出现了错误：</p>
+
+<p><img src="http://neekey.github.com/images/posts/ruby_1.9+_error.jpg" alt="ruby 1.9+ error" /></p>
+
+<p>尼玛!!!修改了半天看不出问题（我不懂ruby&#8230;），于是到自己的Mac下的虚拟机里面（win7/xp）测试了一下，发现只有土鳖的xp下会有这个问题。</p>
+
+<p>Google了半天，发现不仅<a href="http://sass-lang.com">SASS</a>有这个问题，很多需要使用Ruby的框架之类的都会出现同样的错误，最后得到的结论是，1.9+的ruby都会出现这个问题。于是，解决问题的方法很简单，替换成<code>1.8.7</code>的ruby，恩恩&#8230;果然就好了</p>
+
+<p>windows下面删除ruby很简单，直接在控制面板里面山吃醋就行了，不过注意，删除了ruby以后，<a href="http://sass-lang.com">SASS</a>什么的用gem安装的模块也都删除了，因此重装后需要重新安装一遍~~</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[近期的单身感受]]></title>
@@ -3069,42 +3152,6 @@ rake deploy
 <hr />
 
 <p>暂时准备先用这个github的域名，过一阵子觉得真心不错的时候，再考虑直接将我的<a href="http://neekey.net/blog">neekey.net</a>指向这边好了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress]]></title>
-    <link href="http://neekey.github.com/blog/2012/01/08/octopass/"/>
-    <updated>2012-01-08T19:27:00+08:00</updated>
-    <id>http://neekey.github.com/blog/2012/01/08/octopass</id>
-    <content type="html"><![CDATA[<p>捣鼓了很久，终于将<a href="http://octopress.org/" title="octopress">octopress</a>部署完毕。从此摆脱Wordpress开始开始Geek式的blog生活！</p>
-
-<p><img src="http://octopress.org/images/logo.png?1325260964" alt="OctopassLogo" /></p>
-
-<p>octopress<strong>官方介绍</strong>：</p>
-
-<blockquote><p>Octopress is a framework designed by Brandon Mathis for Jekyll, the blog aware static site generator powering Github Pages. To start blogging with Jekyll, you have to write your own HTML templates, CSS, Javascripts and set up your configuration. But with Octopress All of that is already taken care of. Simply clone or fork Octopress, install dependencies and the theme, and you’re set.</p></blockquote>
-
-<p>由于本人也是刚刚接触<a href="http://octopress.org/" title="octopress">octopress</a>，了解不是很深入，我自己感觉它主要有下面这些特点：</p>
-
-<ol>
-<li>基于Ruby（所以对Ruby开发者来说非常友好）</li>
-<li>支持Markdown</li>
-<li><p>使用git进行版本控制</p>
-
-<p> <a href="http://octopress.org/" title="octopress">octopress</a>本身不需要任何database，所有的数据都是静态文件，然后使用git进行维护。</p></li>
-<li><p>轻松部署</p>
-
-<p> <a href="http://octopress.org/" title="octopress">octopress</a>使用<a href="http://jekyllrb.com/" title="jekyll">Jekyll</a>静态网站产生引擎，可以轻松生成<strong>static-file based</strong>类型的网站，部署非常方便（如上面一条，不需要任何database）</p>
-
-<p> 你可以渲染放置到自己的服务器上，<a href="http://www.heroku.com/" title="Heroku">Heroku</a>，或者是<a href="http://pages.github.com/" title="github page">Github Page</a>（我就是放到git上的，很cool吧！）上。</p></li>
-<li>支持各种插件</li>
-<li>支持<a href="https://gist.github.com/" title="gist">gist</a>(没用过，但是貌似很给力的样子，hoho！)</li>
-<li>使用<a href="http://sass-lang.com/" title="SASS">SASS</a>，<a href="http://compass-style.org/" title="Compass">Compass</a>等新奇玩意</li>
-</ol>
-
-
-<p>OK！大体就是这样，具体可以直接到官网看文档。下一篇文章会详细介绍下如何部署Octopass！</p>
 ]]></content>
   </entry>
   
